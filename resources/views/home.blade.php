@@ -1,40 +1,31 @@
 <x-layout>
-    <header class="bg-black p-4 text-white flex justify-between items-center">
-        <div class="flex items-center space-x-2">
-            <x-logo></x-logo>
-            <h1 class="text-2xl font-bold">Mathare Care Center</h1>
+    <section class="bg-white py-4 md:mb-10">
+        <div class="container max-w-screen-2xl mx-auto px-4">
+
+            <x-navbar></x-navbar>
+
+            <div class="text-center lg:text-left">
+                <a href="/" class="font-semibold text-gray-900 hover:text-gray-400 text-xl md:text-2xl leading-normal transition ease-in-out duration-300 mb-5 lg:mb-0">Mathare Care Center</a>
+            </div>
+
+            <div class="flex flex-col lg:flex-row justify-between space-x-20">
+                <div class="text-center lg:text-left mt-40">
+                    <h1 class="font-semibold text-gray-900 text-3xl md:text-6xl leading-normal mb-6">Caring today, <br> shaping tomorrow</h1>
+
+                    <p class="font-light text-gray-400 text-md md:text-lg leading-normal mb-12">We provide care for disabled children and for peoples of <br> worldwide to support people and organizers</p>
+
+                    <button class="px-6 py-4 bg-primary-800 font-semibold text-white text-lg rounded-xl hover:bg-primary-500 transition ease-in-out duration-500">Our Story</button>
+                </div>
+
+                <div class="mt-24">
+                    <img src="{{asset('images/home-img.png')}}" alt="Image">
+                </div>
+            </div>
         </div>
-        <nav>
-            <ul class="flex space-x-4">
-                <li><a href="#about" class="hover:underline">About</a></li>
-                <li><a href="#programs" class="hover:underline">Programs</a></li>
-                <li><a href="#contact" class="hover:underline">Contact</a></li>
-            </ul>
-        </nav>
-    </header>
-
-    <section class="h-screen flex items-center justify-center text-center bg-cover bg-center"
-        style="background-image: {{asset('hero1.webp')}};">
-        <div class="bg-black bg-opacity-50 p-8 rounded-lg">
-            <h2 class="text-4xl text-white font-bold">Supporting Special Needs Children in Mathare</h2>
-            <p class="text-white mt-4">Providing care, education, and empowerment for children with disabilities.</p>
-            <a href="#donate" class="mt-6 inline-block bg-yellow-400 text-black px-6 py-3 rounded-lg font-bold">Donate
-                Now</a>
-        </div>
     </section>
 
-    <section id="about" class="p-8 bg-white text-center">
-        <h2 class="text-3xl font-bold">About Us</h2>
-        <p class="mt-4">Mathare Care Center is dedicated to improving the lives of children with disabilities through
-            education, support, and community engagement.</p>
-    </section>
+    <x-subscribe></x-subscribe>
 
-    <section id="programs" class="p-8 bg-gray-200 text-center">
-        <h2 class="text-3xl font-bold">Our Programs</h2>
-        <p class="mt-4">We offer special education, vocational training, therapy, and community events.</p>
-    </section>
+    <x-footer></x-footer>
 
-    <footer id="contact" class="bg-blue-600 p-4 text-white text-center">
-        <p>Contact us: info@matharecare.org | Follow us on social media</p>
-    </footer>
 </x-layout>

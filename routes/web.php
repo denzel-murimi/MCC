@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('home');
 });
-Route::get('/vic', function(){
-    return view('draft2');
+
+Route::get('/gallery', function(){
+    return view('gallery');
 });
