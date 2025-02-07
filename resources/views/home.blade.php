@@ -4,9 +4,7 @@
 
             <x-navbar></x-navbar>
 
-            <div class="text-center lg:text-left">
-                <a href="/" class="font-semibold text-gray-900 hover:text-gray-400 text-xl md:text-2xl leading-normal transition ease-in-out duration-300 mb-5 lg:mb-0">Mathare Care Center</a>
-            </div>
+            <x-title>Mathare Care Center</x-title>
 
             <div class="flex flex-col lg:flex-row justify-between space-x-20">
                 <div class="text-center lg:text-left mt-40">
