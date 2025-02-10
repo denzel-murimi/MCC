@@ -21,6 +21,8 @@ use Illuminate\View\Middleware\ShareErrorsFromSession;
 use BezhanSalleh\FilamentShield\FilamentShieldPlugin;
 use Jeffgreco13\FilamentBreezy\BreezyCore;
 use ShuvroRoy\FilamentSpatieLaravelHealth\FilamentSpatieLaravelHealthPlugin;
+use TomatoPHP\FilamentMediaManager\FilamentMediaManagerPlugin;
+use TomatoPHP\FilamentUsers\FilamentUsersPlugin;
 
 class AdminPanelProvider extends PanelProvider
 {
@@ -75,6 +77,12 @@ class AdminPanelProvider extends PanelProvider
                 FilamentSpatieLaravelHealthPlugin::make(),
 
                 FilamentGoogleAnalyticsPlugin::make(),
+
+                FilamentUsersPlugin::make(),
+
+                FilamentMediaManagerPlugin::make()
+                    ->allowUserAccess()
+                    ->allowSubFolders(),
             ]);
     }
 }

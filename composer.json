@@ -5,9 +5,12 @@
     "description": "The skeleton application for the Laravel framework.",
     "keywords": ["laravel", "framework"],
     "license": "MIT",
+    "repositories": [{
+        "type": "vcs",
+        "url": "https://github.com/victorgpt0/filament-media-manager.git"
+    }],
     "require": {
-        "php": "^8.2",
-        "3x1io/filament-user": "^1.1",
+        "php": "^8.3",
         "bezhansalleh/filament-google-analytics": "^2.1",
         "bezhansalleh/filament-shield": "^3.3",
         "doctrine/dbal": "^4.2",
@@ -15,7 +18,10 @@
         "jeffgreco13/filament-breezy": "^2.5",
         "laravel/framework": "^11.31",
         "laravel/tinker": "^2.9",
-        "shuvroroy/filament-spatie-laravel-health": "^2.3"
+        "shuvroroy/filament-spatie-laravel-health": "^2.3",
+        "spatie/laravel-medialibrary": "^11.12",
+        "tomatophp/filament-users": "^2.0",
+        "tomatophp/filament-media-manager": "@dev"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",

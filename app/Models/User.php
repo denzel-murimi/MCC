@@ -10,7 +10,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Jeffgreco13\FilamentBreezy\Traits\TwoFactorAuthenticatable;
+use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\Permission\Traits\HasRoles;
+use TomatoPHP\FilamentMediaManager\Traits\InteractsWithMediaFolders;
 
 class User extends Authenticatable implements FilamentUser
 {
@@ -18,6 +20,8 @@ class User extends Authenticatable implements FilamentUser
     use HasFactory, Notifiable;
     use HasRoles;
     use TwoFactorAuthenticatable;
+    use InteractsWithMedia;
+    use InteractsWithMediaFolders;
 
     /**
      * The attributes that are mass assignable.

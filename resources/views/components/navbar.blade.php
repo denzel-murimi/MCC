@@ -1,7 +1,7 @@
 <nav class="flex-wrap lg:flex items-center" x-data="{navbarOpen:false}">
     <div class="flex items-center mb-10 lg:mb-0">
         <x-logo></x-logo>
-        <button class="lg:hidden w-10 h-10 ml-auto flex items-center justify-center border border-blue-500 text-blue-500 rounded-md" @click="navbarOpen = !navbarOpen">
+        <button class="lg:hidden w-10 h-10 ml-auto flex items-center justify-center border border-primary-500 text-primary-500 rounded-md" @click="navbarOpen = !navbarOpen">
             <i data-feather="menu"></i>
         </button>
     </div>
