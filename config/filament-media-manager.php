@@ -10,7 +10,7 @@ return [
         "active" => true,
         "middlewares" => [
             "api",
-            "auth:sanctum"
+            // "auth:web"
         ],
         "prefix" => "api/media-manager",
         "resources" => [

@@ -81,8 +81,7 @@ class AdminPanelProvider extends PanelProvider
                 FilamentUsersPlugin::make(),
 
                 FilamentMediaManagerPlugin::make()
-                    ->allowUserAccess()
-                    ->allowSubFolders(),
+                    ->allowUserAccess(),
             ]);
     }
 }
