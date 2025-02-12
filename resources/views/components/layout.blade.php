@@ -24,9 +24,11 @@
   gtag('config', 'G-KJPGJQ1XL1');
 </script>
 <body class="font-sans antialiased">
-
+  <div class="container max-w-screen-2xl mx-auto px-4">
+  	<x-navbar></x-navbar>
+  </div>
     {{ $slot }}
-
+    <x-footer></x-footer>
 </body>
 
 </html>

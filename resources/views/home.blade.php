@@ -2,8 +2,6 @@
     <section class="bg-white py-4 md:mb-10">
         <div class="container max-w-screen-2xl mx-auto px-4">
 
-            <x-navbar></x-navbar>
-
             <x-title>Mathare Care Center</x-title>
 
             <div class="flex flex-col lg:flex-row justify-between space-x-20">
@@ -94,7 +92,5 @@
     </section>
 
     <x-subscribe></x-subscribe>
-
-    <x-footer></x-footer>
-
+    
 </x-layout>
