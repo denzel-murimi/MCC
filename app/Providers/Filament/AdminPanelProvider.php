@@ -21,6 +21,7 @@ use Illuminate\View\Middleware\ShareErrorsFromSession;
 use BezhanSalleh\FilamentShield\FilamentShieldPlugin;
 use Jeffgreco13\FilamentBreezy\BreezyCore;
 use Saade\FilamentFullCalendar\FilamentFullCalendarPlugin;
+use Saade\FilamentLaravelLog\FilamentLaravelLogPlugin;
 use ShuvroRoy\FilamentSpatieLaravelHealth\FilamentSpatieLaravelHealthPlugin;
 use TomatoPHP\FilamentMediaManager\FilamentMediaManagerPlugin;
 use TomatoPHP\FilamentUsers\FilamentUsersPlugin;
@@ -85,8 +86,13 @@ class AdminPanelProvider extends PanelProvider
 
                 FilamentFullCalendarPlugin::make()
                     ->selectable()
-                    ->editable()
-                    ->timezone('Africa/Nairobi')    ,
+                    ->editable(),
+
+                FilamentLaravelLogPlugin::make()
+                    ->navigationGroup('Settings')
+                    ->logDirs([
+                        storage_path('logs')
+                    ]),
             ]);
     }
 }
