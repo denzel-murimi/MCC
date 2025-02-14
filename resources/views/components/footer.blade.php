@@ -22,7 +22,7 @@
                         <i data-feather="instagram"></i>
                     </a>
 
-                    <a href="#"
+                    <a href="/contact"
                         class="px-3 py-3 bg-gray-200 text-gray-700 rounded-full hover:bg-info hover:text-white transition ease-in-out duration-500">
                         <i data-feather="mail"></i>
                     </a>
