@@ -18,9 +18,11 @@
         "jeffgreco13/filament-breezy": "^2.5",
         "laravel/framework": "^11.31",
         "laravel/tinker": "^2.9",
+        "rlanvin/php-rrule": "^2.5",
         "saade/filament-fullcalendar": "^3.2",
         "saade/filament-laravel-log": "^3.2",
         "shuvroroy/filament-spatie-laravel-health": "^2.3",
+        "spatie/calendar-links": "^1.11",
         "spatie/laravel-medialibrary": "^11.12",
         "tomatophp/filament-media-manager": "@dev",
         "tomatophp/filament-users": "^2.0"

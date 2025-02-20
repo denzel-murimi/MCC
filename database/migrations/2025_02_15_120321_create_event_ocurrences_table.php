@@ -11,13 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('events', function (Blueprint $table) {
+        Schema::create('event_ocurrences', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
-            $table->string('colour');
-            $table->text('description');
-            $table->dateTime('start_at');
-            $table->dateTime('end_at');
+            $table->foreignId('event_id')->constrained()->cascadeOnDelete();
+            $table->dateTime('occurrence_date');
             $table->timestamps();
         });
     }
@@ -27,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('events');
+        Schema::dropIfExists('event_ocurrences');
     }
 };
