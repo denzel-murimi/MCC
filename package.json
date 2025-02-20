@@ -16,6 +16,7 @@
     },
     "dependencies": {
         "alpinejs": "^3.14.8",
-        "feather-icons": "^4.29.2"
+        "feather-icons": "^4.29.2",
+        "fullcalendar": "^6.1.15"
     }
 }

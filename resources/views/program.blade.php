@@ -5,7 +5,7 @@
 
             <div x-data="{ tab: 'programs' }" class="p-6 rounded-lg">
                 <!-- Tabs -->
-                <div class="flex justify-self-center mb-6">
+                <div class="flex justify-center items-center mb-6">
                     <div class="bg-gray-100 px-4 py-2 rounded-lg text-sm md:text-lg">
                     <button
                         @click="tab = 'programs'"
@@ -60,7 +60,17 @@
 
                     <!-- Calendar -->
                     <div x-show="tab === 'calendar'">
-
+                        <script>
+                            document.addEventListener('DOMContentLoaded', function () {
+                                var calendarEl = document.getElementById('calendar');
+                                var calendar = new FullCalendar.Calendar(calendarEl, {
+                                    plugins: [FullCalendar.dayGridPlugin],
+                                    initialView: 'dayGridMonth'
+                                });
+                                calendar.render();
+                            });
+                        </script>
+                        <div id="calendar"></div>
                     </div>
                 </div>
             </div>
