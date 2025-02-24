@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\GalleryController;
+use App\Http\Controllers\ProgramController;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Mail;
@@ -21,6 +22,5 @@ Route::get('/contact', function () {
 
 Route::post('/contact',[ContactController::class, 'submit'])->name('contact.submit');
 
-Route::get('/program', function (){
-    return view('program');
-});
+Route::get('/program', [ProgramController::class, 'index'])->name('program.index');
+Route::get('/program/{slug}', [ProgramController::class, 'show'])->name('program.show');
