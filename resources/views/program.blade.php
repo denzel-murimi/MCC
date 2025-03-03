@@ -33,10 +33,10 @@
                                 @foreach($program as $p)
                                     <div class="h-full">
                                         <div class="relative flex flex-col h-full max-w-[24rem] overflow-hidden rounded-xl bg-white bg-clip-border text-gray-700 shadow-md hover:bg-gray-50 cursor-pointer">
-                                            <a href="{{ route('program.show', ['slug' => $p->slug]) }}" class="flex flex-col h-full">
+                                            <a href="{{ route('program.show', $p->slug) }}" class="flex flex-col h-full">
                                                 <div class="relative m-0 overflow-hidden text-gray-700 bg-transparent rounded-none shadow-none bg-clip-border">
                                                     <img
-                                                        src="{{$p->getFirstMediaUrl('featured_image', 'thumb');}}"
+                                                        src="{{$p->featured_image_url}}"
                                                         alt="Featured Image"
                                                         class="w-full h-48 object-cover"/>
                                                 </div>

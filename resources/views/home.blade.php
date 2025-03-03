@@ -41,7 +41,7 @@
                     <div class="grid grid-cols-1 md:grid-cols-2 md:space-x-20 mb-16">
                         <div class="mb-5 md:mb-0">
                             <div class="w-20 py-6 flex justify-center bg-info bg-opacity-5 rounded-xl mb-4">
-                                <i data-feather="child" class="text-info"></i>
+                                <i data-feather="users" class="text-info"></i>
                             </div>
 
                             <h3 class="font-semibold text-gray-900 text-xl md:text-3xl mb-4">10000+</h3>
@@ -92,5 +92,5 @@
     </section>
 
     <x-subscribe></x-subscribe>
-    
+
 </x-layout>

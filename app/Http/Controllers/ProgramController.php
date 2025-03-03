@@ -13,12 +13,12 @@ class ProgramController extends Controller
             $program = Program::with('event')->latest()->paginate(8);
             return view('program', compact('program'));
         }catch (\Exception $exception){
-            return response()->json($exception->getMessage());
+            \Illuminate\Support\Facades\Log::error('Error fetching programs (program.index):',[$exception->getMessage()]);
+            return back()->with('error', 'Whoops!! Something happened!...Try again later');
         }
     }
 
     public function show(Program $program){
         return response()->json($program);
-        //return view('program.show', compact('program'));
     }
 }

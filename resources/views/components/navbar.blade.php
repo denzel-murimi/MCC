@@ -11,10 +11,10 @@
             <a href="/">Home</a>
         </li>
         <li class="font-semibold text-gray-900 hover:text-gray-400 transition ease-in-out duration-300 mb-5 lg:mb-0">
-            <a href="/program">Our Programs</a>
+            <a href="{{route('programs')}}">Our Programs</a>
         </li>
         <li class="font-semibold text-gray-900 hover:text-gray-400 transition ease-in-out duration-300 mb-5 lg:mb-0">
-            <a href="/gallery">Gallery</a>
+            <a href="{{route('gallery')}}">Gallery</a>
         </li>
         <li class="font-semibold text-gray-900 hover:text-gray-400 transition ease-in-out duration-300 mb-5 lg:mb-0">
             <a href="#">About us</a>

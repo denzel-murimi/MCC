@@ -14,7 +14,7 @@ Route::get('/', function () {
 
 Route::get('/gallery', function(){
     return view('gallery');
-});
+})->name('gallery');
 
 Route::get('/contact', function () {
     return view('contact');
@@ -22,5 +22,6 @@ Route::get('/contact', function () {
 
 Route::post('/contact',[ContactController::class, 'submit'])->name('contact.submit');
 
-Route::get('/program', [ProgramController::class, 'index'])->name('program.index');
-Route::get('/program/{slug}', [ProgramController::class, 'show'])->name('program.show');
+Route::get('/program', [ProgramController::class, 'index'])->name('programs');
+
+Route::get('/program/{program:slug}', [ProgramController::class, 'show'])->name('program.show');

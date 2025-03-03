@@ -47,6 +47,15 @@ class Program extends Model implements HasMedia
         'slug'
     ];
 
+    protected $appends = ['featured_image_url'];
+
+    public function getFeaturedImageUrlAttribute()
+    {
+        $media = $this->getFirstMedia('featured_image');
+
+        return $media ? $media->getUrl() : asset('images/placeholder.jpg');
+    }
+
     public function getSlugOptions() : SlugOptions
     {
         return SlugOptions::create()
@@ -58,5 +67,10 @@ class Program extends Model implements HasMedia
     public function event():  BelongsTo
     {
         return $this->belongsTo(Event::class);
+    }
+
+    public function resolveRouteBinding($value, $field = null)
+    {
+        return $this->where('slug', $value)->with('event')->firstOrFail() ?? abort(404);
     }
 }
