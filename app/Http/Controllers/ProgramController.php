@@ -19,6 +19,7 @@ class ProgramController extends Controller
     }
 
     public function show(Program $program){
-        return response()->json($program);
+        //return response()->json($program);
+        return view('slug', compact('program'));
     }
 }

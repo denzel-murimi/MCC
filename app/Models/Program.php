@@ -47,7 +47,10 @@ class Program extends Model implements HasMedia
         'slug'
     ];
 
-    protected $appends = ['featured_image_url'];
+    protected $appends = [
+        'featured_image_url',
+        'featured_image_conversions_url',
+        ];
 
     public function getFeaturedImageUrlAttribute()
     {
@@ -55,6 +58,33 @@ class Program extends Model implements HasMedia
 
         return $media ? $media->getUrl() : asset('images/placeholder.jpg');
     }
+
+    public function getFeaturedImageConversionsUrlAttribute()
+    {
+        $media = $this->getFirstMedia('featured_image');
+
+        if (!$media) {
+            return asset('images/placeholder.jpg');
+        }
+
+        $conversions = ['large', 'medium', 'thumb'];
+        $srcset = [];
+
+        foreach ($conversions as $conversion) {
+            $url = $media->getUrl($conversion);
+
+            if ($url) {
+                // Use predefined conversion sizes
+                $width = $conversion === 'large' ? 1200 :
+                    ($conversion === 'medium' ? 800 : 200);
+
+                $srcset[] = "{$url} {$width}w";
+            }
+        }
+
+        return implode(', ', $srcset);
+    }
+
 
     public function getSlugOptions() : SlugOptions
     {
