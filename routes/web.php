@@ -25,3 +25,7 @@ Route::post('/contact',[ContactController::class, 'submit'])->name('contact.subm
 Route::get('/program', [ProgramController::class, 'index'])->name('programs');
 
 Route::get('/program/{program:slug}', [ProgramController::class, 'show'])->name('program.show');
+
+Route::post('/subscribe', [ContactController::class, 'subscribe'])->name('subscribe');
+
+Route::get('/verify-subscription/{token}', [ContactController::class, 'verify'])->name('verify.subscription');

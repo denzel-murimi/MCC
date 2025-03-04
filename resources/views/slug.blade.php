@@ -13,6 +13,24 @@
                 class="absolute left-0 top-0 w-full h-full z-0 object-cover rounded-lg"
                 loading="lazy"
             />
+            <div class="p-4 absolute bottom-0 left-0 z-20">
+                <a href="#"
+                   class="px-4 py-1 bg-black text-gray-200 inline-flex items-center justify-center mb-2">
+                    {{$program->event->title}}
+                </a>
+                <h2 class="text-4xl font-semibold text-gray-100 leading-tight">
+                    {{$program->title}}
+                </h2>
+                <div class="flex mt-3">
+                    <img src="https://ui-avatars.com/api/?name={{urlencode(\Illuminate\Support\Str::of($program->author)->headline())}}&color=FFFFFF&background=000000"
+                         class="h-10 w-10 rounded-full mr-2 object-cover" />
+                    <div>
+                        <p class="font-semibold text-gray-200 text-sm">{{$program->author}} </p>
+                        <p class="font-semibold text-gray-400 text-xs"> {{\Carbon\Carbon::parse($program->created_at)->diffForHumans()}} </p>
+                    </div>
+                </div>
+            </div>
+
 
         </div>
 

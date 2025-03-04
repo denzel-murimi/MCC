@@ -85,7 +85,7 @@
                 this.messages.push({ text, type });
                 setTimeout(() => {
                     this.removeMessage(0);
-                }, 5000);
+                }, 8000);
             },
 
             removeMessage(index) {
