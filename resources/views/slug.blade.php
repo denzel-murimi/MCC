@@ -10,7 +10,7 @@
            (max-width: 1200px) 800px,
            1200px"
                 alt="{{ $program->title ?? 'Program Image' }}"
-                class="absolute left-0 top-0 w-full h-full z-0 object-cover rounded-lg"
+                class="absolute left-0 top-0 w-full h-full z-0 object-cover sm:rounded"
                 loading="lazy"
             />
             <div class="p-4 absolute bottom-0 left-0 z-20">
@@ -26,13 +26,26 @@
                          class="h-10 w-10 rounded-full mr-2 object-cover" />
                     <div>
                         <p class="font-semibold text-gray-200 text-sm">{{$program->author}} </p>
-                        <p class="font-semibold text-gray-400 text-xs"> {{\Carbon\Carbon::parse($program->created_at)->diffForHumans()}} </p>
+                        <p class="font-semibold text-gray-400 text-xs"> {{\Carbon\Carbon::parse($program->updated_at)->diffForHumans()}} </p>
+                    </div>
+
+                    <div class="ml-3">
+                        <x-share/>
                     </div>
                 </div>
             </div>
-
-
         </div>
 
+
+    <div class="px-4 lg:px-0 mt-12 text-gray-700 max-w-screen-md mx-auto text-lg leading-relaxed">
+        <div class="border-l-4 border-gray-500 pl-4 mb-6 italic rounded">
+            {{$program->description}}
+        </div>
+
+        <article class="pb-6 prose lg:prose-lg prose-blue mx-auto">
+            {!! str($program->content)->sanitizeHtml() !!}
+        </article>
+
+    </div>
     </section>
 </x-layout>

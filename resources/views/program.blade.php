@@ -55,7 +55,7 @@
                                                         <span class="block font-sans text-sm antialiased text-end">{{$p->author}}</span>
                                                     </div>
                                                     <p class="block font-sans text-base antialiased font-normal leading-relaxed text-inherit">
-                                                        {{\Carbon\Carbon::parse($p->created_at)->diffForHumans()}}
+                                                        {{\Carbon\Carbon::parse($p->updated_at)->diffForHumans()}}
                                                     </p>
                                                 </div>
                                             </a>
@@ -84,7 +84,9 @@
                                 calendar.render();
                             });
                         </script>
+                        <div>
                         <div id="calendar"></div>
+                        </div>
                     </div>
                 </div>
             </div>

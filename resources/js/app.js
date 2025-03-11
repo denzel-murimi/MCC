@@ -15,4 +15,3 @@ window.FullCalendar = {
     dayGridPlugin: dayGridPlugin
 };
 
-
