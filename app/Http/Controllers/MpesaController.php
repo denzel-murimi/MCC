@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use GuzzleHttp\Client;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 
 class MpesaController extends Controller
@@ -60,8 +62,10 @@ class MpesaController extends Controller
         }
 
         // Generate Password
-        $timestamp = date('YmdHis');
+        $timestamp = Carbon::now()->format('YmdHis');
         $password = base64_encode($this->shortcode . $this->passkey . $timestamp);
+
+        $url = 'https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest';
 
         // Prepare Payload
         $payload = [
@@ -80,21 +84,12 @@ class MpesaController extends Controller
 
         try {
             // Send STK Push Request
-            $client = new Client();
-            $response = $client->post('https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest', [
-                'headers' => [
-                    'Authorization' => 'Bearer ' . $accessToken,
-                    'Content-Type' => 'application/json'
-                ],
-                'json' => $payload
-            ]);
+            $response = Http::withToken($accessToken)->post($url,$payload);
 
-            // Decode response
-            $mpesaResponse = json_decode($response->getBody(), true);
-            Log::info("STK Push Response: " . json_encode($mpesaResponse));
+            Log::info("STK Push Response: ",[$response, $payload, $accessToken]);
 
             // Return response
-            return response()->json($mpesaResponse);
+            return response()->json($response);
 
         } catch (\Exception $e) {
             Log::error("STK Push Error: " . $e->getMessage());
@@ -103,5 +98,12 @@ class MpesaController extends Controller
                 'message' => $e->getMessage()
             ], 500);
         }
+    }
+
+    public function stkCallback(Request $request): \Illuminate\Http\JsonResponse
+    {
+        $data = file_get_contents('php://input');
+        Log::info("STK Callback Response: ",[$data]);
+        return response()->json($data);
     }
 }

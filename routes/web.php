@@ -16,6 +16,8 @@ Route::post('/mpesa/donate', [MpesaController::class, 'stkPush'])->name('mpesa.d
 Route::post('/paypal/checkout', [PayPalController::class, 'checkout'])->name('paypal.checkout');
 
 Route::post('/mpesa/stkpush', [DonationController::class, 'stkPush']);
+Route::get('/mpesa/callback', [MpesaController::class, 'stkCallback']);
+
 Route::post('/paypal/create-payment', [DonationController::class, 'createPaypalPayment']);
 
 Route::get('/', function () {
