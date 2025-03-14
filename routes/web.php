@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\DonationController;
 use App\Http\Controllers\PayPalController;
 use App\Http\Controllers\MpesaController;
+use App\Http\Controllers\VolunteerController;
 
 Route::post('/mpesa/donate', [MpesaController::class, 'stkPush'])->name('mpesa.donate');
 
@@ -52,3 +53,7 @@ Route::get('/media-manager/folders/{folderId}', [GalleryController::class, 'fetc
 Route::get('/donate', function () {
     return view('donation');
 });
+
+
+Route::get('/volunteer-signup', [VolunteerController::class, 'showForm'])->name('volunteer.signup');
+Route::post('/volunteer-signup', [VolunteerController::class, 'store'])->name('volunteer.store');
