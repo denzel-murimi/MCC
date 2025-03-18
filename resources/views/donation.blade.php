@@ -68,7 +68,7 @@
             },
 
          }"
-    >
+        x-cloak>
         <x-title>Support Mathare Care Center</x-title>
         <p class="mb-6 text-center text-lg text-gray-700">Your donation helps us continue our mission to provide support
             and care for the community.</p>
@@ -209,8 +209,7 @@
                                 x-init="init()"
                                 x-cloak
                             >
-                                <label for="phone" class="block text-sm font-medium text-gray-700">Phone Number
-                                    (2547xxxxxxxx)</label>
+                                <label for="phone" class="block text-sm font-medium text-gray-700">Phone Number</label>
 
                                 <div class="flex items-center">
                                     <div class="relative">
@@ -241,7 +240,7 @@
                                     </div>
 
                                     <input
-                                        type="text"
+                                        type="tel"
                                         x-model="phoneNumber"
                                         @input="updateFullNumber()"
                                         name="phone"
@@ -253,6 +252,7 @@
                                                 ? 'border-red-500 text-red-900 focus:ring placeholder-red-300 focus:border-red-500 focus:ring-red-300'
                                                 : 'border-gray-300 focus:ring focus:ring-green-300 focus:border-green-500'
                                             }}"
+                                        autocomplete="tel"
                                         required
                                     >
                                 </div>
@@ -268,7 +268,7 @@
                             </div>
 
                             <div x-data="{
-                                            amount: null,
+                                            amount: '{{old('amount') ?? ''}}',
                                             predefinedAmounts: [100, 500, 1000, 2000, 5000, 10000],
                                             selectAmount(value) {
                                                 this.amount = value;
@@ -294,7 +294,7 @@
                                         class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500">KES</span>
                                     <input
                                         type="number"
-                                        min="10"
+                                        min="1"
                                         name="amount"
                                         id="amount"
                                         x-model="amount"

@@ -20,11 +20,11 @@ class MpesaController extends Controller
 
     public function __construct()
     {
-        $this->consumerKey = env('MPESA_CONSUMER_KEY');
-        $this->consumerSecret = env('MPESA_CONSUMER_SECRET');
-        $this->shortcode = env('MPESA_SHORTCODE');
-        $this->passkey = env('MPESA_PASSKEY');
-        $this->callbackUrl = env('MPESA_CALLBACK_URL');
+        $this->consumerKey = config('payments.mpesa.consumer_key');
+        $this->consumerSecret = config('payments.mpesa.consumer_secret');
+        $this->shortcode = config('payments.mpesa.shortcode');
+        $this->passkey = config('payments.mpesa.passkey');
+        $this->callbackUrl = config('payments.mpesa.callback_url');
     }
 
     /**
@@ -65,6 +65,7 @@ class MpesaController extends Controller
                 ->withErrors($validator,'mpesaValidation');
         }
 
+        //Formatted Phone Number
         $p = PhoneNumberFormatService::format($request->phone);
 
         // Get Access Token
@@ -101,7 +102,11 @@ class MpesaController extends Controller
             Log::info("STK Push Response: ",[$response, $payload, $accessToken]);
 
             // Return response
-            return response()->json($response);
+            return redirect()
+                ->back()
+                ->withInput()
+                ->with('activeTab', 'mpesa')
+                ->with('success', 'STK Push request sent successfully');
 
         } catch (\Exception $e) {
             Log::error("STK Push Error: " . $e->getMessage());
