@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\PhoneNumberFormatService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use GuzzleHttp\Client;
@@ -55,6 +56,7 @@ class MpesaController extends Controller
             'phone' => 'required|regex:/^[17]\d{8}$/',
             'amount' => 'required|numeric|min:1'
         ]);
+
         if ($validator->fails()) {
             return redirect()
                 ->back()
@@ -62,6 +64,8 @@ class MpesaController extends Controller
                 ->with('activeTab', 'mpesa')
                 ->withErrors($validator,'mpesaValidation');
         }
+
+        $p = PhoneNumberFormatService::format($request->phone);
 
         // Get Access Token
         $accessToken = $this->getAccessToken();
@@ -82,9 +86,9 @@ class MpesaController extends Controller
             "Timestamp" => $timestamp,
             "TransactionType" => "CustomerPayBillOnline",
             "Amount" => $request->amount,
-            "PartyA" => $request->phone,
+            "PartyA" => $p,
             "PartyB" => $this->shortcode,
-            "PhoneNumber" => $request->phone,
+            "PhoneNumber" => $p,
             "CallBackURL" => $this->callbackUrl,
             "AccountReference" => "MCC DONATION",
             "TransactionDesc" => "Donation to Mathare Care Center"
