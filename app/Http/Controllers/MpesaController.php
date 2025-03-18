@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Validator;
 
 class MpesaController extends Controller
 {
@@ -50,10 +51,17 @@ class MpesaController extends Controller
     public function stkPush(Request $request)
     {
         // Validate request inputs
-        $request->validate([
-            'phone' => 'required|regex:/^2547\d{8}$/',
+        $validator = Validator::make($request->all(), [
+            'phone' => 'required|regex:/^[17]\d{8}$/',
             'amount' => 'required|numeric|min:1'
         ]);
+        if ($validator->fails()) {
+            return redirect()
+                ->back()
+                ->withInput()
+                ->with('activeTab', 'mpesa')
+                ->withErrors($validator,'mpesaValidation');
+        }
 
         // Get Access Token
         $accessToken = $this->getAccessToken();

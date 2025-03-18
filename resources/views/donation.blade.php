@@ -1,5 +1,74 @@
 <x-layout>
-    <div class="container mx-auto p-4 md:p-6 min-h-screen" x-data="{ activeTab: 'mpesa' }">
+    <div class="container mx-auto p-4 md:p-6 min-h-screen"
+         x-data="{
+            activeTab: '{{ session('activeTab') ?? 'mpesa'}}',
+
+            copied: false,
+
+            init() {
+                @if($errors->mpesaValidation->any())
+                    this.activeTab = 'mpesa';
+                    this.scrollToForm();
+                @endif
+            },
+
+            copyCode() {
+                const code = document.querySelector('#code-to-copy');
+                this.copiedCode = code ? code.innerHTML.trim() : '';
+                navigator.clipboard.writeText(this.copiedCode);
+                this.copied = true;
+                setTimeout(() => {
+                    this.copied = false;
+                }, 5000);
+            },
+
+            scrollToForm() {
+                setTimeout(() => {
+                    const formElement = document.querySelector(`#${this.activeTab}-form`);
+                    if (formElement) {
+                        const rect = formElement.getBoundingClientRect();
+                        const targetPosition = window.pageYOffset + rect.top - 20;
+                        this.smoothScroll(targetPosition, 500);
+
+                        const firstInput = formElement.querySelector('input');
+                        if (firstInput) {
+                            firstInput.focus();
+                        }
+                    }
+                }, 100);
+            },
+
+            smoothScroll(targetPosition, duration) {
+                const startPosition = window.pageYOffset;
+                const distance = targetPosition - startPosition;
+                let startTime = null;
+
+                function easeInOutQuad(t, b, c, d) {
+                    t /= d/2;
+                    if (t < 1) return c/2*t*t + b;
+                    t--;
+                    return -c/2 * (t*(t-2) - 1) + b;
+                }
+
+                function animation(currentTime) {
+                    if (startTime === null) startTime = currentTime;
+                    const timeElapsed = currentTime - startTime;
+                    const nextScrollPosition = easeInOutQuad(
+                        timeElapsed, startPosition, distance, duration
+                    );
+
+                    window.scrollTo(0, nextScrollPosition);
+
+                    if (timeElapsed < duration) {
+                        requestAnimationFrame(animation);
+                    }
+                }
+
+                requestAnimationFrame(animation);
+            },
+
+         }"
+    >
         <x-title>Support Mathare Care Center</x-title>
         <p class="mb-6 text-center text-lg text-gray-700">Your donation helps us continue our mission to provide support
             and care for the community.</p>
@@ -11,14 +80,31 @@
 
                 <div class="space-y-4">
                     <button
-                        @click="activeTab = 'mpesa'"
+                        @click="activeTab = 'mpesa'; scrollToForm()"
                         :class="{'bg-green-600 text-white': activeTab === 'mpesa', 'bg-white hover:bg-gray-50': activeTab !== 'mpesa'}"
                         class="flex items-center space-x-3 w-full p-4 rounded-lg transition-all duration-200 shadow">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" viewBox="0 0 24 24" fill="currentColor">
-                            <path
-                                d="M17 2H7C4.24 2 2 4.24 2 7v10c0 2.76 2.24 5 5 5h10c2.76 0 5-2.24 5-5V7c0-2.76-2.24-5-5-5zM7 4h10c1.66 0 3 1.34 3 3v1H4V7c0-1.66 1.34-3 3-3zm10 16H7c-1.66 0-3-1.34-3-3v-7h16v7c0 1.66-1.34 3-3 3z"/>
-                            <path
-                                d="M12 14c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0-2.5c.28 0 .5.22.5.5s-.22.5-.5.5-.5-.22-.5-.5.22-.5.5-.5z"/>
+                        <svg width="24" height="24" viewBox="0 0 24 24" id="Layer_1" data-name="Layer 1"
+                             xmlns="http://www.w3.org/2000/svg"
+                             fill="#000000">
+                            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                            <g id="SVGRepo_iconCarrier">
+                                <defs>
+                                    <style>.cls-1 {
+                                            fill: none;
+                                            stroke: #020202;
+                                            stroke-miterlimit: 10;
+                                            stroke-width: 1.91px;
+                                        }</style>
+                                </defs>
+                                <rect class="cls-1" x="4.36" y="1.5" width="15.27" height="21" rx="2.04"></rect>
+                                <path class="cls-1"
+                                      d="M13.91,2.45H10.09a.94.94,0,0,1-.95-1h5.72A.94.94,0,0,1,13.91,2.45Z"></path>
+                                <path class="cls-1"
+                                      d="M9.14,14.86h3.34a1.43,1.43,0,0,0,1.43-1.43h0A1.43,1.43,0,0,0,12.48,12h-1a1.43,1.43,0,0,1-1.43-1.43h0a1.43,1.43,0,0,1,1.43-1.43h3.34"></path>
+                                <line class="cls-1" x1="12" y1="7.23" x2="12" y2="9.14"></line>
+                                <line class="cls-1" x1="12" y1="14.86" x2="12" y2="16.77"></line>
+                            </g>
                         </svg>
                         <div class="text-left">
                             <p class="font-semibold">M-Pesa</p>
@@ -29,16 +115,20 @@
                     </button>
 
                     <button
-                        @click="activeTab = 'paypal'"
+                        @click="activeTab = 'paypal'; scrollToForm()"
                         :class="{'bg-blue-600 text-white': activeTab === 'paypal', 'bg-white hover:bg-gray-50': activeTab !== 'paypal'}"
                         class="flex items-center space-x-3 w-full p-4 rounded-lg transition-all duration-200 shadow">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" viewBox="0 0 24 24" fill="currentColor">
-                            <path
-                                d="M19.554 9.488c.121.563.106 1.246-.04 2.051-.582 3.137-2.571 4.74-5.952 4.74h-.522a.807.807 0 0 0-.798.686l-.704 4.47-.443 2.228c-.104.514.315.934.834.934h2.253c.554 0 1.024-.401 1.112-.949l.016-.078.317-2.012.02-.11a1.128 1.128 0 0 1 1.112-.949h.699c2.842 0 5.073-1.154 5.722-4.493.261-1.34.124-2.458-.563-3.248a2.708 2.708 0 0 0-.799-.77"/>
-                            <path
-                                d="M18.871 9.141c-.094-.3-.204-.572-.332-.826a3.234 3.234 0 0 0-.125-.222 3.551 3.551 0 0 0-.562-.66c-.705-.642-1.681-1.096-2.932-1.37l-3.874-.048c-.6-.008-1.111.422-1.206 1.014l-1.486 9.422a.908.908 0 0 0 .896 1.05h2.86c.35 0 .71-.287.784-.713l.017-.09.354-2.25.022-.121c.074-.426.434-.713.784-.713h.522c3.381 0 6.031-1.603 6.614-4.74.176-.975.163-1.793-.135-2.475-.059-.134-.127-.264-.202-.389-.089-.123-.19-.236-.302-.34z"/>
-                            <path
-                                d="M10.043 9.23c.033-.115.073-.22.119-.314a1.125 1.125 0 0 1 .784-.713c.095-.013.194-.02.297-.02l4.43.001c.7.082 1.372.262 1.982.535.174.078.338.167.49.264.151.097.29.202.417.314.127.112.239.235.337.368l.142.22c.127.255.235.526.32.826.338 1.357.019 2.832-1.318 4.028-.663.595-1.506 1.027-2.519 1.295a10.4 10.4 0 0 1-2.525.32H9.671a.483.483 0 0 0-.376.324L7.872 22l-.398 2.523h-.002a.483.483 0 0 1-.477.477H4.441a.483.483 0 0 1-.476-.57l1.4-8.875.278-1.764z"/>
+                        <svg fill="#000000" width="24" height="24" viewBox="0 0 512 512" id="Layer_1"
+                             data-name="Layer 1"
+                             xmlns="http://www.w3.org/2000/svg">
+                            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                            <g id="SVGRepo_iconCarrier">
+                                <path
+                                    d="M424.81,148.79c-.43,2.76-.93,5.58-1.49,8.48-19.17,98-84.76,131.8-168.54,131.8H212.13a20.67,20.67,0,0,0-20.47,17.46L169.82,444.37l-6.18,39.07a10.86,10.86,0,0,0,9.07,12.42,10.72,10.72,0,0,0,1.7.13h75.65a18.18,18.18,0,0,0,18-15.27l.74-3.83,14.24-90,.91-4.94a18.16,18.16,0,0,1,18-15.3h11.31c73.3,0,130.67-29.62,147.44-115.32,7-35.8,3.38-65.69-15.16-86.72A72.27,72.27,0,0,0,424.81,148.79Z"></path>
+                                <path
+                                    d="M385.52,51.09C363.84,26.52,324.71,16,274.63,16H129.25a20.75,20.75,0,0,0-20.54,17.48l-60.55,382a12.43,12.43,0,0,0,10.39,14.22,12.58,12.58,0,0,0,1.94.15h89.76l22.54-142.29-.7,4.46a20.67,20.67,0,0,1,20.47-17.46h42.65c83.77,0,149.36-33.86,168.54-131.8.57-2.9,1.05-5.72,1.49-8.48h0C410.94,98.06,405.19,73.41,385.52,51.09Z"></path>
+                            </g>
                         </svg>
                         <div class="text-left">
                             <p class="font-semibold">PayPal</p>
@@ -49,12 +139,14 @@
                     </button>
 
                     <button
-                        @click="activeTab = 'bitcoin'"
+                        @click="activeTab = 'bitcoin'; scrollToForm()"
                         :class="{'bg-orange-600 text-white': activeTab === 'bitcoin', 'bg-white hover:bg-gray-50': activeTab !== 'bitcoin'}"
                         class="flex items-center space-x-3 w-full p-4 rounded-lg transition-all duration-200 shadow">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" viewBox="0 0 24 24" fill="currentColor">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                             class="lucide lucide-bitcoin">
                             <path
-                                d="M17.06 11.57c.59-.69.94-1.59.94-2.57 0-1.86-1.27-3.43-3-3.87V3h-2v2h-2V3H9v2H6v2h2v10H6v2h3v2h2v-2h2v2h2v-2.13c1.73-.44 3-2.01 3-3.87 0-.6-.13-1.16-.37-1.67-.09-.2-.2-.39-.33-.57zM12 9h1.5c.83 0 1.5.67 1.5 1.5S14.33 12 13.5 12H12V9zm1.5 6H12v-3h1.5c.83 0 1.5.67 1.5 1.5s-.67 1.5-1.5 1.5z"/>
+                                d="M11.767 19.089c4.924.868 6.14-6.025 1.216-6.894m-1.216 6.894L5.86 18.047m5.908 1.042-.347 1.97m1.563-8.864c4.924.869 6.14-6.025 1.215-6.893m-1.215 6.893-3.94-.694m5.155-6.2L8.29 4.26m5.908 1.042.348-1.97M7.48 20.364l3.126-17.727"/>
                         </svg>
                         <div class="text-left">
                             <p class="font-semibold">Bitcoin</p>
@@ -86,94 +178,172 @@
                 <!-- Dynamic Form Container -->
                 <div class="max-w-lg mx-auto">
                     <!-- M-Pesa Form -->
-                    <div x-show="activeTab === 'mpesa'" x-transition>
+                    <div id="mpesa-form" x-show="activeTab === 'mpesa'" x-transition>
                         <div class="flex justify-center items-center">
                             <img src="{{asset('images/mpesa.png')}}" alt="MPESA">
                         </div>
-                        <form method="POST" action="{{ route('mpesa.donate') }}" class="space-y-6">
+                        <form method="POST" action="{{ route('mpesa.donate') }}"
+                              class="space-y-6 bg-gray-100 p-4 rounded-lg">
                             @csrf
-                            <div>
+                            <div
+                                x-data="{
+                                            phoneNumber: '{{ old('phone') ?? '' }}',
+                                            selectedCountry: {code: '+254', name: 'Kenya', flag: '🇰🇪'},
+                                            countries: [
+                                                {code: '+254', name: 'Kenya', flag: '🇰🇪'},
+                                            ],
+                                            isOpen: false,
+                                            fullNumber: '',
+                                            init() {
+                                                this.updateFullNumber();
+                                            },
+                                            selectCountry(country) {
+                                                this.selectedCountry = country;
+                                                this.isOpen = false;
+                                                this.updateFullNumber();
+                                            },
+                                            updateFullNumber() {
+                                                this.fullNumber = this.selectedCountry.code + ' ' + (this.phoneNumber || '');
+                                            }
+                                        }"
+                                x-init="init()"
+                                x-cloak
+                            >
                                 <label for="phone" class="block text-sm font-medium text-gray-700">Phone Number
                                     (2547xxxxxxxx)</label>
-                                <input type="text" name="phone" id="phone"
-                                       class="w-full p-3 border border-gray-300 rounded-lg focus:ring focus:ring-green-300 focus:border-green-500"
-                                       required>
+
+                                <div class="flex items-center">
+                                    <div class="relative">
+                                        <div
+                                            @click="isOpen = !isOpen"
+                                            class="flex items-center border rounded p-2 cursor-pointer"
+                                        >
+                                            <span class="mr-2" x-text="selectedCountry.flag"></span>
+                                            <span x-text="selectedCountry.code"></span>
+                                        </div>
+
+                                        <div
+                                            x-show="isOpen"
+                                            @click.outside="isOpen = false"
+                                            class="absolute z-10 w-48 border rounded mt-1 bg-white shadow-lg max-h-60 overflow-y-auto"
+                                        >
+                                            <template x-for="country in countries" :key="country.code">
+                                                <div
+                                                    @click="selectCountry(country)"
+                                                    class="flex items-center p-2 hover:bg-gray-100 cursor-pointer"
+                                                >
+                                                    <span class="mr-2" x-text="country.flag"></span>
+                                                    <span x-text="country.name"></span>
+                                                    <span class="ml-auto text-gray-500" x-text="country.code"></span>
+                                                </div>
+                                            </template>
+                                        </div>
+                                    </div>
+
+                                    <input
+                                        type="text"
+                                        x-model="phoneNumber"
+                                        @input="updateFullNumber()"
+                                        name="phone"
+                                        id="phone"
+                                        placeholder="(e.g. '712345678' or '112345678')"
+                                        class="border rounded p-2 w-full ml-2
+                                            {{
+                                                $errors->mpesaValidation->has('phone')
+                                                ? 'border-red-500 text-red-900 focus:ring placeholder-red-300 focus:border-red-500 focus:ring-red-300'
+                                                : 'border-gray-300 focus:ring focus:ring-green-300 focus:border-green-500'
+                                            }}"
+                                        required
+                                    >
+                                </div>
+
+                                <!-- Optional: Display selected phone number -->
+                                <div class="mt-2 text-sm text-gray-600">
+                                    Full Number: <span x-text="fullNumber"></span>
+                                </div>
+
+                                @error('phone','mpesaValidation')
+                                <p class="text-red-600 text-xs mt-2">{{$message}}</p>
+                                @enderror
                             </div>
 
-                            <div>
-                                <label for="amount" class="block text-sm font-medium text-gray-700">Amount (KES)</label>
+                            <div x-data="{
+                                            amount: null,
+                                            predefinedAmounts: [100, 500, 1000, 2000, 5000, 10000],
+                                            selectAmount(value) {
+                                                this.amount = value;
+                                            }
+                                         }">
+
+                                <label for="amount" class="block text-sm font-medium text-gray-700 mb-2">Amount
+                                    (KES)</label>
+
+                                <div class="mb-2 grid grid-cols-2 sm:grid-cols-3 gap-2 overflow-x-auto space-x-2">
+                                    <template x-for="preset in predefinedAmounts" :key="preset">
+                                        <button
+                                            type="button"
+                                            @click="selectAmount(preset)"
+                                            class="px-3 py-1 bg-green-100 text-green-700 rounded-md hover:bg-green-200 transition-colors whitespace-nowrap"
+                                            x-text="preset.toLocaleString() + ' KES'"
+                                        ></button>
+                                    </template>
+                                </div>
+
                                 <div class="relative">
                                     <span
                                         class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500">KES</span>
-                                    <input type="number" min="10" name="amount" id="amount"
-                                           class="w-full p-3 pl-12 border border-gray-300 rounded-lg focus:ring focus:ring-green-300 focus:border-green-500"
-                                           required>
+                                    <input
+                                        type="number"
+                                        min="10"
+                                        name="amount"
+                                        id="amount"
+                                        x-model="amount"
+                                        class="w-full p-3 pl-12 border border-gray-300 rounded-lg focus:ring focus:ring-green-300 focus:border-green-500"
+                                        required
+                                    >
                                 </div>
                             </div>
 
-                            <button type="submit"
-                                    class="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-4 rounded-lg transition duration-200">
+                            <button
+                                type="submit"
+                                class="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-4 rounded-lg transition duration-200"
+                            >
                                 Donate via M-Pesa
                             </button>
-
-                            <p class="text-xs text-gray-600 text-center mt-4">
-                                You will receive an STK push notification on your phone to complete the payment
-                            </p>
                         </form>
+
+                        <p class="text-xs text-gray-600 text-center mt-4">
+                            You will receive an STK push notification on your phone to complete the payment
+                        </p>
                     </div>
 
                     <!-- PayPal Form -->
-                    <div x-show="activeTab === 'paypal'" x-transition>
-                        <div class="flex justify-center items-center">
+                    <div id="paypal-form" x-show="activeTab === 'paypal'" x-transition>
+                        <div class="flex justify-center items-center mb-4">
                             <img src="{{asset('images/paypal.png')}}" alt="PAYPAL" class="w-24">
                         </div>
                         <div class="space-y-6">
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700">Select Amount</label>
-                                <div class="grid grid-cols-3 gap-3 mt-2">
-                                    <button type="button"
-                                            class="py-3 px-4 border border-blue-300 rounded-lg text-blue-600 hover:bg-blue-50 focus:ring focus:ring-blue-200">
-                                        $10
-                                    </button>
-                                    <button type="button"
-                                            class="py-3 px-4 border border-blue-300 rounded-lg text-blue-600 hover:bg-blue-50 focus:ring focus:ring-blue-200">
-                                        $25
-                                    </button>
-                                    <button type="button"
-                                            class="py-3 px-4 border border-blue-300 rounded-lg text-blue-600 hover:bg-blue-50 focus:ring focus:ring-blue-200">
-                                        $50
-                                    </button>
-                                    <button type="button"
-                                            class="py-3 px-4 border border-blue-300 rounded-lg text-blue-600 hover:bg-blue-50 focus:ring focus:ring-blue-200">
-                                        $100
-                                    </button>
-                                    <button type="button"
-                                            class="py-3 px-4 border border-blue-300 rounded-lg text-blue-600 hover:bg-blue-50 focus:ring focus:ring-blue-200">
-                                        $250
-                                    </button>
-                                    <button type="button"
-                                            class="py-3 px-4 border border-blue-300 rounded-lg text-blue-600 hover:bg-blue-50 focus:ring focus:ring-blue-200">
-                                        Other
-                                    </button>
-                                </div>
-                            </div>
-
-                            <div id="paypal-button-container" class="pt-4">
-                                <!-- PayPal Script -->
+                            <div id="donate-button-container"
+                                 class="flex justify-center items-center h-40 bg-gray-100 hover:bg-gray-200">
+                                <div id="donate-button" class="p-4 border rounded border-gray-300 cursor-pointer"></div>
                                 <script src="https://www.paypalobjects.com/donate/sdk/donate-sdk.js"
                                         charset="UTF-8"></script>
                                 <script>
                                     PayPal.Donation.Button({
-                                        env: 'production',
+                                        env: 'sandbox',
                                         hosted_button_id: 'YD2FH9CE4HBHC',
                                         image: {
-                                            src: 'https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif',
+                                            src: 'https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif',
                                             alt: 'Donate with PayPal button',
                                             title: 'PayPal - The safer, easier way to pay online!',
+                                        },
+                                        onComplete: function (params) {
+                                            console.log(params);
                                         }
-                                    }).render('#paypal-button-container');
+                                    }).render('#donate-button');
                                 </script>
                             </div>
+
 
                             <p class="text-sm text-gray-600 text-center mt-6">
                                 You will be redirected to PayPal to complete your donation securely.
@@ -183,8 +353,8 @@
                     </div>
 
                     <!-- Bitcoin Form -->
-                    <div x-show="activeTab === 'bitcoin'" x-transition>
-                        <div class="flex justify-center items-center">
+                    <div id="bitcoin-form" x-show="activeTab === 'bitcoin'" x-transition>
+                        <div class="flex justify-center items-center mb-4">
                             <svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="50%" height="50%"
                                  version="1.1" shape-rendering="geometricPrecision" text-rendering="geometricPrecision"
                                  image-rendering="optimizeQuality" fill-rule="evenodd" clip-rule="evenodd"
@@ -221,7 +391,7 @@
                                 <p class="text-sm text-gray-700 mb-4">Send your donation to the following Bitcoin
                                     address:</p>
                                 <div class="bg-white p-3 rounded border border-gray-300">
-                                    <p class="font-mono text-sm break-all select-all">
+                                    <p class="font-mono text-sm break-all select-all" id="code-to-copy">
                                         bc1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh</p>
                                 </div>
 
@@ -234,12 +404,25 @@
                                 </div>
 
                                 <div class="mt-4">
-                                    <button class="text-orange-600 hover:text-orange-700 font-medium">
+                                    <button
+                                        @click="copyCode()"
+                                        class="text-orange-600 hover:text-orange-700 font-medium">
                                         <span class="flex items-center justify-center">
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none"
+                                            <svg x-show="!copied"
+                                                 xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none"
                                                  viewBox="0 0 24 24" stroke="currentColor">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                       d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/>
+                                            </svg>
+                                            <svg
+                                                x-show="copied"
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                class="h-5 w-5 mr-2 text-green-500"
+                                                fill="none"
+                                                viewBox="0 0 24 24"
+                                                stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                      d="M5 13l4 4L19 7"/>
                                             </svg>
                                             Copy Address
                                         </span>
@@ -284,7 +467,7 @@
                 </div>
                 <div class="bg-white p-6 rounded-lg shadow-md">
                     <div class="text-green-600 text-4xl font-bold mb-2">$100</div>
-                    <p class="text-gray-700">Funds medical care for 5 community members</p>
+                    <p class="text-gray-700">Funds medical care for 5 disabled children</p>
                 </div>
             </div>
         </div>
