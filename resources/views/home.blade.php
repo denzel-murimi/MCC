@@ -12,9 +12,12 @@
                     <p class="font-light text-gray-400 text-md md:text-lg leading-normal mb-12">We provide care for
                         disabled children and for peoples of <br> worldwide to support people and organizers</p>
 
-                    <button
-                        class="px-6 py-4 bg-primary-800 font-semibold text-white text-lg rounded-xl hover:bg-primary-500 transition ease-in-out duration-500">Our
-                        Story</button>
+                        <a href="{{ route('our-story') }}">
+    <button class="px-6 py-4 bg-primary-800 font-semibold text-white text-lg rounded-xl hover:bg-primary-500 transition ease-in-out duration-500">
+        Our Story
+    </button>
+</a>
+
                 </div>
 
                 <div class="mt-24">

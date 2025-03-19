@@ -22,21 +22,26 @@
         <!-- Top Level (CEO) -->
         <div class="w-1/3">
             <img src="{{ asset('Media/director.jpg') }}" class="w-24 h-24 rounded-full mx-auto" alt="Director">
-            <p class="font-bold">John Doe</p>
-            <p class="text-gray-500 text-sm">Director</p>
+            <p class="font-bold">Elizabeth Waithera</p>
+            <p class="text-gray-500 text-sm">CEO</p>
         </div>
 
         <!-- Second Level (Managers) -->
         <div class="flex justify-center mt-6 space-x-8">
             <div class="w-1/4">
                 <img src="{{ asset('Media/manager1.jpg') }}" class="w-20 h-20 rounded-full mx-auto" alt="Manager 1">
-                <p class="font-bold">Jane Smith</p>
-                <p class="text-gray-500 text-sm">Program Manager</p>
+                <p class="font-bold">Nelson Mandela</p>
+                <p class="text-gray-500 text-sm">Project Manager</p>
             </div>
             <div class="w-1/4">
                 <img src="{{ asset('Media/manager2.jpg') }}" class="w-20 h-20 rounded-full mx-auto" alt="Manager 2">
-                <p class="font-bold">James Brown</p>
-                <p class="text-gray-500 text-sm">Operations Manager</p>
+                <p class="font-bold">Dennis Ombese</p>
+                <p class="text-gray-500 text-sm">Senior Therapist</p>
+            </div>
+            <div class="w-1/4">
+                <img src="{{ asset('Media/manager2.jpg') }}" class="w-20 h-20 rounded-full mx-auto" alt="Manager 2">
+                <p class="font-bold">Jeremiah Arasa</p>
+                <p class="text-gray-500 text-sm">Physiotherapist</p>
             </div>
         </div>
 
@@ -44,18 +49,33 @@
         <div class="flex justify-center mt-6 space-x-6">
             <div class="w-1/5">
                 <img src="{{ asset('Media/staff1.jpg') }}" class="w-16 h-16 rounded-full mx-auto" alt="Staff 1">
-                <p class="font-bold">Alice Lee</p>
-                <p class="text-gray-500 text-sm">Therapist</p>
+                <p class="font-bold">Ashlyne Elinati</p>
+                <p class="text-gray-500 text-sm">Data Entry Clerk</p>
             </div>
             <div class="w-1/5">
                 <img src="{{ asset('Media/staff2.jpg') }}" class="w-16 h-16 rounded-full mx-auto" alt="Staff 2">
-                <p class="font-bold">Michael Scott</p>
-                <p class="text-gray-500 text-sm">Teacher</p>
+                <p class="font-bold">Elizabeth John</p>
+                <p class="text-gray-500 text-sm">Housekeeper</p>
             </div>
             <div class="w-1/5">
-                <img src="{{ asset('Media/staff3.jpg') }}" class="w-16 h-16 rounded-full mx-auto" alt="Staff 3">
-                <p class="font-bold">Sarah Kim</p>
+                <img src="/Media/WhatsApp Image 2025-01-28 at 11.06.16_386b319f" class="w-16 h-16 rounded-full mx-auto" alt="Staff 3">
+                <p class="font-bold">Christopher Vucha</p>
                 <p class="text-gray-500 text-sm">Social Worker</p>
+            </div>
+            <div class="w-1/5">
+                <img src="{{ asset('Media/WhatsApp Image 2025-01-28 at 11.06.16_386b319f') }}" class="w-16 h-16 rounded-full mx-auto" alt="Staff 3">
+                <p class="font-bold">Jacklin Akinyi</p>
+                <p class="text-gray-500 text-sm">Caregiver</p>
+            </div>
+            <div class="w-1/5">
+                <img src="{{ asset('Media/WhatsApp Image 2025-01-28 at 11.06.16_386b319f') }}" class="w-16 h-16 rounded-full mx-auto" alt="Staff 3">
+                <p class="font-bold">Hellen Achungo</p>
+                <p class="text-gray-500 text-sm">Caregiver</p>
+            </div>
+            <div class="w-1/5">
+                <img src="{{ asset('Media/WhatsApp Image 2025-01-28 at 11.06.16_386b319f') }}" class="w-16 h-16 rounded-full mx-auto" alt="Staff 3">
+                <p class="font-bold">Mary Kamau</p>
+                <p class="text-gray-500 text-sm">Caregiver</p>
             </div>
         </div>
     </div>

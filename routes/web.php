@@ -54,6 +54,20 @@ Route::get('/donate', function () {
     return view('donation');
 });
 
+Route::get('/faq', function () {
+    return view('faq');
+});
 
+Route::get('/terms', function () {
+    return view('terms');
+});
+
+Route::get('/privacy-policy', function () {
+    return view('privacy');
+});
+
+Route::get('/our-story', function () {
+    return view('our-story'); 
+})->name('our-story');
 Route::get('/volunteer-signup', [VolunteerController::class, 'showForm'])->name('volunteer.signup');
 Route::post('/volunteer-signup', [VolunteerController::class, 'store'])->name('volunteer.store');

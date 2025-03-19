@@ -59,10 +59,6 @@
                     class="block font-light text-gray-400 text-sm md:text-lg hover:text-gray-800 transition ease-in-out duration-300">About
                     Us</a>
 
-                <a href="#"
-                    class="block font-light text-gray-400 text-sm md:text-lg hover:text-gray-800 transition ease-in-out duration-300">Our
-                    Staff</a>
-
                 <a href="{{route('gallery')}}"
                     class="block font-light text-gray-400 text-sm md:text-lg hover:text-gray-800 transition ease-in-out duration-300">Gallery</a>
             </div>
@@ -70,10 +66,10 @@
             <div class="text-center lg:text-left space-y-7 mb-10 lg:mb-0">
                 <h4 class="font-semibold text-gray-900 text-lg md:text-2xl">Legal</h4>
 
-                <a href="#"
+                <a href="{{ url('/faq') }}"
                     class="block font-light text-gray-400 text-sm md:text-lg hover:text-gray-800 transition ease-in-out duration-300">FAQ</a>
 
-                <a href="#"
+                <a href="{{ url('/terms') }}"
                     class="block font-light text-gray-400 text-sm md:text-lg hover:text-gray-800 transition ease-in-out duration-300">Terms
                     & Conditions</a>
             </div>
