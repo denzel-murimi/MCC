@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Donation;
 use App\Services\PhoneNumberFormatService;
 use Carbon\Carbon;
+use http\Env\Response;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Http;
@@ -12,11 +15,13 @@ use Illuminate\Support\Facades\Validator;
 
 class MpesaController extends Controller
 {
-    private $consumerKey;
-    private $consumerSecret;
-    private $shortcode;
-    private $passkey;
-    private $callbackUrl;
+    protected $consumerKey;
+    protected $consumerSecret;
+    protected $shortcode;
+    protected $passkey;
+    protected $callbackUrl;
+    protected $env;
+    protected $base_url;
 
     public function __construct()
     {
@@ -24,7 +29,9 @@ class MpesaController extends Controller
         $this->consumerSecret = config('payments.mpesa.consumer_secret');
         $this->shortcode = config('payments.mpesa.shortcode');
         $this->passkey = config('payments.mpesa.passkey');
-        $this->callbackUrl = config('payments.mpesa.callback_url');
+        $this->callbackUrl = config('app.url').config('payments.mpesa.callback_url');
+        $this->env = config('payments.mpesa.env');
+        $this->base_url = $this->env == 'sandbox' ? 'https://sandbox.safaricom.co.ke/' : 'https://api.safaricom.co.ke/';
     }
 
     /**
@@ -33,11 +40,8 @@ class MpesaController extends Controller
     private function getAccessToken()
     {
         try {
-            $client = new Client();
-            $response = $client->request('GET', 'https://sandbox.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials', [
-                'auth' => [$this->consumerKey, $this->consumerSecret]
-            ]);
-
+            $url = $this->base_url . 'oauth/v1/generate?grant_type=client_credentials';
+            $response = Http::withBasicAuth($this->consumerKey, $this->consumerSecret)->get($url);
             $body = json_decode($response->getBody());
             return $body->access_token ?? null;
         } catch (\Exception $e) {
@@ -71,14 +75,18 @@ class MpesaController extends Controller
         // Get Access Token
         $accessToken = $this->getAccessToken();
         if (!$accessToken) {
-            return response()->json(['error' => 'Failed to generate access token'], 500);
+            return redirect()
+                ->back()
+                ->withInput()
+                ->with('activeTab', 'mpesa')
+                ->with('error', 'Whoops!! Could not Connect to MPESA! Try again later');
         }
 
         // Generate Password
         $timestamp = Carbon::now()->format('YmdHis');
         $password = base64_encode($this->shortcode . $this->passkey . $timestamp);
 
-        $url = 'https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest';
+        $url = $this->base_url . 'mpesa/stkpush/v1/processrequest';
 
         // Prepare Payload
         $payload = [
@@ -99,7 +107,23 @@ class MpesaController extends Controller
             // Send STK Push Request
             $response = Http::withToken($accessToken)->post($url,$payload);
 
-            Log::info("STK Push Response: ",[$response, $payload, $accessToken]);
+            Log::info("STK Push Response: ",[$response, $payload]);
+
+            //Create new Donation Record
+            $res = json_decode($response);
+
+            if ($res->ResponseCode == 0) {
+                $donation = new Donation();
+                $donation->type = 'MPESA';
+                $donation->phone = $p;
+                $donation->amount = $request->amount;
+                $donation->reference = $payload['AccountReference'];
+                $donation->description = $payload['TransactionDesc'];
+                $donation->MerchantRequestID = $res->MerchantRequestID;
+                $donation->CheckoutRequestID = $res->CheckoutRequestID;
+                $donation->status = 'Requested';
+                $donation->save();
+            }
 
             // Return response
             return redirect()
@@ -110,17 +134,56 @@ class MpesaController extends Controller
 
         } catch (\Exception $e) {
             Log::error("STK Push Error: " . $e->getMessage());
-            return response()->json([
-                'error' => 'STK Push request failed',
-                'message' => $e->getMessage()
-            ], 500);
+            return redirect()
+                ->back()
+                ->withInput()
+                ->with('activeTab', 'mpesa')
+                ->with('error', 'Whoops!! Something happened!...Try again later');
         }
     }
 
-    public function stkCallback(Request $request): \Illuminate\Http\JsonResponse
+    public function stkCallback() :JsonResponse
     {
         $data = file_get_contents('php://input');
-        Log::info("STK Callback Response: ",[$data]);
-        return response()->json($data);
+        Log::info("STK Callback Response: ", [$data]);
+
+        $res = json_decode($data);
+
+        try {
+            if (isset($res->Body->stkCallback->CheckoutRequestID)) {
+                if ($res->Body->stkCallback->ResultCode == 0) {
+                    $donation = Donation::where('MerchantRequestID', $res->Body->stkCallback->MerchantRequestID)->firstOrFail();
+                    $donation->status = 'Completed';
+                    $donation->MpesaReceiptNumber = $res->Body->stkCallback->CallbackMetadata->Item[1]->Value;
+                    $donation->TransactionDate = $res->Body->stkCallback->CallbackMetadata->Item[2]->Value;
+                    $donation->ResultDesc = $res->Body->stkCallback->ResultDesc;
+                    $donation->save();
+
+                    $this->notify($donation->phone, 'success', 'Your Donation was successful. Mpesa Receipt: ' . $donation->MpesaReceiptNumber . ' of KES: ' . $donation->amount . ' on ' . Carbon::parse($donation->TransactionDate)->format('H:i:s l Y-m-d'));
+
+                } else {
+
+                    $donation = Donation::where('MerchantRequestID', $res->Body->stkCallback->CheckoutRequestID)->firstOrFail();
+                    $donation->status = 'Failed';
+                    $donation->ResultDesc = $res->Body->stkCallback->ResultDesc;
+                    $donation->save();
+
+                    $this->notify($donation->phone, 'error', 'Your Donation of KES: ' .$donation->amount. '. Failed...Please try again later!' );
+
+                }
+                return response()->json(['status' => 'success'],200);
+            }
+            return response()->json(['status' => 'failed'],200);
+        } catch (\Exception $e) {
+            Log::error("STK Callback Error: " , [$e->getMessage()]);
+            return response()->json(['status' => 'error'],200);
+        }
+
+    }
+
+    public function notify($phone, $status, $message)
+    {
+        Log::info("STK Callback Success Notification: ", [$phone, $status, $message]);
+        return true;
     }
 }
