@@ -73,7 +73,7 @@
         <p class="mb-6 text-center text-lg text-gray-700">Your donation helps us continue our mission to provide support
             and care for the community.</p>
 
-        <div class="flex flex-col md:flex-row bg-white rounded-xl shadow-xl overflow-hidden">
+        <div class="flex flex-col md:flex-row bg-white rounded-xl shadow-xl overflow-hidden mt-6">
             <!-- Payment Method Selectors (Left Side) -->
             <div class="w-full md:w-1/3 bg-gray-100 p-6">
                 <h2 class="text-xl font-bold mb-6 text-center">Choose Payment Method</h2>
