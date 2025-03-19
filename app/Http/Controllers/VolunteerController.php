@@ -30,7 +30,7 @@ class VolunteerController extends Controller
         Volunteer::create($request->all());
 
         // Optional: Send a confirmation email
-        Mail::raw("Thank you for signing up as a volunteer!", function ($message) use ($request) {
+        Mail::raw("We appreciate your interest in volunteering with us. Our team will get in touch with you soon with more details. Thank you for signing up as a volunteer!", function ($message) use ($request) {
             $message->to($request->email)
                     ->subject('Volunteer Sign-Up Confirmation');
         });
