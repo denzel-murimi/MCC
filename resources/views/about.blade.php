@@ -21,7 +21,7 @@
     <div class="flex flex-col items-center mt-8">
         <!-- Top Level (CEO) -->
         <div class="w-1/3">
-            <img src="{{ asset('Media/director.jpg') }}" class="w-24 h-24 rounded-full mx-auto" alt="Director">
+            <img src="{{ asset('images/ceo.jpg') }}" class="w-25 h-25 rounded-full mx-auto" alt="Director">
             <p class="font-bold">Elizabeth Waithera</p>
             <p class="text-gray-500 text-sm">CEO</p>
         </div>
@@ -29,17 +29,17 @@
         <!-- Second Level (Managers) -->
         <div class="flex justify-center mt-6 space-x-8">
             <div class="w-1/4">
-                <img src="{{ asset('Media/manager1.jpg') }}" class="w-20 h-20 rounded-full mx-auto" alt="Manager 1">
+                <img src="{{ asset('images/ndelu.jpg') }}" class="w-25 h-25 rounded-full mx-auto" alt="Manager 1">
                 <p class="font-bold">Nelson Mandela</p>
                 <p class="text-gray-500 text-sm">Project Manager</p>
             </div>
             <div class="w-1/4">
-                <img src="{{ asset('Media/manager2.jpg') }}" class="w-20 h-20 rounded-full mx-auto" alt="Manager 2">
+                <img src="{{ asset('images/denno.jpg') }}" class="w-25 h-25 rounded-full mx-auto" alt="Manager 2">
                 <p class="font-bold">Dennis Ombese</p>
                 <p class="text-gray-500 text-sm">Senior Therapist</p>
             </div>
             <div class="w-1/4">
-                <img src="{{ asset('Media/manager2.jpg') }}" class="w-20 h-20 rounded-full mx-auto" alt="Manager 2">
+                <img src="{{ asset('images/jere.jpg') }}" class="w-25 h-25 rounded-full mx-auto" alt="Manager 2">
                 <p class="font-bold">Jeremiah Arasa</p>
                 <p class="text-gray-500 text-sm">Physiotherapist</p>
             </div>
@@ -48,35 +48,49 @@
         <!-- Third Level (Staff) -->
         <div class="flex justify-center mt-6 space-x-6">
             <div class="w-1/5">
-                <img src="{{ asset('Media/staff1.jpg') }}" class="w-16 h-16 rounded-full mx-auto" alt="Staff 1">
+                <img src="{{ asset('images/ashe.jpg') }}" class="w-25 h-25 rounded-full mx-auto" alt="Staff 1">
                 <p class="font-bold">Ashlyne Elinati</p>
                 <p class="text-gray-500 text-sm">Data Entry Clerk</p>
             </div>
             <div class="w-1/5">
-                <img src="{{ asset('Media/staff2.jpg') }}" class="w-16 h-16 rounded-full mx-auto" alt="Staff 2">
+                <img src="{{ asset('images/mwende.jpg') }}" class="w-25 h-25 rounded-full mx-auto" alt="Staff 2">
                 <p class="font-bold">Elizabeth John</p>
                 <p class="text-gray-500 text-sm">Housekeeper</p>
             </div>
             <div class="w-1/5">
-                <img src="/Media/WhatsApp Image 2025-01-28 at 11.06.16_386b319f" class="w-16 h-16 rounded-full mx-auto" alt="Staff 3">
+                <img src="{{ asset('images/chris.jpg') }}" class="w-25 h-25 rounded-full mx-auto" alt="Staff 3">
                 <p class="font-bold">Christopher Vucha</p>
                 <p class="text-gray-500 text-sm">Social Worker</p>
             </div>
             <div class="w-1/5">
-                <img src="{{ asset('Media/WhatsApp Image 2025-01-28 at 11.06.16_386b319f') }}" class="w-16 h-16 rounded-full mx-auto" alt="Staff 3">
+                <img src="{{ asset('images/jacklin.jpg') }}" class="w-25 h-25 rounded-full mx-auto" alt="Staff 3">
                 <p class="font-bold">Jacklin Akinyi</p>
                 <p class="text-gray-500 text-sm">Caregiver</p>
             </div>
             <div class="w-1/5">
-                <img src="{{ asset('Media/WhatsApp Image 2025-01-28 at 11.06.16_386b319f') }}" class="w-16 h-16 rounded-full mx-auto" alt="Staff 3">
+                <img src="{{ asset('images/hellen.jpg') }}" class="w-25 h-25 rounded-full mx-auto" alt="Staff 3">
                 <p class="font-bold">Hellen Achungo</p>
                 <p class="text-gray-500 text-sm">Caregiver</p>
             </div>
             <div class="w-1/5">
-                <img src="{{ asset('Media/WhatsApp Image 2025-01-28 at 11.06.16_386b319f') }}" class="w-16 h-16 rounded-full mx-auto" alt="Staff 3">
+                <img src="{{ asset('images/mary.jpg') }}" class="w-25 h-25 rounded-full mx-auto" alt="Staff 3">
                 <p class="font-bold">Mary Kamau</p>
                 <p class="text-gray-500 text-sm">Caregiver</p>
             </div>
+        </div>
+        <div class="flex justify-center mt-6 space-x-8">
+        <div class="w-1/6">
+                <img src="{{ asset('images/victor.jpg') }}" class="w-25 h-25 rounded-full mx-auto" alt="Staff 1">
+                <p class="font-bold">Victor Gichuru</p>
+                <p class="text-gray-500 text-sm">IT Consultant</p>
+            </div>
+            <div class="w-1/6">
+                <img src="{{ asset('images/denzey.png') }}" class="w-25 h-25 rounded-full mx-auto" alt="Staff 1">
+                <p class="font-bold">Denzel Murimi</p>
+                <p class="text-gray-500 text-sm">IT Consultant</p>
+            </div>
+
+
         </div>
     </div>
 
