@@ -9,6 +9,13 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\PayPalController;
 use App\Http\Controllers\MpesaController;
 use App\Http\Controllers\VolunteerController;
+use App\Http\Controllers\AdoptionController;
+
+Route::get('/adopt/child/{id}', [AdoptionController::class, 'showForm'])->name('adopt.form');
+
+
+Route::get('/adopt', [AdoptionController::class, 'index'])->name('adopt.index');
+Route::post('/adopt', [AdoptionController::class, 'store'])->name('adopt.store');
 
 Route::post('/mpesa/donate', [MpesaController::class, 'stkPush'])->name('mpesa.donate');
 
