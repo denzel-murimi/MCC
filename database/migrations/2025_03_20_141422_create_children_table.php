@@ -13,6 +13,10 @@ return new class extends Migration
     {
         Schema::create('children', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
+            $table->date('dob')->nullable();
+            $table->enum('gender', \App\Gender::values())->nullable();
+            $table->string('condition')->nullable();
             $table->timestamps();
         });
     }
