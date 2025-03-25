@@ -55,7 +55,7 @@
             <div class="text-center lg:text-left space-y-7 mb-10 lg:mb-0">
                 <h4 class="font-semibold text-gray-900 text-lg md:text-2xl">Organization</h4>
 
-                <a  href="{{ route('about') }}"
+                <a  href="{{ route('our-story') }}"
                     class="block font-light text-gray-400 text-sm md:text-lg hover:text-gray-800 transition ease-in-out duration-300">About
                     Us</a>
 
