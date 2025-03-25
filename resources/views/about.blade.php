@@ -29,7 +29,7 @@
         <!-- Second Level (Managers) -->
         <div class="flex justify-center mt-6 space-x-8">
             <div class="w-1/4">
-                <img src="{{ asset('images/ndelu.jpg') }}" class="w-25 h-25 rounded-full mx-auto" alt="Manager 1">
+                <img src="{{ asset('images/ndelu2.jpg') }}" class="w-25 h-25 rounded-full mx-auto" alt="Manager 1">
                 <p class="font-bold">Nelson Mandela</p>
                 <p class="text-gray-500 text-sm">Project Manager</p>
             </div>
@@ -42,6 +42,11 @@
                 <img src="{{ asset('images/jere.jpg') }}" class="w-25 h-25 rounded-full mx-auto" alt="Manager 2">
                 <p class="font-bold">Jeremiah Arasa</p>
                 <p class="text-gray-500 text-sm">Physiotherapist</p>
+            </div>
+            <div class="w-1/4">
+                <img src="{{ asset('images/collo.jpg') }}" class="w-25 h-25 rounded-full mx-auto" alt="Manager 2">
+                <p class="font-bold">Collins Imonje</p>
+                <p class="text-gray-500 text-sm">Occupational Therapist</p>
             </div>
         </div>
 
