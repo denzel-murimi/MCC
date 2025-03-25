@@ -10,6 +10,10 @@ use App\Http\Controllers\PayPalController;
 use App\Http\Controllers\MpesaController;
 use App\Http\Controllers\VolunteerController;
 use App\Http\Controllers\AdoptionController;
+use App\Http\Controllers\AuthController;
+
+Route::get('/signin', [AuthController::class, 'showSigninForm'])->name('signin');
+Route::post('/signin', [AuthController::class, 'authenticate'])->name('signin.authenticate');
 
 Route::get('/adopt/child/{id}', [AdoptionController::class, 'showForm'])->name('adopt.form');
 
