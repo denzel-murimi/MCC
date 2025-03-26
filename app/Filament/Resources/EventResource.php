@@ -36,6 +36,73 @@ class EventResource extends Resource
                 Forms\Components\RichEditor::make('description')
                     ->required()
                     ->columnSpanFull(),
+                Forms\Components\Select::make('recurrence_type')
+                    ->options([
+                        'none' => 'No Recurrence',
+                        'daily' => 'Daily',
+                        'weekly' => 'Weekly',
+                        'monthly' => 'Monthly',
+                        'yearly' => 'Yearly'
+                    ])
+                    ->default('none')
+                    ->live(),
+
+                Forms\Components\Group::make()
+                    ->schema(fn($get) => match ($get('recurrence_type')) {
+                        'daily' => [
+                            Forms\Components\TextInput::make('recurrence_interval')
+                                ->label('Repeat Every (Days)')
+                                ->numeric()
+                                ->default(1)
+                                ->minValue(1),
+                            Forms\Components\DatePicker::make('recurrence_end_date')
+                                ->label('End Recurrence')
+                        ],
+                        'weekly' => [
+                            Forms\Components\TextInput::make('recurrence_interval')
+                                ->label('Repeat Every (Weeks)')
+                                ->numeric()
+                                ->default(1)
+                                ->minValue(1),
+                            Forms\Components\CheckboxList::make('recurrence_days')
+                                ->label('Days of Week')
+                                ->options([
+                                    'MO' => 'Monday',
+                                    'TU' => 'Tuesday',
+                                    'WE' => 'Wednesday',
+                                    'TH' => 'Thursday',
+                                    'FR' => 'Friday',
+                                    'SA' => 'Saturday',
+                                    'SU' => 'Sunday'
+                                ]),
+                            Forms\Components\DatePicker::make('recurrence_end_date')
+                                ->label('End Recurrence')
+                        ],
+                        'monthly' => [
+                            Forms\Components\TextInput::make('recurrence_interval')
+                                ->label('Repeat Every (Months)')
+                                ->numeric()
+                                ->default(1)
+                                ->minValue(1),
+                            Forms\Components\Select::make('monthly_recurrence_type')
+                                ->options([
+                                    'day_of_month' => 'On specific day of month',
+                                    'nth_day_of_week' => 'On nth day of week'
+                                ]),
+                            Forms\Components\DatePicker::make('recurrence_end_date')
+                                ->label('End Recurrence')
+                        ],
+                        'yearly' => [
+                            Forms\Components\TextInput::make('recurrence_interval')
+                                ->label('Repeat Every (Years)')
+                                ->numeric()
+                                ->default(1)
+                                ->minValue(1),
+                            Forms\Components\DatePicker::make('recurrence_end_date')
+                                ->label('End Recurrence')
+                        ],
+                        default => []
+                    })->columns(3),
             ]);
     }
 
@@ -53,6 +120,7 @@ class EventResource extends Resource
                 Tables\Columns\TextColumn::make('end_at')
                     ->dateTime()
                     ->sortable(),
+                Tables\Columns\TextColumn::make('recurrence_type'),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()

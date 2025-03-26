@@ -64,12 +64,8 @@ class AdminPanelProvider extends PanelProvider
             ->plugins([
                 BreezyCore::make()
                     ->myProfile(
-                        shouldRegisterUserMenu: true,
-                        userMenuLabel: 'My Profile',
-                        shouldRegisterNavigation: false,
                         navigationGroup: 'Settings',
-                        hasAvatars: false,
-                        slug: 'my-profile',
+                        userMenuLabel: 'My Profile',
                     )
                     ->enableTwoFactorAuthentication(force: false),
 

@@ -18,6 +18,12 @@ return new class extends Migration
             $table->text('description');
             $table->dateTime('start_at');
             $table->dateTime('end_at')->nullable();
+            $table->enum('recurrence_type', ['none', 'daily', 'weekly', 'monthly', 'yearly'])
+                ->default('none');
+            $table->integer('recurrence_interval')->nullable();
+            $table->json('recurrence_days')->nullable();
+            $table->date('recurrence_end_date')->nullable();
+            $table->string('monthly_recurrence_type')->nullable();
             $table->timestamps();
         });
     }

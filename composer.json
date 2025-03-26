@@ -24,6 +24,7 @@
         "saade/filament-fullcalendar": "^3.2",
         "saade/filament-laravel-log": "^3.2",
         "shuvroroy/filament-spatie-laravel-health": "^2.3",
+        "simshaun/recurr": "^5.0",
         "spatie/calendar-links": "^1.11",
         "spatie/laravel-medialibrary": "^11.12",
         "spatie/laravel-sluggable": "^3.7",

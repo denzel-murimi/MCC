@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
 use Spatie\Health\Checks\Checks\BackupsCheck;
 use Spatie\Health\Checks\Checks\CacheCheck;
@@ -53,8 +54,10 @@ class AppServiceProvider extends ServiceProvider
             UsedDiskSpaceCheck::new(),
         ]);
 
-        DB::listen(function ($query) {
-            Log::info($query->sql);
-        });
+//        DB::listen(function ($query) {
+//            Log::info($query->sql);
+//        });
+
+//        URL::forceScheme('https');
     }
 }
