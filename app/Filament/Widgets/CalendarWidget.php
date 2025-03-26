@@ -136,11 +136,6 @@ class CalendarWidget extends FullCalendarWidget
             $startDate = Carbon::parse($event->start_at);
             $ruleString = $this->buildRecurrenceRuleString($event, $start, $end);
 
-            Log::info('Recurrence Rule String: ' . $ruleString);
-            Log::info('Original Event Start: ' . $event->start_at);
-            Log::info('Start Parameter: ' . $start);
-            Log::info('End Parameter: ' . $end);
-
             $rule = new Rule($ruleString, $startDate);
 
             // Configure transformer
@@ -150,13 +145,6 @@ class CalendarWidget extends FullCalendarWidget
             $occurrences = $transformer->transform(
                 $rule
             );
-
-            // Detailed logging of occurrences
-            Log::info('Occurrence Count: ' . count($occurrences));
-
-            foreach ($occurrences as $index => $occurrence) {
-                Log::info("Occurrence {$index}: " . $occurrence->getStart()->format('Y-m-d H:i:s'));
-                }
 
             // Transform occurrences into events
             $recurringEvents = $occurrences->map(function ($occurrence) use ($event) {
@@ -237,7 +225,6 @@ class CalendarWidget extends FullCalendarWidget
             $ruleComponents[] = 'COUNT=50';
         }
 
-        Log::warning("Rrule:", (array)implode(';', $ruleComponents));
         return implode(';', $ruleComponents);
     }
     public function getFormSchema(): array

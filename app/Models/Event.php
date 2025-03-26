@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Log;
 use Recurr\Exception\InvalidRRule;
 use Recurr\Exception\InvalidWeekday;
 use Recurr\Rule;
@@ -20,70 +21,102 @@ class Event extends Model
         'recurrence_end_date' => 'date',
         'recurrence_days' => 'array'
     ];
-
-    /**
-     * @throws InvalidRRule
-     * @throws InvalidWeekday
-     */
-    public function generateRecurringEvents(): \Illuminate\Support\Collection
+    public function generateRecurringEvents(string $start, string $end): array
     {
+        // If no recurrence, return the single event if it falls within range
         if ($this->recurrence_type === 'none') {
-            return collect([$this]);
+            $eventStart = Carbon::parse($this->start_at);
+            $eventEnd = Carbon::parse($this->end_at);
+            $rangeStart = Carbon::parse($start);
+            $rangeEnd = Carbon::parse($end);
+
+            if ($eventStart <= $rangeEnd && $eventEnd >= $rangeStart) {
+                return [$this->toFullCalendarFormat()];
+            }
+            return [];
         }
 
-        $rule = $this->buildRecurrenceRule();
-        $transformer = new ArrayTransformer();
-        $transformerConfig = (new ArrayTransformerConfig())->enableLastDayOfMonthFix();
+        try {
+            // Generate recurrence rule
+            $startDate = Carbon::parse($this->start_at);
+            $ruleString = $this->buildRecurrenceRuleString($start, $end);
+            $rule = new Rule($ruleString, $startDate);
 
-        $eventDates = $transformer->transform($rule, $transformerConfig);
+            // Recurrence transformer
+            $transformer = new ArrayTransformer();
+            $occurrences = $transformer->transform($rule);
 
-        return collect($eventDates)->map(function ($occurrence) {
-            $startDate = Carbon::instance($occurrence->getStart());
-            $endDate = Carbon::instance($occurrence->getEnd());
+            // Convert occurrences into FullCalendar events
+            $recurringEvents = [];
+            foreach ($occurrences as $index => $occurrence) {
+                $eventCopy = clone $this;
+                $eventCopy->start_at = Carbon::parse($occurrence->getStart());
+                $eventCopy->end_at = Carbon::parse($occurrence->getEnd() ?? $occurrence->getStart());
+                $eventCopy->id = $this->id . '-recurring-' . $index; // Ensure unique ID
 
-            return new self([
-                'title' => $this->title,
-                'start_date' => $startDate,
-                'end_date' => $endDate,
-            ]);
-        });
+                $recurringEvents[] = $eventCopy->toFullCalendarFormat();
+            }
+
+            Log::info('Generated ' . count($recurringEvents) . ' recurring events.');
+
+            return $recurringEvents;
+        } catch (\Exception $e) {
+            Log::error('Recurring Event Generation Error: ' . $e->getMessage());
+            return [];
+        }
     }
 
     /**
-     * @throws InvalidRRule
+     * Convert event to FullCalendar format
      */
-    private function buildRecurrenceRule(): Rule
+    public function toFullCalendarFormat(): array
     {
-        $startDate = Carbon::parse($this->start_date);
+        return [
+            'id' => $this->id,
+            'title' => $this->title,
+            'start' => Carbon::parse($this->start_at)->toIso8601String(),
+            'end' => Carbon::parse($this->end_at)->toIso8601String(),
+            'colour' => $this->colour,
+            'allDay' => $this->all_day ?? false,
+            'recurring' => $this->recurrence_type !== 'none',
+        ];
+    }
 
-        $ruleString = 'FREQ=' . strtoupper($this->recurrence_type);
+    /**
+     * Build RRULE for recurring events
+     */
+    private function buildRecurrenceRuleString(string $rangeStart, string $rangeEnd): string
+    {
+        if ($this->recurrence_type === 'none') return '';
 
-        // Add interval
-        if ($this->recurrence_interval) {
-            $ruleString .= ';INTERVAL=' . $this->recurrence_interval;
+        $ruleComponents = ['FREQ=' . strtoupper($this->recurrence_type)];
+
+        if ($this->recurrence_interval && $this->recurrence_interval > 1) {
+            $ruleComponents[] = 'INTERVAL=' . $this->recurrence_interval;
         }
 
-        // Add specific configuration for different recurrence types
-        switch ($this->recurrence_type) {
-            case 'weekly':
-                if (!empty($this->recurrence_days)) {
-                    $ruleString .= ';BYDAY=' . implode(',', $this->recurrence_days);
-                }
-                break;
-            case 'monthly':
-                if ($this->monthly_recurrence_type === 'nth_day_of_week') {
-                    // You might want to add more complex logic here
-                    $ruleString .= ';BYDAY=1MO'; // Example: first Monday
-                }
-                break;
+        if ($this->recurrence_type === 'weekly' && !empty($this->recurrence_days)) {
+            $ruleComponents[] = 'BYDAY=' . implode(',', $this->recurrence_days);
         }
 
-        // Add end date if specified
+        if ($this->recurrence_type === 'monthly') {
+            $startDate = Carbon::parse($this->start_at);
+            if ($this->monthly_recurrence_type === 'day_of_month') {
+                $ruleComponents[] = 'BYMONTHDAY=' . $startDate->day;
+            } elseif ($this->monthly_recurrence_type === 'nth_day_of_week') {
+                $nthWeek = ceil($startDate->day / 7);
+                $weekday = strtoupper(substr($startDate->format('D'), 0, 2));
+                $ruleComponents[] = "BYDAY={$nthWeek}{$weekday}";
+            }
+        }
+
         if ($this->recurrence_end_date) {
-            $endDate = Carbon::parse($this->recurrence_end_date);
-            $ruleString .= ';UNTIL=' . $endDate->format('Ymd\THis\Z');
+            $endDate = Carbon::parse($this->recurrence_end_date)->format('Ymd\THis\Z');
+            $ruleComponents[] = 'UNTIL=' . $endDate;
+        } else {
+            $ruleComponents[] = 'COUNT=50';
         }
 
-        return new Rule($ruleString, $startDate);
+        return implode(';', $ruleComponents);
     }
 }

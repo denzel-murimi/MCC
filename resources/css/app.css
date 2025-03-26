@@ -1,3 +1,10 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@media (max-width: 768px) {
+    #calendar {
+        max-height: 500px;
+        overflow-y: auto;
+    }
+}

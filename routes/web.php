@@ -70,7 +70,7 @@ Route::get('/privacy-policy', function () {
 });
 
 Route::get('/our-story', function () {
-    return view('our-story'); 
+    return view('our-story');
 })->name('our-story');
 Route::get('/volunteer-signup', [VolunteerController::class, 'showForm'])->name('volunteer.signup');
 Route::post('/volunteer-signup', [VolunteerController::class, 'store'])->name('volunteer.store');

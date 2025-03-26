@@ -17,8 +17,8 @@ class DatabaseSeeder extends Seeder
     {
         // User::factory(10)->create();
 
-        //Program::factory(20)->create();
+//        Program::factory(20)->create();
 
-        Child::factory(10)->create();
+//        Child::factory(10)->create();
     }
 }
