@@ -1,50 +1,75 @@
 <x-layout>
 
-<div class="relative bg-cover bg-center h-[600px]" style="background-image: url('{{ asset('images/Team.jpg') }}');">
-    <div class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-        <h1 class="text-white text-5xl font-bold">Our Story</h1>
-    </div>
-</div>
-
-<div class="container mx-auto px-6 py-12">
-    <div class="text-center">
-        <h2 class="text-4xl font-bold text-gray-800">A Journey of Hope and Care</h2>
-        <p class="mt-4 text-lg text-gray-600 max-w-3xl mx-auto">
-            Mathare Care Center began as a vision to create a safe space for children in need. Over the years, we've provided care, education, and support to hundreds of children, ensuring they have a brighter future.
-        </p>
-    </div>
-
-    <div class="mt-12 grid md:grid-cols-2 gap-8">
-        <div>
-            <img src="{{ asset('images/Our-story.jpg') }}" alt="Children at Mathare Care Center" class="rounded-lg shadow-lg w-full">
+    <div class="relative bg-cover bg-center h-[600px]" style="background-image: url('{{ asset('images/Team.jpg') }}');">
+        <div class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+            <h1 class="text-white text-5xl font-bold">Our Story</h1>
         </div>
-        <div class="flex flex-col justify-center">
-            <h3 class="text-2xl font-semibold text-gray-800">Building a Future, One Child at a Time</h3>
-            <p class="mt-4 text-gray-600">
-                Our mission is to provide every child with the love, education and care they deserve. Through community support, we've expanded our reach and impact.
+    </div>
+
+    <div class="container mx-auto px-6 py-12">
+        <div class="text-center">
+            <h2 class="text-4xl font-bold text-gray-800">A Journey of Hope and Care</h2>
+            <p class="mt-4 text-lg text-gray-600 max-w-3xl mx-auto">
+                Mathare Care Center began as a vision to create a safe space for children in need. Over the years, we've
+                provided care, education, and support to hundreds of children, ensuring they have a brighter future.
             </p>
         </div>
-    </div>
 
-    <div class="mt-12 flex justify-center">
-        <a href="{{ url('/donate') }}" class="bg-purple-600 text-white px-6 py-3 rounded-lg text-lg font-semibold shadow-md hover:bg-purple-700">Join Our Mission</a>
+        <div class="mt-12 grid md:grid-cols-2 gap-8">
+            <div>
+                <img src="{{ asset('images/Our-story.jpg') }}" alt="Children at Mathare Care Center"
+                     class="rounded-lg shadow-lg w-full">
+            </div>
+            <div class="flex flex-col justify-center">
+                <h3 class="text-2xl font-semibold text-gray-800">Building a Future, One Child at a Time</h3>
+                <p class="mt-4 text-gray-600">
+                    Our mission is to provide every child with the love, education and care they deserve. Through
+                    community support, we've expanded our reach and impact.
+                </p>
+            </div>
+        </div>
+
+        <div class="mt-12 flex justify-center">
+            <a href="{{ url('/donate') }}"
+               class="bg-purple-600 text-white px-6 py-3 rounded-lg text-lg font-semibold shadow-md hover:bg-purple-700">Join
+                Our Mission</a>
+        </div>
     </div>
-</div>
 
     <section class="p-6 md:p-12 bg-white text-center">
-        <div class="grid grid-cols-1 md:grid-cols-2 items-center gap-8">
-        <div>
-    <h2 class="text-3xl font-bold">About Us</h2>
-    <p class="mt-4 text-lg">Mathare Care Center is a non-profit organization dedicated to improving the lives of children with disabilities in the Mathare slums. Established by individuals who have personally experienced the challenges of raising children with special needs, the organization aims to provide comprehensive support through education, therapy, vocational training and community integration.</p>
-    <p class="mt-4 text-lg">Our primary goal is to enhance the quality of life for children with disabilities and their families by ensuring access to proper healthcare, education and social interaction. In the Mathare slums, children with special needs often face neglect and social exclusion due to a lack of awareness and resources. We strive to change this by offering structured programs that promote skill development, provide mobility assistance and create awareness about disability rights.</p>
-    <p class="mt-4 text-lg">We also focus on empowering families and communities by equipping them with knowledge and training on how to care for and support children with disabilities. Through awareness campaigns, educational workshops and collaborations with both governmental and private institutions, Mathare Care Center envisions a society where every child, regardless of ability, has the opportunity to thrive and reach their full potential.</p>
+        <div class="grid grid-cols-1 md:grid-cols-3 items-center gap-8">
+            <div class="col-span-2">
+                <h2 class="text-3xl font-bold">About Us</h2>
+                <p class="mt-4 text-lg">Mathare Care Center is a non-profit organization dedicated to improving the
+                    lives of children with disabilities in the Mathare slums. Established by individuals who have
+                    personally experienced the challenges of raising children with special needs, the organization aims
+                    to provide comprehensive support through education, therapy, vocational training and community
+                    integration.</p>
+                <p class="mt-4 text-lg">Our primary goal is to enhance the quality of life for children with
+                    disabilities and their families by ensuring access to proper healthcare, education and social
+                    interaction. In the Mathare slums, children with special needs often face neglect and social
+                    exclusion due to a lack of awareness and resources. We strive to change this by offering structured
+                    programs that promote skill development, provide mobility assistance and create awareness about
+                    disability rights.</p>
+                <p class="mt-4 text-lg">We also focus on empowering families and communities by equipping them with
+                    knowledge and training on how to care for and support children with disabilities. Through awareness
+                    campaigns, educational workshops and collaborations with both governmental and private institutions,
+                    Mathare Care Center envisions a society where every child, regardless of ability, has the
+                    opportunity to thrive and reach their full potential.</p>
+            </div>
+            <div class="md:pl-6 col-span-1">
+                <h3 class="text-2xl font-bold">Our Mission</h3>
+                <p class="mt-4">We are committed to fostering an inclusive and supportive environment where children
+                    with disabilities can thrive. Our mission is to ensure that every child, regardless of their
+                    physical or mental challenges, has access to quality education, healthcare and social opportunities
+                    that promote their well-being. Through dedicated programs, advocacy and community engagement, we
+                    strive to break the barriers of discrimination and create a society that values and uplifts
+                    individuals with special needs. By working closely with families, educators and policymakers, we aim
+                    to empower these children with the tools and skills they need to lead independent and fulfilling
+                    lives.</p>
+            </div>
         </div>
-        <div class="md:pl-6">
-    <h3 class="text-2xl font-bold">Our Mission</h3>
-    <p class="mt-4">We are committed to fostering an inclusive and supportive environment where children with disabilities can thrive. Our mission is to ensure that every child, regardless of their physical or mental challenges, has access to quality education, healthcare and social opportunities that promote their well-being. Through dedicated programs, advocacy and community engagement, we strive to break the barriers of discrimination and create a society that values and uplifts individuals with special needs. By working closely with families, educators and policymakers, we aim to empower these children with the tools and skills they need to lead independent and fulfilling lives.</p>
-        </div>
-        </div>
-</section>
+    </section>
 
 
     <section class="p-8 bg-white text-center">
@@ -121,12 +146,14 @@
             <!-- IT Consultants -->
             <div class="flex items-center justify-center">
                 <div class="w-1/2 md:w-1/4">
-                    <img src="{{ asset('images/victor.jpg') }}" class="w-25 h-25 rounded-full mx-auto" alt="IT Consultant 1">
+                    <img src="{{ asset('images/victor.jpg') }}" class="w-25 h-25 rounded-full mx-auto"
+                         alt="IT Consultant 1">
                     <p class="font-bold">Victor Gichuru</p>
                     <p class="text-gray-500 text-sm">IT Consultant</p>
                 </div>
                 <div class="w-1/2 md:w-1/4">
-                    <img src="{{ asset('images/denzey.png') }}" class="w-25 h-25 rounded-full mx-auto" alt="IT Consultant 2">
+                    <img src="{{ asset('images/denzey.png') }}" class="w-25 h-25 rounded-full mx-auto"
+                         alt="IT Consultant 2">
                     <p class="font-bold">Denzel Murimi</p>
                     <p class="text-gray-500 text-sm">IT Consultant</p>
                 </div>
