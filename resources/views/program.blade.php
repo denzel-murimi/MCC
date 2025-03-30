@@ -10,47 +10,178 @@
                     var calendarEl = document.getElementById('calendar');
                         if (!calendarEl) return;
 
-                        let initialView = window.innerWidth < 768 ? 'listWeek' : 'dayGridMonth';
+                        let isMobile = window.innerWidth < 768;
+                        let initialView = isMobile ? 'listWeek' : 'dayGridMonth';
 
                         if (!window.myCalendar) {
+                            const getMobileToolbar = () => ({
+                                left: 'prev,next',
+                                center: 'title',
+                                right: 'today'
+                            });
+
+                            const getDesktopToolbar = () => ({
+                                left: 'prev,next today',
+                                center: 'title',
+                                right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
+                            });
+
                             window.myCalendar = new FullCalendar.Calendar(calendarEl, {
-                                plugins: [FullCalendar.dayGridPlugin, FullCalendar.listPlugin],
+                                plugins: [
+                                    FullCalendar.dayGridPlugin,
+                                    FullCalendar.listPlugin,
+                                    FullCalendar.timeGridPlugin,
+                                    FullCalendar.interactionPlugin,
+                                    FullCalendar.momentPlugin
+                                ],
                                 initialView: initialView,
-                                headerToolbar: {
-                                    left: 'prev,next today',
-                                    center: 'title',
-                                    right: 'listWeek,dayGridMonth',
+                                // Enhanced header with more view options
+                                headerToolbar: isMobile ? getMobileToolbar() : getDesktopToolbar(),
+                                // Improved UI settings
+                                views: {
+                                    listWeek: {
+                                        titleFormat: {year: 'numeric', month: 'short', day: 'numeric'}
+                                    }
                                 },
-                                events: async function(fetchInfo, successCallback, failureCallback){
-                                        try {
-                                            let response = await fetch('/api/events');
-                                            let events = await response.json();
-                                            function getContrastColor(hex) {
-                                                let r = parseInt(hex.substring(1, 3), 16);
-                                                let g = parseInt(hex.substring(3, 5), 16);
-                                                let b = parseInt(hex.substring(5, 7), 16);
-                                                let brightness = (r * 299 + g * 587 + b * 114) / 1000;
-                                                return brightness > 125 ? '#000' : '#fff';
-                                                }
-                                            let formattedEvents = events.map(event => ({
-                                                    id: event.id,
-                                                    title: event.title,
-                                                    start: event.start,
-                                                    end: event.end,
-                                                    backgroundColor: event.colour,
-                                                    borderColor: event.colour,
-                                                    textColor: getContrastColor(event.colour),
-                                                    allDay: event.allDay,
-                                                    recurring: event.recurring,
-                                                }));
-                                            successCallback(formattedEvents);
-                                        } catch(error){
-                                            console.error('Error loading events', error);
-                                            failureCallback(error);
+                                height: 'auto',
+                                aspectRatio: isMobile ? 1.2 : 1.8,
+                                navLinks: true, // allows clicking on dates/days
+                                selectable: true, // allows date selection
+                                nowIndicator: true, // shows a marker for current time
+                                weekNumbers: !isMobile,
+                                businessHours: {
+                                    // Business hours highlighting
+                                    daysOfWeek: [1, 2, 3, 4, 5], // Monday to Friday
+                                    startTime: '9:00',
+                                    endTime: '17:00'
+                                },
+                                events: async function(fetchInfo, successCallback, failureCallback) {
+                                    try {
+                                        let response = await fetch('/api/events');
+                                        let events = await response.json();
+
+                                        function getContrastColor(hex) {
+                                            // If hex doesn't start with #, add it
+                                            if (!hex.startsWith('#')) hex = '#' + hex;
+
+                                            let r = parseInt(hex.substring(1, 3), 16);
+                                            let g = parseInt(hex.substring(3, 5), 16);
+                                            let b = parseInt(hex.substring(5, 7), 16);
+                                            let brightness = (r * 299 + g * 587 + b * 114) / 1000;
+                                            return brightness > 125 ? '#000' : '#fff';
                                         }
-                                    },
+
+                                        let formattedEvents = events.map(event => ({
+                                            id: event.id,
+                                            title: event.title,
+                                            start: event.start,
+                                            end: event.end,
+                                            backgroundColor: event.colour,
+                                            borderColor: event.colour,
+                                            textColor: getContrastColor(event.colour),
+                                            allDay: event.allDay,
+                                            recurring: event.recurring,
+                                            description: event.description || '',
+                                            location: event.location || '',
+                                            url: event.url || '/program'
+                                        }));
+
+                                        successCallback(formattedEvents);
+                                    } catch(error) {
+                                        console.error('Error loading events', error);
+                                        failureCallback(error);
+                                    }
+                                },
+                                // Event handling callbacks
+                                eventClick: function(info) {
+                                    // Show event details when clicked
+                                    if (info.event.url) {
+                                        window.open(info.event.url);
+                                        info.jsEvent.preventDefault(); // prevents browser from following the link
+                                    } else {
+                                        // Create a custom popup or use a modal library
+                                        alert(`Event: ${info.event.title}
+                        ${info.event.extendedProps.description ? 'Description: ' + info.event.extendedProps.description : ''}
+                        ${info.event.extendedProps.location ? 'Location: ' + info.event.extendedProps.location : ''}`);
+                                    }
+                                },
+                                dateClick: function(info) {
+                                    // Handle date clicks for adding new events
+                                    console.log('Clicked on: ' + info.dateStr);
+                                },
+                                // Responsive behavior
+                                 windowResize: function(view) {
+                                    let newIsMobile = window.innerWidth < 768;
+                                    if (newIsMobile !== isMobile) {
+                                        isMobile = newIsMobile;
+                                        // Update the toolbar based on screen size
+                                        window.myCalendar.setOption('headerToolbar',
+                                            isMobile ? getMobileToolbar() : getDesktopToolbar()
+                                        );
+                                        // Change view based on screen size
+                                        window.myCalendar.changeView(isMobile ? 'listWeek' : 'dayGridMonth');
+                                    }
+                                },
+                                // Loading indicator
+                                loading: function(isLoading) {
+                                    if (isLoading) {
+                                        // Add a loading indicator
+                                        document.getElementById('loading-indicator')?.classList.remove('hidden');
+                                    } else {
+                                        document.getElementById('loading-indicator')?.classList.add('hidden');
+                                    }
+                                },
                             });
                             window.myCalendar.render();
+                            const style = document.createElement('style');
+                            style.textContent = `
+                                .fc-event {
+                                    border-radius: 4px;
+                                    padding: 2px;
+                                    margin: 1px 0;
+                                    cursor: pointer;
+                                    transition: all 0.2s;
+                                }
+                                .fc-event:hover {
+                                    transform: scale(1.05);
+                                    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+                                }
+                                .fc-day-today {
+                                    background-color: rgba(0, 120, 255, 0.1) !important;
+                                }
+
+                                /* Mobile-specific styles */
+                                @media (max-width: 768px) {
+                                    .fc .fc-toolbar {
+                                        flex-wrap: wrap;
+                                        gap: 8px;
+                                        justify-content: space-between;
+                                    }
+                                    .fc .fc-toolbar-title {
+                                        font-size: 1.2em !important;
+                                        width: 100%;
+                                        text-align: center;
+                                        order: -1;
+                                        margin-bottom: 8px !important;
+                                    }
+                                    .fc .fc-toolbar-chunk {
+                                        display: flex;
+                                        justify-content: space-between;
+                                    }
+                                    .fc .fc-today-button {
+                                        font-size: 0.9em;
+                                        padding: 0.2em 0.65em;
+                                    }
+                                    .fc .fc-button {
+                                        padding: 0.2em 0.65em;
+                                        font-size: 0.9em;
+                                    }
+                                    .fc-direction-ltr .fc-toolbar > * > :not(:first-child) {
+                                        margin-left: 0.5em;
+                                    }
+                                }
+                            `;
+                            document.head.appendChild(style);
                         } else {
                             setTimeout(() => {
                                 window.myCalendar.updateSize();
@@ -65,6 +196,7 @@
                     }
                  });
             },
+
             }" class="p-6 rounded-lg">
                 <!-- Tabs -->
                 <div class="flex justify-center items-center mb-6">

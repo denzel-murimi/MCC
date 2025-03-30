@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\Log;
 use Recurr\Exception\InvalidRRule;
 use Recurr\Exception\InvalidWeekday;
@@ -21,6 +23,24 @@ class Event extends Model
         'recurrence_end_date' => 'date',
         'recurrence_days' => 'array'
     ];
+
+    protected $appends = [
+       'program_url'
+    ];
+
+    private function program(): HasMany
+    {
+        return $this->hasMany(Program::class);
+    }
+    public function getProgramUrlAttribute(): string|null
+    {
+        $first = $this->program()->first();
+        if ($first) {
+            return route("program.show", [$first->slug]);
+        }
+        return null;
+    }
+
     public function generateRecurringEvents(string $start, string $end): array
     {
         // If no recurrence, return the single event if it falls within range
@@ -79,6 +99,7 @@ class Event extends Model
             'colour' => $this->colour,
             'allDay' => $this->all_day ?? false,
             'recurring' => $this->recurrence_type !== 'none',
+            'url' => $this->program_url,
         ];
     }
 
@@ -119,4 +140,6 @@ class Event extends Model
 
         return implode(';', $ruleComponents);
     }
+
+
 }
