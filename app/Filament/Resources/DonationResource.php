@@ -9,6 +9,7 @@ use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -50,7 +51,7 @@ class DonationResource extends Resource
                     ->label('CheckoutRequestID'),
                 Forms\Components\TextInput::make('status')
                     ->required(),
-                Forms\Components\TextInput::make('MpesaReceiptNumber'),
+                Forms\Components\TextInput::make('ReceiptNumber'),
                 Forms\Components\TextInput::make('TransactionDate'),
                 Forms\Components\TextInput::make('ResultDesc'),
             ]);
@@ -62,6 +63,7 @@ class DonationResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('type')
                     ->searchable()
+                    ->sortable()
                     ->badge()
                     ->color(fn (string $state): string => match ($state) {
                         'MPESA' => 'success',
@@ -71,19 +73,23 @@ class DonationResource extends Resource
                     }),
                 Tables\Columns\TextColumn::make('phone')
                     ->searchable()
-                    ->formatStateUsing(fn (string $state): string => '+'. ltrim($state,'+')),
+                    ->default("NULL"),
                 Tables\Columns\TextColumn::make('amount')
                     ->numeric()
-                    ->money('KES')
+                    ->money(fn ($record) => strtoupper($record->currency))
                     ->sortable(),
                 Tables\Columns\TextColumn::make('status')
                     ->searchable()
+                    ->sortable()
                     ->badge()
                     ->color(fn (string $state): string => match ($state) {
                         'Requested' => 'warning',
                         'Completed' => 'success',
                         'Failed' => 'danger',
                     }),
+                TextColumn::make('ReceiptNumber')
+                    ->searchable()
+                    ->default("NULL"),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()

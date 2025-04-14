@@ -117,6 +117,7 @@ class MpesaController extends Controller
                 $donation->type = 'MPESA';
                 $donation->phone = $p;
                 $donation->amount = $request->amount;
+                $donation->currency = 'KES';
                 $donation->reference = $payload['AccountReference'];
                 $donation->description = $payload['TransactionDesc'];
                 $donation->MerchantRequestID = $res->MerchantRequestID;

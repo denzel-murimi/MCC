@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('MerchantRequestID')->nullable()->unique();
             $table->string('CheckoutRequestID')->nullable()->unique();
             $table->string('status');
-            $table->string('MpesaReceiptNumber')->nullable();
+            $table->string('ReceiptNumber')->nullable();
             $table->string('TransactionDate')->nullable();
             $table->string('ResultDesc')->nullable();
             $table->timestamps();

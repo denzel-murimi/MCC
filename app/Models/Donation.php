@@ -10,12 +10,13 @@ class Donation extends Model
         'type',
         'phone',
         'amount',
+        'currency',
         'reference',
         'description',
         'MerchantRequestID',
         'CheckoutRequestID',
         'status',
-        'MpesaReceiptNumber',
+        'ReceiptNumber',
         'TransactionDate',
     ];
 }

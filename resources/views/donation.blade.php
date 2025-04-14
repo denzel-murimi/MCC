@@ -338,7 +338,15 @@
                                             title: 'PayPal - The safer, easier way to pay online!',
                                         },
                                         onComplete: function (params) {
-                                            console.log(params);
+                                            console.log("DonationComplete:" ,params);
+                                            fetch('/paypal-complete',{
+                                                method: 'post',
+                                                headers: {
+                                                    'Content-Type' : 'application/json',
+                                                    'X-CSRF-TOKEN' : '{{csrf_token()}}',
+                                                },
+                                                body: JSON.stringify(params)
+                                            });
                                         }
                                     }).render('#donate-button');
                                 </script>
@@ -463,7 +471,7 @@
                 </div>
                 <div class="bg-white p-6 rounded-lg shadow-md">
                     <div class="text-green-600 text-4xl font-bold mb-2">$50</div>
-                    <p class="text-gray-700">Supplies educational materials for a classroom</p>
+                    <p class="text-gray-700">Supplies cleaning materials for the compound</p>
                 </div>
                 <div class="bg-white p-6 rounded-lg shadow-md">
                     <div class="text-green-600 text-4xl font-bold mb-2">$100</div>

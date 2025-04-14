@@ -47,9 +47,9 @@
                                 <i data-feather="users" class="text-info"></i>
                             </div>
 
-                            <h3 class="font-semibold text-gray-900 text-xl md:text-3xl mb-4">10000+</h3>
+                            <h3 class="font-semibold text-gray-900 text-xl md:text-3xl mb-4">{{\App\Models\Donation::count()}}</h3>
 
-                            <p class="font-light text-gray-400 text-md md:text-lg">Fundraising campaign in <br> all time
+                            <p class="font-light text-gray-400 text-md md:text-lg">All time <br>Donations
                             </p>
                         </div>
 
@@ -58,7 +58,7 @@
                                 <i data-feather="award" class="text-red-500"></i>
                             </div>
 
-                            <h3 class="font-semibold text-gray-900 text-xl md:text-3xl mb-4">$120M+</h3>
+                            <h3 class="font-semibold text-gray-900 text-xl md:text-3xl mb-4">~ KES {{round(\App\Models\Donation::sum('amount'),-3)}}</h3>
 
                             <p class="font-light text-gray-400 text-md md:text-lg">Raised and counting <br> donations in
                                 all time</p>
@@ -71,7 +71,7 @@
                                 <i data-feather="users" class="text-yellow-500"></i>
                             </div>
 
-                            <h3 class="font-semibold text-gray-900 text-xl md:text-3xl mb-4">1200+</h3>
+                            <h3 class="font-semibold text-gray-900 text-xl md:text-3xl mb-4">{{round(\App\Models\Volunteer::count())}}+</h3>
 
                             <p class="font-light text-gray-400 text-md md:text-lg">Our volunteer around the <br> world
                             </p>

@@ -2,10 +2,7 @@
 
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\ProgramController;
-use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Mail;
-use Illuminate\Http\Request;
 use App\Http\Controllers\PayPalController;
 use App\Http\Controllers\MpesaController;
 use App\Http\Controllers\VolunteerController;
@@ -23,7 +20,7 @@ Route::post('/adopt', [AdoptionController::class, 'store'])->name('adopt.store')
 
 Route::post('/mpesa/donate', [MpesaController::class, 'stkPush'])->name('mpesa.donate');
 
-Route::post('/paypal/checkout', [PayPalController::class, 'checkout'])->name('paypal.checkout');
+Route::post('/paypal-complete', [PayPalController::class, 'complete'])->name('paypal.complete');
 
 Route::get('/', function () {
     return view('home');
