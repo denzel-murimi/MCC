@@ -221,7 +221,7 @@
                     <!-- Programs -->
                     <div x-show="tab === 'programs'">
                         <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
-                            @if($program)
+                            @if($program->isNotEmpty())
                                 @foreach($program as $p)
                                     <div class="h-full">
                                         <div
@@ -258,10 +258,15 @@
                                         </div>
                                     </div>
                                 @endforeach
-                            @else
-                                <span class="text-xl">No Programs</span>
                             @endif
                         </div>
+
+                        @if($program->isEmpty())
+                            <div class="mt-10 p-8 text-center bg-gray-50 rounded-lg border border-gray-200">
+                                <h3 class="mt-4 text-lg font-medium text-gray-900">No programs found</h3>
+                                <p class="mt-2 text-gray-500">There are currently no programs in this website.</p>
+                            </div>
+                        @endif
 
                         <div class="mt-6">
                             {{ $program->links() }}

@@ -394,67 +394,72 @@
                                      </g>
                             </svg>
                         </div>
-                        <div class="space-y-6">
-                            <div class="bg-gray-100 p-4 rounded-lg text-center">
-                                <p class="text-sm text-gray-700 mb-4">Send your donation to the following Bitcoin
-                                    address:</p>
-                                <div class="bg-white p-3 rounded border border-gray-300">
-                                    <p class="font-mono text-sm break-all select-all" id="code-to-copy">
-                                        bc1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh</p>
-                                </div>
+{{--                        <div class="space-y-6">--}}
+{{--                            <div class="bg-gray-100 p-4 rounded-lg text-center">--}}
+{{--                                <p class="text-sm text-gray-700 mb-4">Send your donation to the following Bitcoin--}}
+{{--                                    address:</p>--}}
+{{--                                <div class="bg-white p-3 rounded border border-gray-300">--}}
+{{--                                    <p class="font-mono text-sm break-all select-all" id="code-to-copy">--}}
+{{--                                        bc1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh</p>--}}
+{{--                                </div>--}}
 
-                                <div class="my-6 flex justify-center">
-                                    <!-- This would be a QR code in a real implementation -->
-                                    <div
-                                        class="w-48 h-48 bg-white border border-gray-300 rounded-lg flex items-center justify-center">
-                                        <p class="text-gray-500 text-sm">Bitcoin QR Code</p>
-                                    </div>
-                                </div>
+{{--                                <div class="my-6 flex justify-center">--}}
+{{--                                    <!-- This would be a QR code in a real implementation -->--}}
+{{--                                    <div--}}
+{{--                                        class="w-48 h-48 bg-white border border-gray-300 rounded-lg flex items-center justify-center">--}}
+{{--                                        <p class="text-gray-500 text-sm">Bitcoin QR Code</p>--}}
+{{--                                    </div>--}}
+{{--                                </div>--}}
 
-                                <div class="mt-4">
-                                    <button
-                                        @click="copyCode()"
-                                        class="text-orange-600 hover:text-orange-700 font-medium">
-                                        <span class="flex items-center justify-center">
-                                            <svg x-show="!copied"
-                                                 xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none"
-                                                 viewBox="0 0 24 24" stroke="currentColor">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                      d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/>
-                                            </svg>
-                                            <svg
-                                                x-show="copied"
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                class="h-5 w-5 mr-2 text-green-500"
-                                                fill="none"
-                                                viewBox="0 0 24 24"
-                                                stroke="currentColor">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                      d="M5 13l4 4L19 7"/>
-                                            </svg>
-                                            Copy Address
-                                        </span>
-                                    </button>
-                                </div>
-                            </div>
+{{--                                <div class="mt-4">--}}
+{{--                                    <button--}}
+{{--                                        @click="copyCode()"--}}
+{{--                                        class="text-orange-600 hover:text-orange-700 font-medium">--}}
+{{--                                        <span class="flex items-center justify-center">--}}
+{{--                                            <svg x-show="!copied"--}}
+{{--                                                 xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none"--}}
+{{--                                                 viewBox="0 0 24 24" stroke="currentColor">--}}
+{{--                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"--}}
+{{--                                                      d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/>--}}
+{{--                                            </svg>--}}
+{{--                                            <svg--}}
+{{--                                                x-show="copied"--}}
+{{--                                                xmlns="http://www.w3.org/2000/svg"--}}
+{{--                                                class="h-5 w-5 mr-2 text-green-500"--}}
+{{--                                                fill="none"--}}
+{{--                                                viewBox="0 0 24 24"--}}
+{{--                                                stroke="currentColor">--}}
+{{--                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"--}}
+{{--                                                      d="M5 13l4 4L19 7"/>--}}
+{{--                                            </svg>--}}
+{{--                                            Copy Address--}}
+{{--                                        </span>--}}
+{{--                                    </button>--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
 
-                            <form class="mt-6">
-                                <div>
-                                    <label for="btc-email" class="block text-sm font-medium text-gray-700">Email
-                                        (Optional - to receive a donation receipt)</label>
-                                    <input type="email" id="btc-email"
-                                           class="w-full p-3 border border-gray-300 rounded-lg focus:ring focus:ring-orange-300 focus:border-orange-500">
-                                </div>
+{{--                            <form class="mt-6">--}}
+{{--                                <div>--}}
+{{--                                    <label for="btc-email" class="block text-sm font-medium text-gray-700">Email--}}
+{{--                                        (Optional - to receive a donation receipt)</label>--}}
+{{--                                    <input type="email" id="btc-email"--}}
+{{--                                           class="w-full p-3 border border-gray-300 rounded-lg focus:ring focus:ring-orange-300 focus:border-orange-500">--}}
+{{--                                </div>--}}
 
-                                <button type="submit"
-                                        class="w-full bg-orange-600 hover:bg-orange-700 text-white font-semibold py-3 px-4 rounded-lg transition duration-200 mt-4">
-                                    I've Made My Donation
-                                </button>
-                            </form>
+{{--                                <button type="submit"--}}
+{{--                                        class="w-full bg-orange-600 hover:bg-orange-700 text-white font-semibold py-3 px-4 rounded-lg transition duration-200 mt-4">--}}
+{{--                                    I've Made My Donation--}}
+{{--                                </button>--}}
+{{--                            </form>--}}
 
-                            <p class="text-xs text-gray-600 text-center mt-4">
-                                After sending your donation, click the button above to let us know!
-                            </p>
+{{--                            <p class="text-xs text-gray-600 text-center mt-4">--}}
+{{--                                After sending your donation, click the button above to let us know!--}}
+{{--                            </p>--}}
+{{--                        </div>--}}
+                        <div class="space-y-6 flex items-center justify-center border-2 border-gray-200 rounded-lg">
+                        <iframe src="https://nowpayments.io/embeds/donation-widget?api_key=7BZGMY9-2PEM4DK-QBKZB2Z-YXDTDMT" width="346" height="623" frameborder="0" scrolling="no" style="overflow-y: hidden;">
+                            Can't load widget
+                        </iframe>
                         </div>
                     </div>
                 </div>
