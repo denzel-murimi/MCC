@@ -28,13 +28,14 @@
         "spatie/calendar-links": "^1.11",
         "spatie/laravel-medialibrary": "^11.12",
         "spatie/laravel-sluggable": "^3.7",
+        "spatie/laravel-tail": "^4.5",
         "tomatophp/filament-media-manager": "@dev",
-        "tomatophp/filament-users": "^2.0"
+        "tomatophp/filament-users": "^2.0",
+        "unicodeveloper/laravel-paystack": "^1.2"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.14",
         "fakerphp/faker": "^1.23",
-        "laravel/pail": "^1.2",
         "laravel/pint": "^1.13",
         "laravel/sail": "^1.26",
         "mockery/mockery": "^1.6",

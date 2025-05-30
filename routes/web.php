@@ -22,6 +22,11 @@ Route::post('/mpesa/donate', [MpesaController::class, 'stkPush'])->name('mpesa.d
 
 Route::post('/paypal-complete', [PayPalController::class, 'complete'])->name('paypal.complete');
 
+Route::post('/paystack/donate', [\App\Http\Controllers\PaystackController::class, 'donate'])->name('paystack.donate');
+
+Route::get('/paystack/callback', [\App\Http\Controllers\PaystackController::class, 'callback'])->name('paystack.callback');
+
+
 Route::get('/', function () {
     return view('home');
 });
@@ -52,7 +57,7 @@ Route::get('/verify-subscription/{token}', [ContactController::class, 'verify'])
 
 Route::get('/donate', function () {
     return view('donation');
-});
+})->name('donate');
 
 Route::get('/faq', function () {
     return view('faq');

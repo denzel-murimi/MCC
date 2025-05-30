@@ -18,5 +18,10 @@ class Donation extends Model
         'status',
         'ReceiptNumber',
         'TransactionDate',
+        'metadata',
+    ];
+
+    protected $casts = [
+        'metadata' => 'array',
     ];
 }
