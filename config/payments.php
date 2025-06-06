@@ -9,4 +9,10 @@ return [
       'passkey' => env('MPESA_PASSKEY'),
       'callback_url' => env('MPESA_CALLBACK_URL'),
   ],
+
+    'crypto' => [
+        'env' => env('CRYPTO_ENV'),
+        'ipn_key' => env('CRYPTO_IPN_KEY'),
+        'api_key' => env('CRYPTO_API_KEY'),
+    ]
 ];

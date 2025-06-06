@@ -1,15 +1,15 @@
 <x-layout>
     <div class="container mx-auto p-4 md:p-6 min-h-screen"
          x-data="{
-            activeTab: '{{ session('activeTab') ?? 'mpesa'}}',
+            activeTab: '{{ session('activeTab') ?? 'paystack'}}',
 
             copied: false,
 
             init() {
-                @if($errors->mpesaValidation->any())
-                    this.activeTab = 'mpesa';
-                    this.scrollToForm();
-                @endif
+{{--                @if($errors->mpesaValidation->any())--}}
+{{--                    this.activeTab = 'mpesa';--}}
+{{--                    this.scrollToForm();--}}
+{{--                @endif--}}
                 @if($errors->paystackValidation->any())
                     this.activeTab = 'paystack';
                     this.scrollToForm();
@@ -26,50 +26,50 @@
                 }, 5000);
             },
 
-            scrollToForm() {
-                setTimeout(() => {
-                    const formElement = document.querySelector(`#${this.activeTab}-form`);
-                    if (formElement) {
-                        const rect = formElement.getBoundingClientRect();
-                        const targetPosition = window.pageYOffset + rect.top - 20;
-                        this.smoothScroll(targetPosition, 500);
+{{--            scrollToForm() {--}}
+{{--                setTimeout(() => {--}}
+{{--                    const formElement = document.querySelector(`#${this.activeTab}-form`);--}}
+{{--                    if (formElement) {--}}
+{{--                        const rect = formElement.getBoundingClientRect();--}}
+{{--                        const targetPosition = window.pageYOffset + rect.top - 20;--}}
+{{--                        this.smoothScroll(targetPosition, 500);--}}
 
-                        const firstInput = formElement.querySelector('input');
-                        if (firstInput) {
-                            firstInput.focus();
-                        }
-                    }
-                }, 100);
-            },
+{{--                        const firstInput = formElement.querySelector('input');--}}
+{{--                        if (firstInput) {--}}
+{{--                            firstInput.focus();--}}
+{{--                        }--}}
+{{--                    }--}}
+{{--                }, 100);--}}
+{{--            },--}}
 
-            smoothScroll(targetPosition, duration) {
-                const startPosition = window.pageYOffset;
-                const distance = targetPosition - startPosition;
-                let startTime = null;
+{{--            smoothScroll(targetPosition, duration) {--}}
+{{--                const startPosition = window.pageYOffset;--}}
+{{--                const distance = targetPosition - startPosition;--}}
+{{--                let startTime = null;--}}
 
-                function easeInOutQuad(t, b, c, d) {
-                    t /= d/2;
-                    if (t < 1) return c/2*t*t + b;
-                    t--;
-                    return -c/2 * (t*(t-2) - 1) + b;
-                }
+{{--                function easeInOutQuad(t, b, c, d) {--}}
+{{--                    t /= d/2;--}}
+{{--                    if (t < 1) return c/2*t*t + b;--}}
+{{--                    t--;--}}
+{{--                    return -c/2 * (t*(t-2) - 1) + b;--}}
+{{--                }--}}
 
-                function animation(currentTime) {
-                    if (startTime === null) startTime = currentTime;
-                    const timeElapsed = currentTime - startTime;
-                    const nextScrollPosition = easeInOutQuad(
-                        timeElapsed, startPosition, distance, duration
-                    );
+{{--                function animation(currentTime) {--}}
+{{--                    if (startTime === null) startTime = currentTime;--}}
+{{--                    const timeElapsed = currentTime - startTime;--}}
+{{--                    const nextScrollPosition = easeInOutQuad(--}}
+{{--                        timeElapsed, startPosition, distance, duration--}}
+{{--                    );--}}
 
-                    window.scrollTo(0, nextScrollPosition);
+{{--                    window.scrollTo(0, nextScrollPosition);--}}
 
-                    if (timeElapsed < duration) {
-                        requestAnimationFrame(animation);
-                    }
-                }
+{{--                    if (timeElapsed < duration) {--}}
+{{--                        requestAnimationFrame(animation);--}}
+{{--                    }--}}
+{{--                }--}}
 
-                requestAnimationFrame(animation);
-            },
+{{--                requestAnimationFrame(animation);--}}
+{{--            },--}}
 
          }"
         x-cloak>
@@ -83,44 +83,44 @@
                 <h2 class="text-xl font-bold mb-6 text-center">Choose Payment Method</h2>
 
                 <div class="space-y-4">
-                    <button
-                        @click="activeTab = 'mpesa'; scrollToForm()"
-                        :class="{'bg-green-600 text-white': activeTab === 'mpesa', 'bg-white hover:bg-gray-50': activeTab !== 'mpesa'}"
-                        class="flex items-center space-x-3 w-full p-4 rounded-lg transition-all duration-200 shadow">
-                        <svg width="24" height="24" viewBox="0 0 24 24" id="Layer_1" data-name="Layer 1"
-                             xmlns="http://www.w3.org/2000/svg"
-                             fill="#000000">
-                            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
-                            <g id="SVGRepo_iconCarrier">
-                                <defs>
-                                    <style>.cls-1 {
-                                            fill: none;
-                                            stroke: #020202;
-                                            stroke-miterlimit: 10;
-                                            stroke-width: 1.91px;
-                                        }</style>
-                                </defs>
-                                <rect class="cls-1" x="4.36" y="1.5" width="15.27" height="21" rx="2.04"></rect>
-                                <path class="cls-1"
-                                      d="M13.91,2.45H10.09a.94.94,0,0,1-.95-1h5.72A.94.94,0,0,1,13.91,2.45Z"></path>
-                                <path class="cls-1"
-                                      d="M9.14,14.86h3.34a1.43,1.43,0,0,0,1.43-1.43h0A1.43,1.43,0,0,0,12.48,12h-1a1.43,1.43,0,0,1-1.43-1.43h0a1.43,1.43,0,0,1,1.43-1.43h3.34"></path>
-                                <line class="cls-1" x1="12" y1="7.23" x2="12" y2="9.14"></line>
-                                <line class="cls-1" x1="12" y1="14.86" x2="12" y2="16.77"></line>
-                            </g>
-                        </svg>
-                        <div class="text-left">
-                            <p class="font-semibold">M-Pesa</p>
-                            <p class="text-xs"
-                               :class="{'text-gray-100': activeTab === 'mpesa', 'text-gray-500': activeTab !== 'mpesa'}">
-                                Mobile money transfer</p>
-                        </div>
-                    </button>
+{{--                    <button--}}
+{{--                        @click="activeTab = 'mpesa'; scrollToForm()"--}}
+{{--                        :class="{'bg-green-600 text-white': activeTab === 'mpesa', 'bg-white hover:bg-gray-50': activeTab !== 'mpesa'}"--}}
+{{--                        class="flex items-center space-x-3 w-full p-4 rounded-lg transition-all duration-200 shadow">--}}
+{{--                        <svg width="24" height="24" viewBox="0 0 24 24" id="Layer_1" data-name="Layer 1"--}}
+{{--                             xmlns="http://www.w3.org/2000/svg"--}}
+{{--                             fill="#000000">--}}
+{{--                            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>--}}
+{{--                            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>--}}
+{{--                            <g id="SVGRepo_iconCarrier">--}}
+{{--                                <defs>--}}
+{{--                                    <style>.cls-1 {--}}
+{{--                                            fill: none;--}}
+{{--                                            stroke: #020202;--}}
+{{--                                            stroke-miterlimit: 10;--}}
+{{--                                            stroke-width: 1.91px;--}}
+{{--                                        }</style>--}}
+{{--                                </defs>--}}
+{{--                                <rect class="cls-1" x="4.36" y="1.5" width="15.27" height="21" rx="2.04"></rect>--}}
+{{--                                <path class="cls-1"--}}
+{{--                                      d="M13.91,2.45H10.09a.94.94,0,0,1-.95-1h5.72A.94.94,0,0,1,13.91,2.45Z"></path>--}}
+{{--                                <path class="cls-1"--}}
+{{--                                      d="M9.14,14.86h3.34a1.43,1.43,0,0,0,1.43-1.43h0A1.43,1.43,0,0,0,12.48,12h-1a1.43,1.43,0,0,1-1.43-1.43h0a1.43,1.43,0,0,1,1.43-1.43h3.34"></path>--}}
+{{--                                <line class="cls-1" x1="12" y1="7.23" x2="12" y2="9.14"></line>--}}
+{{--                                <line class="cls-1" x1="12" y1="14.86" x2="12" y2="16.77"></line>--}}
+{{--                            </g>--}}
+{{--                        </svg>--}}
+{{--                        <div class="text-left">--}}
+{{--                            <p class="font-semibold">M-Pesa</p>--}}
+{{--                            <p class="text-xs"--}}
+{{--                               :class="{'text-gray-100': activeTab === 'mpesa', 'text-gray-500': activeTab !== 'mpesa'}">--}}
+{{--                                Mobile money transfer</p>--}}
+{{--                        </div>--}}
+{{--                    </button>--}}
 
                     <button
                         @click="activeTab = 'paystack'; scrollToForm()"
-                        :class="{'bg-blue-600 text-white': activeTab === 'paystack', 'bg-white hover:bg-gray-50': activeTab !== 'paystack'}"
+                        :class="{'bg-gradient-to-r from-green-600 to-blue-600 text-white': activeTab === 'paystack', 'bg-white hover:bg-gray-50': activeTab !== 'paystack'}"
                         class="flex items-center space-x-3 w-full p-4 rounded-lg transition-all duration-200 shadow">
                         <svg
                             height="24" viewBox="0 0 780 500" width="24"
@@ -135,9 +135,9 @@
                         </svg>
 
                         <div class="text-left">
-                            <p class="font-semibold">Credit/Debit Card</p>
+                            <p class="font-semibold">Mobile Money/Credit/Debit Card</p>
                             <p class="text-xs"
-                               :class="{'text-gray-100': activeTab === 'paypal', 'text-gray-500': activeTab !== 'paypal'}">
+                               :class="{'text-gray-100': activeTab === 'paystack', 'text-gray-500': activeTab !== 'paystack'}">
                                 Bank Transfer</p>
                         </div>
                     </button>
@@ -206,144 +206,144 @@
                 <!-- Dynamic Form Container -->
                 <div class="max-w-lg mx-auto">
                     <!-- M-Pesa Form -->
-                    <div id="mpesa-form" x-show="activeTab === 'mpesa'" x-transition>
-                        <div class="flex justify-center items-center">
-                            <img src="{{asset('images/mpesa.png')}}" alt="MPESA">
-                        </div>
-                        <form method="POST" action="{{ route('mpesa.donate') }}"
-                              class="space-y-6 bg-gray-100 p-4 rounded-lg">
-                            @csrf
-                            <div
-                                x-data="{
-                                            phoneNumber: '{{ old('phone') ?? '' }}',
-                                            selectedCountry: {code: '+254', name: 'Kenya', flag: '🇰🇪'},
-                                            countries: [
-                                                {code: '+254', name: 'Kenya', flag: '🇰🇪'},
-                                            ],
-                                            isOpen: false,
-                                            fullNumber: '',
-                                            init() {
-                                                this.updateFullNumber();
-                                            },
-                                            selectCountry(country) {
-                                                this.selectedCountry = country;
-                                                this.isOpen = false;
-                                                this.updateFullNumber();
-                                            },
-                                            updateFullNumber() {
-                                                this.fullNumber = this.selectedCountry.code + ' ' + (this.phoneNumber || '');
-                                            }
-                                        }"
-                                x-init="init()"
-                                x-cloak
-                            >
-                                <label for="phone" class="block text-sm font-medium text-gray-700">Phone Number</label>
+{{--                    <div id="mpesa-form" x-show="activeTab === 'mpesa'" x-transition>--}}
+{{--                        <div class="flex justify-center items-center">--}}
+{{--                            <img src="{{asset('images/mpesa.png')}}" alt="MPESA">--}}
+{{--                        </div>--}}
+{{--                        <form method="POST" action="{{ route('mpesa.donate') }}"--}}
+{{--                              class="space-y-6 bg-gray-100 p-4 rounded-lg">--}}
+{{--                            @csrf--}}
+{{--                            <div--}}
+{{--                                x-data="{--}}
+{{--                                            phoneNumber: '{{ old('phone') ?? '' }}',--}}
+{{--                                            selectedCountry: {code: '+254', name: 'Kenya', flag: '🇰🇪'},--}}
+{{--                                            countries: [--}}
+{{--                                                {code: '+254', name: 'Kenya', flag: '🇰🇪'},--}}
+{{--                                            ],--}}
+{{--                                            isOpen: false,--}}
+{{--                                            fullNumber: '',--}}
+{{--                                            init() {--}}
+{{--                                                this.updateFullNumber();--}}
+{{--                                            },--}}
+{{--                                            selectCountry(country) {--}}
+{{--                                                this.selectedCountry = country;--}}
+{{--                                                this.isOpen = false;--}}
+{{--                                                this.updateFullNumber();--}}
+{{--                                            },--}}
+{{--                                            updateFullNumber() {--}}
+{{--                                                this.fullNumber = this.selectedCountry.code + ' ' + (this.phoneNumber || '');--}}
+{{--                                            }--}}
+{{--                                        }"--}}
+{{--                                x-init="init()"--}}
+{{--                                x-cloak--}}
+{{--                            >--}}
+{{--                                <label for="phone" class="block text-sm font-medium text-gray-700">Phone Number</label>--}}
 
-                                <div class="flex items-center">
-                                    <div class="relative">
-                                        <div
-                                            @click="isOpen = !isOpen"
-                                            class="flex items-center border rounded p-2 cursor-pointer"
-                                        >
-                                            <span class="mr-2" x-text="selectedCountry.flag"></span>
-                                            <span x-text="selectedCountry.code"></span>
-                                        </div>
+{{--                                <div class="flex items-center">--}}
+{{--                                    <div class="relative">--}}
+{{--                                        <div--}}
+{{--                                            @click="isOpen = !isOpen"--}}
+{{--                                            class="flex items-center border rounded p-2 cursor-pointer"--}}
+{{--                                        >--}}
+{{--                                            <span class="mr-2" x-text="selectedCountry.flag"></span>--}}
+{{--                                            <span x-text="selectedCountry.code"></span>--}}
+{{--                                        </div>--}}
 
-                                        <div
-                                            x-show="isOpen"
-                                            @click.outside="isOpen = false"
-                                            class="absolute z-10 w-48 border rounded mt-1 bg-white shadow-lg max-h-60 overflow-y-auto"
-                                        >
-                                            <template x-for="country in countries" :key="country.code">
-                                                <div
-                                                    @click="selectCountry(country)"
-                                                    class="flex items-center p-2 hover:bg-gray-100 cursor-pointer"
-                                                >
-                                                    <span class="mr-2" x-text="country.flag"></span>
-                                                    <span x-text="country.name"></span>
-                                                    <span class="ml-auto text-gray-500" x-text="country.code"></span>
-                                                </div>
-                                            </template>
-                                        </div>
-                                    </div>
+{{--                                        <div--}}
+{{--                                            x-show="isOpen"--}}
+{{--                                            @click.outside="isOpen = false"--}}
+{{--                                            class="absolute z-10 w-48 border rounded mt-1 bg-white shadow-lg max-h-60 overflow-y-auto"--}}
+{{--                                        >--}}
+{{--                                            <template x-for="country in countries" :key="country.code">--}}
+{{--                                                <div--}}
+{{--                                                    @click="selectCountry(country)"--}}
+{{--                                                    class="flex items-center p-2 hover:bg-gray-100 cursor-pointer"--}}
+{{--                                                >--}}
+{{--                                                    <span class="mr-2" x-text="country.flag"></span>--}}
+{{--                                                    <span x-text="country.name"></span>--}}
+{{--                                                    <span class="ml-auto text-gray-500" x-text="country.code"></span>--}}
+{{--                                                </div>--}}
+{{--                                            </template>--}}
+{{--                                        </div>--}}
+{{--                                    </div>--}}
 
-                                    <input
-                                        type="tel"
-                                        x-model="phoneNumber"
-                                        @input="updateFullNumber()"
-                                        name="phone"
-                                        id="phone"
-                                        placeholder="(e.g. '712345678' or '112345678')"
-                                        class="border rounded p-2 w-full ml-2
-                                            {{
-                                                $errors->mpesaValidation->has('phone')
-                                                ? 'border-red-500 text-red-900 focus:ring placeholder-red-300 focus:border-red-500 focus:ring-red-300'
-                                                : 'border-gray-300 focus:ring focus:ring-green-300 focus:border-green-500'
-                                            }}"
-                                        autocomplete="tel"
-                                        required
-                                    >
-                                </div>
+{{--                                    <input--}}
+{{--                                        type="tel"--}}
+{{--                                        x-model="phoneNumber"--}}
+{{--                                        @input="updateFullNumber()"--}}
+{{--                                        name="phone"--}}
+{{--                                        id="phone"--}}
+{{--                                        placeholder="(e.g. '712345678' or '112345678')"--}}
+{{--                                        class="border rounded p-2 w-full ml-2--}}
+{{--                                            {{--}}
+{{--                                                $errors->mpesaValidation->has('phone')--}}
+{{--                                                ? 'border-red-500 text-red-900 focus:ring placeholder-red-300 focus:border-red-500 focus:ring-red-300'--}}
+{{--                                                : 'border-gray-300 focus:ring focus:ring-green-300 focus:border-green-500'--}}
+{{--                                            }}"--}}
+{{--                                        autocomplete="tel"--}}
+{{--                                        required--}}
+{{--                                    >--}}
+{{--                                </div>--}}
 
-                                <!-- Optional: Display selected phone number -->
-                                <div class="mt-2 text-sm text-gray-600">
-                                    Full Number: <span x-text="fullNumber"></span>
-                                </div>
+{{--                                <!-- Optional: Display selected phone number -->--}}
+{{--                                <div class="mt-2 text-sm text-gray-600">--}}
+{{--                                    Full Number: <span x-text="fullNumber"></span>--}}
+{{--                                </div>--}}
 
-                                @error('phone','mpesaValidation')
-                                <p class="text-red-600 text-xs mt-2">{{$message}}</p>
-                                @enderror
-                            </div>
+{{--                                @error('phone','mpesaValidation')--}}
+{{--                                <p class="text-red-600 text-xs mt-2">{{$message}}</p>--}}
+{{--                                @enderror--}}
+{{--                            </div>--}}
 
-                            <div x-data="{
-                                            amount: '{{old('amount') ?? ''}}',
-                                            predefinedAmounts: [100, 500, 1000, 2000, 5000, 10000],
-                                            selectAmount(value) {
-                                                this.amount = value;
-                                            }
-                                         }">
+{{--                            <div x-data="{--}}
+{{--                                            amount: '{{old('amount') ?? ''}}',--}}
+{{--                                            predefinedAmounts: [100, 500, 1000, 2000, 5000, 10000],--}}
+{{--                                            selectAmount(value) {--}}
+{{--                                                this.amount = value;--}}
+{{--                                            }--}}
+{{--                                         }">--}}
 
-                                <label for="amount" class="block text-sm font-medium text-gray-700 mb-2">Amount
-                                    (KES)</label>
+{{--                                <label for="amount" class="block text-sm font-medium text-gray-700 mb-2">Amount--}}
+{{--                                    (KES)</label>--}}
 
-                                <div class="mb-2 grid grid-cols-2 sm:grid-cols-3 gap-2 overflow-x-auto space-x-2">
-                                    <template x-for="preset in predefinedAmounts" :key="preset">
-                                        <button
-                                            type="button"
-                                            @click="selectAmount(preset)"
-                                            class="px-3 py-1 bg-green-100 text-green-700 rounded-md hover:bg-green-200 transition-colors whitespace-nowrap"
-                                            x-text="preset.toLocaleString() + ' KES'"
-                                        ></button>
-                                    </template>
-                                </div>
+{{--                                <div class="mb-2 grid grid-cols-2 sm:grid-cols-3 gap-2 overflow-x-auto space-x-2">--}}
+{{--                                    <template x-for="preset in predefinedAmounts" :key="preset">--}}
+{{--                                        <button--}}
+{{--                                            type="button"--}}
+{{--                                            @click="selectAmount(preset)"--}}
+{{--                                            class="px-3 py-1 bg-green-100 text-green-700 rounded-md hover:bg-green-200 transition-colors whitespace-nowrap"--}}
+{{--                                            x-text="preset.toLocaleString() + ' KES'"--}}
+{{--                                        ></button>--}}
+{{--                                    </template>--}}
+{{--                                </div>--}}
 
-                                <div class="relative">
-                                    <span
-                                        class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500">KES</span>
-                                    <input
-                                        type="number"
-                                        min="1"
-                                        name="amount"
-                                        id="amount"
-                                        x-model="amount"
-                                        class="w-full p-3 pl-12 border border-gray-300 rounded-lg focus:ring focus:ring-green-300 focus:border-green-500"
-                                        required
-                                    >
-                                </div>
-                            </div>
+{{--                                <div class="relative">--}}
+{{--                                    <span--}}
+{{--                                        class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500">KES</span>--}}
+{{--                                    <input--}}
+{{--                                        type="number"--}}
+{{--                                        min="1"--}}
+{{--                                        name="amount"--}}
+{{--                                        id="amount"--}}
+{{--                                        x-model="amount"--}}
+{{--                                        class="w-full p-3 pl-12 border border-gray-300 rounded-lg focus:ring focus:ring-green-300 focus:border-green-500"--}}
+{{--                                        required--}}
+{{--                                    >--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
 
-                            <button
-                                type="submit"
-                                class="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-4 rounded-lg transition duration-200"
-                            >
-                                Donate via M-Pesa
-                            </button>
-                        </form>
+{{--                            <button--}}
+{{--                                type="submit"--}}
+{{--                                class="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-4 rounded-lg transition duration-200"--}}
+{{--                            >--}}
+{{--                                Donate via M-Pesa--}}
+{{--                            </button>--}}
+{{--                        </form>--}}
 
-                        <p class="text-xs text-gray-600 text-center mt-4">
-                            You will receive an STK push notification on your phone to complete the payment
-                        </p>
-                    </div>
+{{--                        <p class="text-xs text-gray-600 text-center mt-4">--}}
+{{--                            You will receive an STK push notification on your phone to complete the payment--}}
+{{--                        </p>--}}
+{{--                    </div>--}}
 
 
                     <!-- PayPal Form -->
@@ -617,9 +617,9 @@
 {{--                            </p>--}}
 {{--                        </div>--}}
                         <div class="space-y-6 flex items-center justify-center border-2 border-gray-200 rounded-lg">
-                        <iframe src="https://nowpayments.io/embeds/donation-widget?api_key=7BZGMY9-2PEM4DK-QBKZB2Z-YXDTDMT" width="346" height="623" frameborder="0" scrolling="no" style="overflow-y: hidden;">
-                            Can't load widget
-                        </iframe>
+                            <iframe src="https://sandbox.nowpayments.io/embeds/donation-widget?api_key=V9YT99N-E98M7EQ-JWHG8DJ-EH8WA89&source=lk_donation&medium=referral" frameborder="0" scrolling="no" style="overflow-y: hidden;" width="354" height="680">
+                                Can't load widget
+                            </iframe>
                         </div>
                     </div>
                 </div>

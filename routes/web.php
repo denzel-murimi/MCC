@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\ProgramController;
+use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PayPalController;
 use App\Http\Controllers\MpesaController;
@@ -26,6 +27,8 @@ Route::post('/paystack/donate', [\App\Http\Controllers\PaystackController::class
 
 Route::get('/paystack/callback', [\App\Http\Controllers\PaystackController::class, 'callback'])->name('paystack.callback');
 
+Route::post('crypto/callback', [\App\Http\Controllers\CryptoController::class, 'callback'])->name('crypto.callback')
+->withoutMiddleware([VerifyCsrfToken::class]);
 
 Route::get('/', function () {
     return view('home');
