@@ -58,6 +58,8 @@ class AppServiceProvider extends ServiceProvider
 //            Log::info($query->sql);
 //        });
 
-//        URL::forceScheme('https');
+        if(!$this->app->isLocal()){
+            URL::forceHttps();
+        }
     }
 }
