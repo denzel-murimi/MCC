@@ -32,7 +32,7 @@ Route::post('crypto/callback', [\App\Http\Controllers\CryptoController::class, '
 
 Route::get('/', function () {
     return view('home');
-});
+})->name('home');
 
 Route::get('/gallery', function(){
     return view('gallery');

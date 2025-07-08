@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Unicodeveloper\Paystack\Facades\Paystack;
-
 class PaystackController extends Controller
 {
     public function donate(Request $request){
@@ -72,13 +71,17 @@ class PaystackController extends Controller
         try{
             $details = (new \Unicodeveloper\Paystack\Paystack)->getPaymentData();
 
+            Log::info('Callback', [$details]);
+
             if($details['data']['status'] === 'success'){
                 $data = $details['data'];
                 $session_ref = session('paystack_reference');
                 if ($session_ref !== $data['reference']){
                     return redirect()->route('donate')->with('error', 'Donation Verification Failed. Please try again.');
                 }
-                $donation = \App\Models\Donation::where('reference', $data['reference'])->first();
+                $donation = \App\Models\Donation::where('reference', '=', $data['reference'])->first();
+                $donation->type = 'PAYSTACK:'.$data['authorization']['bank'] ?? null;
+                $donation->phone = $data['authorization']['mobile_money_number'] ?? null;
                 $donation->status = 'Completed';
                 $donation->save();
                 session()->forget('paystack_reference');

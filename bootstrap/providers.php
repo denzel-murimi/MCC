@@ -3,5 +3,6 @@
 return [
     App\Providers\AppServiceProvider::class,
     App\Providers\Filament\AdminPanelProvider::class,
-    \Unicodeveloper\Paystack\PaystackServiceProvider::class,
+    App\Providers\Filament\ContentPanelProvider::class,
+    Unicodeveloper\Paystack\PaystackServiceProvider::class,
 ];

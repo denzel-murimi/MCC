@@ -14,5 +14,6 @@ return [
         'env' => env('CRYPTO_ENV'),
         'ipn_key' => env('CRYPTO_IPN_KEY'),
         'api_key' => env('CRYPTO_API_KEY'),
+        'public_key' => env('CRYPTO_PUBLIC_KEY'),
     ]
 ];

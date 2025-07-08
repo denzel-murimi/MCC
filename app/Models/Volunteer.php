@@ -9,5 +9,5 @@ class Volunteer extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'email', 'phone', 'availability', 'message'];
+    protected $fillable = ['name', 'email', 'phone', 'availability', 'message', 'status'];
 }

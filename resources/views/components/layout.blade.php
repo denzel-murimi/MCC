@@ -10,6 +10,12 @@
     <!-- Styles / Scripts -->
     <script defer type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script defer nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    <style>
+        [x-cloak] {
+            display: none !important;
+        }
+    </style>
+    @filamentStyles
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <!-- Google tag (gtag.js) -->
@@ -76,7 +82,7 @@
 </div>
 {{ $slot }}
 <x-footer></x-footer>
-
+@filamentScripts
 <script>
     // Alpine component for message management
     function messageManager() {

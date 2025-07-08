@@ -21,6 +21,7 @@ class ChildResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-users';
 
+    protected static ?string $navigationGroup = 'Content';
     public static function form(Form $form): Form
     {
         return $form

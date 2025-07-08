@@ -50,6 +50,10 @@
                 <a href="{{ route('volunteer.signup') }}"
                     class="block font-light text-gray-400 text-sm md:text-lg hover:text-gray-800 transition ease-in-out duration-300">Volunteer
                     Sign-Up</a>
+
+                <a href="{{ route('filament.content.pages.dashboard') }}"
+                   class="block font-light text-gray-400 text-sm md:text-lg hover:text-gray-800 transition ease-in-out duration-300">
+                    Content Management</a>
             </div>
 
             <div class="text-center lg:text-left space-y-7 mb-10 lg:mb-0">

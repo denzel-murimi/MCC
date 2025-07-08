@@ -26,7 +26,7 @@ class VolunteerController extends Controller
             'message' => 'nullable|string',
         ]);
 
-        // Save to database 
+        // Save to database
         Volunteer::create($request->all());
 
         // Optional: Send a confirmation email
@@ -36,6 +36,6 @@ class VolunteerController extends Controller
         });
 
         // Redirect back with success message
-        return redirect()->route('volunteer.signup')->with('success', 'Thank you for signing up!');
+        return redirect()->route('volunteer.signup')->with('success', 'Thank you for signing up! We will be in touch shortly!');
     }
 }

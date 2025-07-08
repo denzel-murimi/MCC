@@ -12,7 +12,7 @@
 {{--                @endif--}}
                 @if($errors->paystackValidation->any())
                     this.activeTab = 'paystack';
-                    this.scrollToForm();
+{{--                    this.scrollToForm();--}}
                 @endif
             },
 
@@ -119,7 +119,7 @@
 {{--                    </button>--}}
 
                     <button
-                        @click="activeTab = 'paystack'; scrollToForm()"
+                        @click="activeTab = 'paystack';"
                         :class="{'bg-gradient-to-r from-green-600 to-blue-600 text-white': activeTab === 'paystack', 'bg-white hover:bg-gray-50': activeTab !== 'paystack'}"
                         class="flex items-center space-x-3 w-full p-4 rounded-lg transition-all duration-200 shadow">
                         <svg
@@ -167,7 +167,7 @@
 {{--                    </button>--}}
 
                     <button
-                        @click="activeTab = 'bitcoin'; scrollToForm()"
+                        @click="activeTab = 'bitcoin';"
                         :class="{'bg-orange-600 text-white': activeTab === 'bitcoin', 'bg-white hover:bg-gray-50': activeTab !== 'bitcoin'}"
                         class="flex items-center space-x-3 w-full p-4 rounded-lg transition-all duration-200 shadow">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
@@ -205,7 +205,7 @@
             <div class="w-full md:w-2/3 p-6">
                 <!-- Dynamic Form Container -->
                 <div class="max-w-lg mx-auto">
-                    <!-- M-Pesa Form -->
+{{--                    <!-- M-Pesa Form -->--}}
 {{--                    <div id="mpesa-form" x-show="activeTab === 'mpesa'" x-transition>--}}
 {{--                        <div class="flex justify-center items-center">--}}
 {{--                            <img src="{{asset('images/mpesa.png')}}" alt="MPESA">--}}
@@ -275,7 +275,7 @@
 {{--                                        id="phone"--}}
 {{--                                        placeholder="(e.g. '712345678' or '112345678')"--}}
 {{--                                        class="border rounded p-2 w-full ml-2--}}
-{{--                                            {{--}}
+{{--                                            }}--}}
 {{--                                                $errors->mpesaValidation->has('phone')--}}
 {{--                                                ? 'border-red-500 text-red-900 focus:ring placeholder-red-300 focus:border-red-500 focus:ring-red-300'--}}
 {{--                                                : 'border-gray-300 focus:ring focus:ring-green-300 focus:border-green-500'--}}
@@ -346,7 +346,7 @@
 {{--                    </div>--}}
 
 
-                    <!-- PayPal Form -->
+{{--                    <!-- PayPal Form -->--}}
 {{--                    <div id="paypal-form" x-show="activeTab === 'paypal'" x-transition>--}}
 {{--                        <div class="flex justify-center items-center mb-4">--}}
 {{--                            <img src="{{asset('images/paypal.png')}}" alt="PAYPAL" class="w-24">--}}
