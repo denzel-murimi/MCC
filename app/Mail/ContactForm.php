@@ -5,6 +5,7 @@ namespace App\Mail;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
+use Illuminate\Mail\Mailables\Address;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
@@ -20,8 +21,7 @@ class ContactForm extends Mailable implements ShouldQueue
         public string $name,
         public string $email,
         public string $content,
-    )
-    {
+    ) {
         //
     }
 
@@ -31,8 +31,15 @@ class ContactForm extends Mailable implements ShouldQueue
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'New Contact Us Message',
-            replyTo: $this->email
+            to: [
+                new Address(
+                    config("mail.from.support") ??
+                        "support@matharecarecenter.com",
+                    "Support Team",
+                ),
+            ],
+            subject: "New Contact Us Message",
+            replyTo: $this->email,
         );
     }
 
@@ -41,9 +48,7 @@ class ContactForm extends Mailable implements ShouldQueue
      */
     public function content(): Content
     {
-        return new Content(
-            view: 'emails.contact',
-        );
+        return new Content(view: "emails.contact");
     }
 
     /**
@@ -56,8 +61,8 @@ class ContactForm extends Mailable implements ShouldQueue
         return [];
     }
 
-    public function afterCommit(){
+    public function afterCommit()
+    {
         return true;
     }
-
 }
