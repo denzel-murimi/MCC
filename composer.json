@@ -11,6 +11,7 @@
     }],
     "require": {
         "php": "^8.3",
+        "bezhansalleh/filament-exceptions": "^3.0",
         "bezhansalleh/filament-google-analytics": "^2.1",
         "bezhansalleh/filament-shield": "^3.3",
         "doctrine/dbal": "^4.2",
@@ -23,12 +24,15 @@
         "rlanvin/php-rrule": "^2.5",
         "saade/filament-fullcalendar": "^3.2",
         "saade/filament-laravel-log": "^3.2",
+        "shuvroroy/filament-spatie-laravel-backup": "^2.2",
         "shuvroroy/filament-spatie-laravel-health": "^2.3",
         "simshaun/recurr": "^5.0",
         "spatie/calendar-links": "^1.11",
+        "spatie/laravel-csp": "^3.13",
         "spatie/laravel-medialibrary": "^11.12",
         "spatie/laravel-sluggable": "^3.7",
         "spatie/laravel-tail": "^4.5",
+        "tomatophp/filament-artisan": "^1.1",
         "tomatophp/filament-media-manager": "@dev",
         "tomatophp/filament-users": "^2.0",
         "unicodeveloper/laravel-paystack": "^1.2"

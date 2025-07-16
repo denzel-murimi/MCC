@@ -15,7 +15,6 @@
             display: none !important;
         }
     </style>
-    @filamentStyles
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <!-- Google tag (gtag.js) -->

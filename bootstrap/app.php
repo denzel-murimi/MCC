@@ -12,7 +12,8 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
-        //
+        $middleware->append(\Spatie\Csp\AddCspHeaders::class);
+        $middleware->append(\App\Http\Middleware\RemoveFrameworkHeaders::class);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //

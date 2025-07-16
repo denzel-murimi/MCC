@@ -11,12 +11,12 @@
             <a href="/">Home</a>
         </li>
         <li class="font-semibold text-gray-900 hover:text-gray-400 transition ease-in-out duration-300 mb-5 lg:mb-0">
-            <a href="{{route('programs')}}">Our Programs</a>
+            <a href="{{route('program.index')}}">Our Programs</a>
         </li>
         <li class="font-semibold text-gray-900 hover:text-gray-400 transition ease-in-out duration-300 mb-5 lg:mb-0">
             <a href="{{route('gallery')}}">Gallery</a>
         </li>
-        
+
         <li class="font-semibold text-gray-900 hover:text-gray-400 transition ease-in-out duration-300 mb-5 lg:mb-0">
             <a href="{{ route('contact') }}">Contact Us</a>
         </li>

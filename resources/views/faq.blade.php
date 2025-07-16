@@ -8,7 +8,7 @@
             <summary class="font-medium cursor-pointer">What is Mathare Care Center?</summary>
             <p class="mt-2 text-gray-700">Mathare Care Center is a non-profit organization dedicated to supporting children with disabilities in the Mathare slums.</p>
         </details>
-        
+
         <details class="mt-2 p-4 bg-gray-100 rounded">
             <summary class="font-medium cursor-pointer">Who do you help?</summary>
             <p class="mt-2 text-gray-700">We focus on helping children with disabilities and their families by providing education, therapy and social support.</p>
@@ -17,7 +17,7 @@
         <h3 class="text-2xl font-semibold mt-6">Donations</h3>
         <details class="mt-2 p-4 bg-gray-100 rounded">
             <summary class="font-medium cursor-pointer">How can I donate?</summary>
-            <p class="mt-2 text-gray-700">You can donate via M-Pesa, PayPal or Bitcoin. Visit our <a href="{{ url('/donate') }}" class="text-blue-500">Donate Now</a> page.</p>
+            <p class="mt-2 text-gray-700">You can donate via M-Pesa, Card or Cryptocurrency. Visit our <a href="{{ url('/donate') }}" class="text-blue-500">Donate Now</a> page.</p>
         </details>
 
         <details class="mt-2 p-4 bg-gray-100 rounded">

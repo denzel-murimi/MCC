@@ -2,6 +2,7 @@
 
 namespace App\Providers\Filament;
 
+use BezhanSalleh\FilamentExceptions\FilamentExceptionsPlugin;
 use BezhanSalleh\FilamentGoogleAnalytics\FilamentGoogleAnalyticsPlugin;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
@@ -22,7 +23,9 @@ use BezhanSalleh\FilamentShield\FilamentShieldPlugin;
 use Jeffgreco13\FilamentBreezy\BreezyCore;
 use Saade\FilamentFullCalendar\FilamentFullCalendarPlugin;
 use Saade\FilamentLaravelLog\FilamentLaravelLogPlugin;
+use ShuvroRoy\FilamentSpatieLaravelBackup\FilamentSpatieLaravelBackupPlugin;
 use ShuvroRoy\FilamentSpatieLaravelHealth\FilamentSpatieLaravelHealthPlugin;
+use TomatoPHP\FilamentArtisan\FilamentArtisanPlugin;
 use TomatoPHP\FilamentMediaManager\FilamentMediaManagerPlugin;
 use TomatoPHP\FilamentUsers\FilamentUsersPlugin;
 
@@ -89,6 +92,13 @@ class AdminPanelProvider extends PanelProvider
                     ->logDirs([
                         storage_path('logs')
                     ]),
+
+                FilamentSpatieLaravelBackupPlugin::make()
+                    ->usingQueue('default'),
+
+                FilamentExceptionsPlugin::make(),
+
+                FilamentArtisanPlugin::make(),
             ]);
     }
 }

@@ -43,6 +43,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        \Illuminate\Support\Facades\Response::macro('secure', function ($response) {
+            return $response->header('Referrer-Policy', 'strict-origin-when-cross-origin');
+        });
+
         Health::checks([
             BackupsCheck::new(),
             CacheCheck::new(),

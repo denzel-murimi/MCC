@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\PaystackController;
 use App\Http\Controllers\ProgramController;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Support\Facades\Route;
@@ -10,72 +11,87 @@ use App\Http\Controllers\VolunteerController;
 use App\Http\Controllers\AdoptionController;
 use App\Http\Controllers\AuthController;
 
-Route::get('/signin', [AuthController::class, 'showSigninForm'])->name('signin');
-Route::post('/signin', [AuthController::class, 'authenticate'])->name('signin.authenticate');
+// ----------------------
+// Auth Routes
+// ----------------------
+Route::prefix('signin')
+    ->controller(AuthController::class)
+    ->group(function () {
+    Route::get('/', 'showSigninForm')->name('signin');
+    Route::post('/', 'authenticate')->name('signin.authenticate');
+});
 
-Route::get('/adopt/child/{id}', [AdoptionController::class, 'showForm'])->name('adopt.form');
+// ----------------------
+// Adoption Routes
+// ----------------------
+Route::prefix('adopt')
+    ->controller(AdoptionController::class)
+    ->name('adopt.')
+    ->group(function () {
+    Route::get('/', 'index')->name('index');
+    Route::post('/', 'store')->name('store');
+    Route::get('/child/{id}', 'showForm')->name('form');
+});
 
-
-Route::get('/adopt', [AdoptionController::class, 'index'])->name('adopt.index');
-Route::post('/adopt', [AdoptionController::class, 'store'])->name('adopt.store');
-
-Route::post('/mpesa/donate', [MpesaController::class, 'stkPush'])->name('mpesa.donate');
-
+// ----------------------
+// Donation & Payment Routes
+// ----------------------
+Route::prefix('mpesa')->group(function () {
+    Route::post('/donate', [MpesaController::class, 'stkPush'])->name('mpesa.donate');
+});
 Route::post('/paypal-complete', [PayPalController::class, 'complete'])->name('paypal.complete');
-
-Route::post('/paystack/donate', [\App\Http\Controllers\PaystackController::class, 'donate'])->name('paystack.donate');
-
-Route::get('/paystack/callback', [\App\Http\Controllers\PaystackController::class, 'callback'])->name('paystack.callback');
-
+Route::prefix('paystack')
+    ->controller(PaystackController::class)
+    ->name('paystack.')
+    ->group(function () {
+    Route::post('/donate', 'donate')->name('donate');
+    Route::get('/callback', 'callback')->name('callback');
+});
 Route::post('crypto/callback', [\App\Http\Controllers\CryptoController::class, 'callback'])->name('crypto.callback')
-->withoutMiddleware([VerifyCsrfToken::class]);
+    ->withoutMiddleware([VerifyCsrfToken::class]);
 
-Route::get('/', function () {
-    return view('home');
-})->name('home');
+// ----------------------
+// Volunteer Routes
+// ----------------------
+Route::prefix('volunteer-signup')
+    ->controller(VolunteerController::class)
+    ->name('volunteer.')
+    ->group(function () {
+    Route::get('/', 'showForm')->name('signup');
+    Route::post('/', 'store')->name('store');
+});
 
-Route::get('/gallery', function(){
-    return view('gallery');
-})->name('gallery');
-
-Route::get('/contact', function () {
-    return view('contact');
-})->name('contact');
-
-Route::get('/about', function () {
-    return view('about');
-})->name('about');
-
-
-Route::post('/contact',[ContactController::class, 'submit'])->name('contact.submit');
-
-Route::get('/program', [ProgramController::class, 'index'])->name('programs');
-
-Route::get('/program/{program:slug}', [ProgramController::class, 'show'])->name('program.show');
-
+// ----------------------
+// Contact & Newsletter Routes
+// ----------------------
+Route::post('/contact', [ContactController::class, 'submit'])->name('contact.submit');
 Route::post('/subscribe', [ContactController::class, 'subscribe'])->name('subscribe');
-
 Route::get('/verify-subscription/{token}', [ContactController::class, 'verify'])->name('verify.subscription');
 
-
-Route::get('/donate', function () {
-    return view('donation');
-})->name('donate');
-
-Route::get('/faq', function () {
-    return view('faq');
+// ----------------------
+// Program Routes
+// ----------------------
+Route::prefix('program')
+    ->controller(ProgramController::class)
+    ->name('program.')
+    ->group(function () {
+    Route::get('/', 'index')->name('index');
+    Route::get('/{program:slug}', 'show')->name('show');
 });
 
-Route::get('/terms', function () {
-    return view('terms');
-});
+// ----------------------
+// Static Pages
+// ----------------------
+Route::view('/', 'home')->name('home');
+Route::view('/gallery', 'gallery')->name('gallery');
+Route::view('/contact', 'contact')->name('contact');
+Route::view('/about', 'about')->name('about');
+Route::view('/donate', 'donation')->name('donate');
+Route::view('/faq', 'faq');
+Route::view('/terms', 'terms');
+Route::view('/privacy-policy', 'privacy');
+Route::view('/our-story', 'our-story')->name('our-story');
 
-Route::get('/privacy-policy', function () {
-    return view('privacy');
+Route::get('/three', function () {
+    return view('errors.500');
 });
-
-Route::get('/our-story', function () {
-    return view('our-story');
-})->name('our-story');
-Route::get('/volunteer-signup', [VolunteerController::class, 'showForm'])->name('volunteer.signup');
-Route::post('/volunteer-signup', [VolunteerController::class, 'store'])->name('volunteer.store');
