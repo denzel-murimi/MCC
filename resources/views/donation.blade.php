@@ -1,78 +1,5 @@
 <x-layout>
-    <div class="container mx-auto p-4 md:p-6 min-h-screen"
-         x-data="{
-            activeTab: '{{ session('activeTab') ?? 'paystack'}}',
-
-            copied: false,
-
-            init() {
-{{--                @if($errors->mpesaValidation->any())--}}
-{{--                    this.activeTab = 'mpesa';--}}
-{{--                    this.scrollToForm();--}}
-{{--                @endif--}}
-                @if($errors->paystackValidation->any())
-                    this.activeTab = 'paystack';
-{{--                    this.scrollToForm();--}}
-                @endif
-            },
-
-            copyCode() {
-                const code = document.querySelector('#code-to-copy');
-                this.copiedCode = code ? code.innerHTML.trim() : '';
-                navigator.clipboard.writeText(this.copiedCode);
-                this.copied = true;
-                setTimeout(() => {
-                    this.copied = false;
-                }, 5000);
-            },
-
-{{--            scrollToForm() {--}}
-{{--                setTimeout(() => {--}}
-{{--                    const formElement = document.querySelector(`#${this.activeTab}-form`);--}}
-{{--                    if (formElement) {--}}
-{{--                        const rect = formElement.getBoundingClientRect();--}}
-{{--                        const targetPosition = window.pageYOffset + rect.top - 20;--}}
-{{--                        this.smoothScroll(targetPosition, 500);--}}
-
-{{--                        const firstInput = formElement.querySelector('input');--}}
-{{--                        if (firstInput) {--}}
-{{--                            firstInput.focus();--}}
-{{--                        }--}}
-{{--                    }--}}
-{{--                }, 100);--}}
-{{--            },--}}
-
-{{--            smoothScroll(targetPosition, duration) {--}}
-{{--                const startPosition = window.pageYOffset;--}}
-{{--                const distance = targetPosition - startPosition;--}}
-{{--                let startTime = null;--}}
-
-{{--                function easeInOutQuad(t, b, c, d) {--}}
-{{--                    t /= d/2;--}}
-{{--                    if (t < 1) return c/2*t*t + b;--}}
-{{--                    t--;--}}
-{{--                    return -c/2 * (t*(t-2) - 1) + b;--}}
-{{--                }--}}
-
-{{--                function animation(currentTime) {--}}
-{{--                    if (startTime === null) startTime = currentTime;--}}
-{{--                    const timeElapsed = currentTime - startTime;--}}
-{{--                    const nextScrollPosition = easeInOutQuad(--}}
-{{--                        timeElapsed, startPosition, distance, duration--}}
-{{--                    );--}}
-
-{{--                    window.scrollTo(0, nextScrollPosition);--}}
-
-{{--                    if (timeElapsed < duration) {--}}
-{{--                        requestAnimationFrame(animation);--}}
-{{--                    }--}}
-{{--                }--}}
-
-{{--                requestAnimationFrame(animation);--}}
-{{--            },--}}
-
-         }"
-        x-cloak>
+    <div class="container mx-auto p-4 md:p-6 min-h-screen" x-data="donate" x-init="init" x-cloak>
         <x-title>Support Mathare Care Center</x-title>
         <p class="mb-6 text-center text-lg text-gray-700">Your donation helps us continue our mission to provide support
             and care for the community.</p>
@@ -119,8 +46,8 @@
 {{--                    </button>--}}
 
                     <button
-                        @click="activeTab = 'paystack';"
-                        :class="{'bg-gradient-to-r from-green-600 to-blue-600 text-white': activeTab === 'paystack', 'bg-white hover:bg-gray-50': activeTab !== 'paystack'}"
+                        @click="selectPaystackTab"
+                        x-bind:class="PaystackButtonClass"
                         class="flex items-center space-x-3 w-full p-4 rounded-lg transition-all duration-200 shadow">
                         <svg
                             height="24" viewBox="0 0 780 500" width="24"
@@ -137,7 +64,7 @@
                         <div class="text-left">
                             <p class="font-semibold">Mobile Money/Credit/Debit Card</p>
                             <p class="text-xs"
-                               :class="{'text-gray-100': activeTab === 'paystack', 'text-gray-500': activeTab !== 'paystack'}">
+                               x-bind:class="PaystackButtonTextClass">
                                 Bank Transfer</p>
                         </div>
                     </button>
@@ -167,8 +94,8 @@
 {{--                    </button>--}}
 
                     <button
-                        @click="activeTab = 'bitcoin';"
-                        :class="{'bg-orange-600 text-white': activeTab === 'bitcoin', 'bg-white hover:bg-gray-50': activeTab !== 'bitcoin'}"
+                        @click="selectCryptoTab"
+                        x-bind:class="CryptoButtonClass"
                         class="flex items-center space-x-3 w-full p-4 rounded-lg transition-all duration-200 shadow">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
@@ -179,7 +106,7 @@
                         <div class="text-left">
                             <p class="font-semibold">Bitcoin</p>
                             <p class="text-xs"
-                               :class="{'text-gray-100': activeTab === 'bitcoin', 'text-gray-500': activeTab !== 'bitcoin'}">
+                               x-bind:class="CryptoButtonTextClass">
                                 Cryptocurrency</p>
                         </div>
                     </button>
@@ -389,7 +316,7 @@
 {{--                        </div>--}}
 {{--                    </div>--}}
 
-                    <div id="paystack-form" x-show="activeTab === 'paystack'" x-transition>
+                    <div id="paystack-form" x-show="showPaystack" x-transition>
                         <div class="flex justify-center items-center mb-4">
                             <img src="https://cdn.brandfetch.io/idM5mrwtDs/theme/dark/logo.svg?c=1dxbfHSJFAPEGdCLU4o5B" alt="PAYSTACK" class="w-24">
                         </div>
@@ -398,24 +325,19 @@
                             @csrf
 
                             <!-- Amount Section -->
-                            <div x-data="{
-                                            amount: '{{old('amount') ?? ''}}',
-                                            predefinedAmounts: [100, 500, 1000, 2000, 5000, 10000],
-                                            selectAmount(value) {
-                                                this.amount = value;
-                                            }
-                                         }">
+                            <div>
 
                                 <label for="amount" class="block text-sm font-medium text-gray-700 mb-2">Donation Amount
                                     (KES)</label>
 
                                 <div class="mb-2 p-2 grid grid-cols-2 sm:grid-cols-3 gap-2 overflow-x-auto space-x-2">
-                                    <template x-for="preset in predefinedAmounts" :key="preset">
+                                    <template x-for="preset in predefinedAmounts" x-bind:key="preset">
                                         <button
                                             type="button"
-                                            @click="selectAmount(preset)"
+                                            x-on:click="handleAmountClick"
+                                            x-bind:data-amount="preset"
                                             class="px-3 py-1 text-gray-700 rounded-md border border-b hover:bg-gray-200 transition-colors whitespace-nowrap focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                            x-text="preset.toLocaleString() + ' KES'"
+                                            x-text="preset"
                                         ></button>
                                     </template>
                                 </div>
@@ -429,6 +351,7 @@
                                         name="amount"
                                         id="amount"
                                         x-model="amount"
+                                        x-on:input="handleAmountInput"
                                         class="w-full p-3 pl-12 border rounded-lg focus:outline-none focus:ring-2
                                         {{
                                                 $errors->paystackValidation->has('amount')
@@ -513,7 +436,7 @@
                             You can pay with your card, bank transfer, or mobile money.
                         </p>
 
-                        <script>
+                        <script @cspNonce>
                             function setAmount(amount) {
                                 document.getElementById('amount').value = amount;
                             }
@@ -521,7 +444,7 @@
                     </div>
 
                     <!-- Bitcoin Form -->
-                    <div id="bitcoin-form" x-show="activeTab === 'bitcoin'" x-transition>
+                    <div id="bitcoin-form" x-show="showCrypto" x-transition>
                         <div class="flex justify-center items-center mb-4">
                             <svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="50%" height="50%"
                                  version="1.1" shape-rendering="geometricPrecision" text-rendering="geometricPrecision"
@@ -617,7 +540,7 @@
 {{--                            </p>--}}
 {{--                        </div>--}}
                         <div class="space-y-6 flex items-center justify-center border-2 border-gray-200 rounded-lg">
-                            <iframe src="https://sandbox.nowpayments.io/embeds/donation-widget?api_key=V9YT99N-E98M7EQ-JWHG8DJ-EH8WA89&source=lk_donation&medium=referral" frameborder="0" scrolling="no" style="overflow-y: hidden;" width="354" height="680">
+                            <iframe src="https://sandbox.nowpayments.io/embeds/donation-widget?api_key=V9YT99N-E98M7EQ-JWHG8DJ-EH8WA89&source=lk_donation&medium=referral" frameborder="0" scrolling="no" class="overflow-y-hidden" width="354" height="680">
                                 Can't load widget
                             </iframe>
                         </div>
@@ -645,4 +568,71 @@
             </div>
         </div>
     </div>
+    <script @cspNonce>
+        document.addEventListener('alpine:init', () => {
+            Alpine.data('donate', () => ({
+                activeTab: '{{session('activeTab') ?? 'paystack'}}',
+                copied: false,
+                init(){
+                    const oldAmount = '{{ old('amount') ?? '' }}';
+                    if (oldAmount) {
+                        this.amount = oldAmount;
+                        this.selectedAmount = parseFloat(oldAmount);
+                    }
+                    @if($errors->paystackValidation->any())
+                        this.activeTab = 'paystack';
+                    @endif
+                },
+                get showPaystack() {
+                    return this.activeTab === 'paystack';
+                },
+                get showCrypto() {
+                    return this.activeTab === 'crypto';
+                },
+                get PaystackButtonClass() {
+                    return this.activeTab === 'paystack' ? 'bg-gradient-to-r from-green-600 to-blue-600 text-white' : 'bg-white hover:bg-gray-50';
+                },
+                get PaystackButtonTextClass() {
+                    return this.activeTab === 'paystack' ? 'text-gray-100' : 'text-gray-500';
+                },
+                get CryptoButtonClass() {
+                    return this.activeTab === 'crypto' ? 'bg-orange-600 text-white' : 'bg-white hover:bg-gray-50';
+                },
+                get CryptoButtonTextClass() {
+                    return this.activeTab === 'crypto' ? 'text-gray-100' : 'text-gray-500';
+                },
+                selectPaystackTab() {
+                    this.activeTab = 'paystack';
+                },
+                selectCryptoTab() {
+                    this.activeTab = 'crypto';
+                },
+                amount: '',
+                selectedAmount: null,
+                get predefinedAmounts() {
+                    return [100, 500, 1000, 2000, 5000, 10000];
+                },
+                handleCustomInput() {
+                    const value = parseFloat(this.amount);
+                    if (!isNaN(value) && value > 0) {
+                        this.selectedAmount = value;
+                    } else {
+                        this.selectedAmount = null;
+                    }
+                },
+                handleAmountClick(event) {
+                    const amount = parseInt(event.target.dataset.amount);
+                    this.selectAmount(amount);
+                },
+                selectAmount(amount) {
+                    this.amount = amount;
+                    this.selectedAmount = amount;
+                },
+
+                formatAmount(value) {
+                    return value.toLocaleString() + ' KES';
+                }
+            }));
+        })
+    </script>
 </x-layout>

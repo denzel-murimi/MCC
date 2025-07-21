@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Gender;
+use App\HasHashId;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\MediaLibrary\HasMedia;
@@ -11,13 +12,18 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class Child extends Model implements HasMedia
 {
-    use InteractsWithMedia, HasFactory;
+    use InteractsWithMedia, HasFactory, HasHashId;
 
     protected $fillable = [
         'name',
         'dob',
         'gender',
         'condition',
+        'caregiver',
+    ];
+
+    protected $casts = [
+        'caregiver' => 'array',
     ];
 
     protected $appends = [
@@ -87,5 +93,28 @@ class Child extends Model implements HasMedia
         }
 
         return implode(', ', $srcset);
+    }
+
+    public function getCaregiverAttribute($value)
+    {
+        if (is_array($value)) {
+            return $value;
+        }
+        if (is_null($value) || $value === '') {
+            return [];
+        }
+        // If it's a JSON string, decode it
+        if (is_string($value) && (str_starts_with($value, '[') || str_starts_with($value, '{'))) {
+            $decoded = json_decode($value, true);
+            return is_array($decoded) ? $decoded : [$value];
+        }
+        // Otherwise, return as single-item array
+        return [$value];
+    }
+
+// Add an accessor to handle display
+    public function getCaregiverDisplayAttribute()
+    {
+        return is_array($this->caregiver) ? implode(', ', $this->caregiver) : $this->caregiver;
     }
 }

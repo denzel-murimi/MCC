@@ -55,7 +55,7 @@
             </div>
         </div>
     </section>
-    <script>
+    <script @cspNonce>
         document.addEventListener('DOMContentLoaded', function() {
             const gallery = document.getElementById('masonry-gallery');
             const loadingState = document.getElementById('loading-state');

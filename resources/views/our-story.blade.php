@@ -1,6 +1,11 @@
 <x-layout>
 
-    <div class="relative bg-cover bg-center h-[600px]" style="background-image: url('{{ asset('images/Team.jpg') }}');">
+    <style @cspNonce>
+        .backg-cover{
+            background-image: url('{{ asset('images/Team.jpg') }}');
+        }
+    </style>
+    <div class="relative bg-cover bg-center h-[600px] backg-cover">
         <div class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
             <h1 class="text-white text-5xl font-bold">Our Story</h1>
         </div>

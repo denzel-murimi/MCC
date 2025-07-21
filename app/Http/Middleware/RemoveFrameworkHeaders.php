@@ -15,12 +15,13 @@ class RemoveFrameworkHeaders
      */
     public function handle(Request $request, Closure $next): Response
     {
-        $request->headers->remove('X-Powered-By');
-        $request->headers->remove('Server');
-        $request->headers->remove('X-Laravel-Version');
-        $request->headers->remove('X-Laravel-Id');
-        $request->headers->remove('X-Laravel-Session');
-        $request->headers->remove('X-Backend');
-        return $next($request);
+        $response = $request;
+        $response->headers->remove('X-Powered-By');
+        $response->headers->remove('Server');
+        $response->headers->remove('X-Laravel-Version');
+        $response->headers->remove('X-Laravel-Id');
+        $response->headers->remove('X-Laravel-Session');
+        $response->headers->remove('X-Backend');
+        return $next($response);
     }
 }

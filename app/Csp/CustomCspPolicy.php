@@ -5,44 +5,50 @@ namespace App\Csp;
 use Spatie\Csp\Directive;
 use Spatie\Csp\Keyword;
 use Spatie\Csp\Policy;
-use Spatie\Csp\Preset;
+use Spatie\Csp\Presets\Basic;
 
-class CustomCspPolicy implements Preset
+class CustomCspPolicy extends Basic
 {
     public function configure(Policy $policy): void
     {
+        parent::configure($policy);
+
         $policy
-            ->add(Directive::DEFAULT, [
-                Keyword::SELF,
+            ->add(Directive::SCRIPT, [
+                'https://esm.sh',
+                Keyword::UNSAFE_EVAL
             ])
 
-            ->add(Directive::SCRIPT, [
+            ->add(Directive::SCRIPT_ELEM, [
                 Keyword::SELF,
-                'https://cdnjs.cloudflare.com',
+                'https://fonts.bunny.net',
+                'https://esm.sh',
             ])
 
             ->add(Directive::IMG, [
-                Keyword::SELF,
                 'https://public-files-paystack-prod.s3.eu-west-1.amazonaws.com',
-                'https://cdnjs.cloudflare.com',
                 'data:', // embedding base64 images
+                'https://cdn.brandfetch.io',
             ])
 
             ->add(Directive::CONNECT, [
-                Keyword::SELF,
                 'https://api.paystack.co',
-                'https://sandbox.nowpayments.io'
+            ])
+
+            ->add(Directive::FRAME, [
+                'https://sandbox.nowpayments.io',
             ])
 
             ->add(Directive::FONT, [
-                Keyword::SELF,
-                'https://cdnjs.cloudflare.com',
+                'https://fonts.bunny.net',
+                'data:',
             ])
 
             ->add(Directive::STYLE, [
-                Keyword::SELF,
-                'https://cdnjs.cloudflare.com',
-                Keyword::UNSAFE_INLINE,
+                'https://fonts.bunny.net',
+            ])
+            ->add(Directive::SCRIPT_ATTR, [
+                'https://fonts.bunny.net',
             ]);
     }
 }

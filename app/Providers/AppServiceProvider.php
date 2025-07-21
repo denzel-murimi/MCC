@@ -3,8 +3,11 @@
 namespace App\Providers;
 
 use Filament\Http\Responses\Auth\Contracts\LogoutResponse;
+use Hashids\Hashids;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Queue;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
 use Spatie\Health\Checks\Checks\BackupsCheck;
@@ -35,6 +38,10 @@ class AppServiceProvider extends ServiceProvider
                     return to_route('home');
                 }
             };
+        });
+
+        $this->app->singleton('hashids', function () {
+            return new Hashids(config('hashids.salt'), config('hashids.min_length'));
         });
     }
 
@@ -73,5 +80,15 @@ class AppServiceProvider extends ServiceProvider
         if(!$this->app->isLocal()){
             URL::forceHttps();
         }
+
+        Route::bind('hashid', function ($hashid) {
+            try{
+                return \App\Support\Facade\Hashids::decode($hashid)[0];
+            }catch (\Exception $e){
+                Log::error('HAshID Error:', [$e->getMessage()]);
+                abort(404, 'No record found');
+            }
+        });
+
     }
 }

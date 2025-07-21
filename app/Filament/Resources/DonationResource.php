@@ -24,7 +24,7 @@ class DonationResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-banknotes';
 
-    protected static ?string $navigationGroup = 'Donations';
+    protected static ?string $navigationGroup = 'Finances';
     public static function canEdit(Model $record): bool
     {
         return false;
@@ -57,6 +57,7 @@ class DonationResource extends Resource
                 Forms\Components\TextInput::make('ReceiptNumber'),
                 Forms\Components\TextInput::make('TransactionDate'),
                 Forms\Components\TextInput::make('ResultDesc'),
+                Forms\Components\KeyValue::make('metadata'),
             ]);
     }
 

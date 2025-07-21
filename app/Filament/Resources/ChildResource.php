@@ -14,6 +14,7 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Filament\Forms\Components\TagsInput;
 
 class ChildResource extends Resource
 {
@@ -32,8 +33,21 @@ class ChildResource extends Resource
                 Forms\Components\Select::make('gender')
                     ->options(array_combine(Gender::values(),Gender::values()))
                     ->required(),
-                Forms\Components\Textarea::make('condition'),
-                Forms\Components\SpatieMediaLibraryFileUpload::make('child_image')
+                Forms\Components\RichEditor::make('condition'),
+                TagsInput::make('caregiver')
+                    ->label('Caregiver')
+                    ->suggestions(function () {
+                        return \App\Models\Child::query()
+                            ->whereNotNull('caregiver')
+                            ->get()
+                            ->pluck('caregiver')
+                            ->flatten()
+                            ->unique()
+                            ->filter()
+                            ->values()
+                            ->toArray();
+                    })
+                    ->helperText('Type a caregiver name or select from suggestions.'),Forms\Components\SpatieMediaLibraryFileUpload::make('child_image')
                     ->collection('child_image')
                     ->label('Child Image')
                     ->image()

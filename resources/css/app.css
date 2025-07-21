@@ -9,3 +9,49 @@
         overflow-y: auto;
     }
 }
+
+.fc-event {
+    border-radius: 4px;
+    padding: 2px;
+    margin: 1px 0;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+.fc-event:hover {
+    transform: scale(1.05);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+.fc-day-today {
+    background-color: rgba(0, 120, 255, 0.1) !important;
+}
+
+/* Mobile-specific styles */
+@media (max-width: 768px) {
+    .fc .fc-toolbar {
+        flex-wrap: wrap;
+        gap: 8px;
+        justify-content: space-between;
+    }
+    .fc .fc-toolbar-title {
+        font-size: 1.2em !important;
+        width: 100%;
+        text-align: center;
+        order: -1;
+        margin-bottom: 8px !important;
+    }
+    .fc .fc-toolbar-chunk {
+        display: flex;
+        justify-content: space-between;
+    }
+    .fc .fc-today-button {
+        font-size: 0.9em;
+        padding: 0.2em 0.65em;
+    }
+    .fc .fc-button {
+        padding: 0.2em 0.65em;
+        font-size: 0.9em;
+    }
+    .fc-direction-ltr .fc-toolbar > * > :not(:first-child) {
+        margin-left: 0.5em;
+    }
+}

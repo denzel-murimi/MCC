@@ -11,15 +11,16 @@ use App\Http\Controllers\VolunteerController;
 use App\Http\Controllers\AdoptionController;
 use App\Http\Controllers\AuthController;
 
-// ----------------------
+Route::middleware('web')->group(function () {
+    // ----------------------
 // Auth Routes
 // ----------------------
-Route::prefix('signin')
-    ->controller(AuthController::class)
-    ->group(function () {
-    Route::get('/', 'showSigninForm')->name('signin');
-    Route::post('/', 'authenticate')->name('signin.authenticate');
-});
+//Route::prefix('signin')
+//    ->controller(AuthController::class)
+//    ->group(function () {
+//    Route::get('/', 'showSigninForm')->name('signin');
+//    Route::post('/', 'authenticate')->name('signin.authenticate');
+//});
 
 // ----------------------
 // Adoption Routes
@@ -29,8 +30,8 @@ Route::prefix('adopt')
     ->name('adopt.')
     ->group(function () {
     Route::get('/', 'index')->name('index');
-    Route::post('/', 'store')->name('store');
-    Route::get('/child/{id}', 'showForm')->name('form');
+    Route::post('/child/{hashid}', 'store')->name('store')->middleware('multifactor.throttle:5,1');
+    Route::get('/child/{hashid}', 'showForm')->name('form');
 });
 
 // ----------------------
@@ -44,7 +45,7 @@ Route::prefix('paystack')
     ->controller(PaystackController::class)
     ->name('paystack.')
     ->group(function () {
-    Route::post('/donate', 'donate')->name('donate');
+    Route::post('/donate', 'donate')->name('donate')->middleware('multifactor.throttle:5,1');
     Route::get('/callback', 'callback')->name('callback');
 });
 Route::post('crypto/callback', [\App\Http\Controllers\CryptoController::class, 'callback'])->name('crypto.callback')
@@ -58,14 +59,16 @@ Route::prefix('volunteer-signup')
     ->name('volunteer.')
     ->group(function () {
     Route::get('/', 'showForm')->name('signup');
-    Route::post('/', 'store')->name('store');
+    Route::post('/', 'store')->name('store')->middleware('multifactor.throttle:5,1');
 });
 
 // ----------------------
 // Contact & Newsletter Routes
 // ----------------------
-Route::post('/contact', [ContactController::class, 'submit'])->name('contact.submit');
-Route::post('/subscribe', [ContactController::class, 'subscribe'])->name('subscribe');
+Route::post('/contact', [ContactController::class, 'submit'])
+    ->name('contact.submit')
+    ->middleware('multifactor.throttle:5,1');
+Route::post('/subscribe', [ContactController::class, 'subscribe'])->name('subscribe')->middleware('multifactor.throttle:5,1');
 Route::get('/verify-subscription/{token}', [ContactController::class, 'verify'])->name('verify.subscription');
 
 // ----------------------
@@ -92,6 +95,7 @@ Route::view('/terms', 'terms');
 Route::view('/privacy-policy', 'privacy');
 Route::view('/our-story', 'our-story')->name('our-story');
 
-Route::get('/three', function () {
-    return view('errors.500');
+//Route::get('/three', function () {
+//    return view('errors.429');
+//});
 });

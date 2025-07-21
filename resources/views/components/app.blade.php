@@ -6,7 +6,7 @@
     <meta name="application-name" content="{{ config('app.name') }}">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title', 'Mathare Care Center')</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <script @cspNonce src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 </head>
 <body class="antialiased bg-gray-100 text-gray-900">
 

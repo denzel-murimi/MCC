@@ -23,8 +23,8 @@ class DatabaseSeeder extends Seeder
 //        Child::factory(10)->create();
 
         User::create([
-            'name' => 'admin',
-            'email' => 'victor@mcc.org',
+            'name' => 'Victor',
+            'email' => 'victor@matharecarecenter.com',
             'password' => Hash::make('password'),
         ]);
     }
