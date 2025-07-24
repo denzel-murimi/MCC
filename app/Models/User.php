@@ -4,11 +4,14 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
+use App\Mail\NewUserMail;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Panel as FilamentPanel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Password;
 use Jeffgreco13\FilamentBreezy\Traits\TwoFactorAuthenticatable;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\Permission\Traits\HasRoles;
@@ -28,21 +31,14 @@ class User extends Authenticatable implements FilamentUser
      *
      * @var list<string>
      */
-    protected $fillable = [
-        'name',
-        'email',
-        'password',
-    ];
+    protected $fillable = ["name", "email", "password"];
 
     /**
      * The attributes that should be hidden for serialization.
      *
      * @var list<string>
      */
-    protected $hidden = [
-        'password',
-        'remember_token',
-    ];
+    protected $hidden = ["password", "remember_token"];
 
     /**
      * Get the attributes that should be cast.
@@ -52,13 +48,32 @@ class User extends Authenticatable implements FilamentUser
     protected function casts(): array
     {
         return [
-            'email_verified_at' => 'datetime',
-            'password' => 'hashed',
+            "email_verified_at" => "datetime",
+            "password" => "hashed",
         ];
     }
 
-    public function canAccessPanel(FilamentPanel $panel): bool{
-        //return $this->hasRole('Administrator');
-        return true;//disable this in production
+    public function canAccessPanel(FilamentPanel $panel): bool
+    {
+        if ($panel->getId() === "admin") {
+            return $this->hasRole(["Administrator", "Content Manager"]);
+        }
+
+        if ($panel->getId() === "content") {
+            return $this->hasRole("Content Manager");
+        }
+
+        return false;
+        // return true; //disable this in production
+    }
+
+    public static function booted(): void
+    {
+        static::created(function ($user) {
+            if (app()->isLocal()) {
+                Password::sendResetLink(["email" => $user->email]);
+                Mail::to($user->email)->send(new NewUserMail($user));
+            }
+        });
     }
 }

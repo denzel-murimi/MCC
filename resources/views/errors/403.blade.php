@@ -26,14 +26,10 @@
                         <a href="{{ url('/') }}" class="text-primary-600 hover:text-primary-800">Home</a>
                         <a href="javascript:history.back()" class="text-primary-600 hover:text-primary-800">Go Back</a>
                         @auth
-                            <a href="{{ route('logout') }}"
-                               onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
+                            <a href="/"
                                class="text-red-600 hover:text-red-800">
                                 Logout
                             </a>
-                            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="hidden">
-                                @csrf
-                            </form>
                         @else
                             <a href="{{ route('filament.content.pages.dashboard') }}" class="text-primary-600 hover:text-primary-800">Login</a>
                         @endauth

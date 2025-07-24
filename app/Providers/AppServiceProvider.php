@@ -35,13 +35,16 @@ class AppServiceProvider extends ServiceProvider
             return new class implements LogoutResponse {
                 public function toResponse($request)
                 {
-                    return to_route('home');
+                    return to_route("home");
                 }
             };
         });
 
-        $this->app->singleton('hashids', function () {
-            return new Hashids(config('hashids.salt'), config('hashids.min_length'));
+        $this->app->singleton("hashids", function () {
+            return new Hashids(
+                config("hashids.salt"),
+                config("hashids.min_length"),
+            );
         });
     }
 
@@ -50,8 +53,13 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        \Illuminate\Support\Facades\Response::macro('secure', function ($response) {
-            return $response->header('Referrer-Policy', 'strict-origin-when-cross-origin');
+        \Illuminate\Support\Facades\Response::macro("secure", function (
+            $response,
+        ) {
+            return $response->header(
+                "Referrer-Policy",
+                "strict-origin-when-cross-origin",
+            );
         });
 
         Health::checks([
@@ -61,34 +69,33 @@ class AppServiceProvider extends ServiceProvider
             DatabaseConnectionCountCheck::new()
                 ->warnWhenMoreConnectionsThan(20)
                 ->failWhenMoreConnectionsThan(50),
-            DatabaseSizeCheck::new()
-                ->failWhenSizeAboveGb(errorThresholdGb: 2.0),
+            DatabaseSizeCheck::new()->failWhenSizeAboveGb(
+                errorThresholdGb: 2.0,
+            ),
             DatabaseTableSizeCheck::new(),
             DebugModeCheck::new(),
             EnvironmentCheck::new(),
             OptimizedAppCheck::new(),
-            PingCheck::new()
-                ->url((string) env('APP_URL')),
+            PingCheck::new()->url((string) env("APP_URL")),
             QueueCheck::new(),
             UsedDiskSpaceCheck::new(),
         ]);
 
-//        DB::listen(function ($query) {
-//            Log::info($query->sql);
-//        });
+        //        DB::listen(function ($query) {
+        //            Log::info($query->sql);
+        //        });
 
-        if(!$this->app->isLocal()){
+        if (!$this->app->isLocal()) {
             URL::forceHttps();
         }
 
-        Route::bind('hashid', function ($hashid) {
-            try{
+        Route::bind("hashid", function ($hashid) {
+            try {
                 return \App\Support\Facade\Hashids::decode($hashid)[0];
-            }catch (\Exception $e){
-                Log::error('HAshID Error:', [$e->getMessage()]);
-                abort(404, 'No record found');
+            } catch (\Exception $e) {
+                Log::error("HAshID Error:", [$e->getMessage()]);
+                abort(404, "No record found");
             }
         });
-
     }
 }

@@ -35,21 +35,26 @@ class AdminPanelProvider extends PanelProvider
     {
         return $panel
             ->default()
-            ->id('admin')
-            ->path('admin')
+            ->id("admin")
+            ->path("admin")
             ->login()
             ->colors([
-                'primary' => Color::Indigo,
+                "primary" => Color::Indigo,
             ])
-            ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
-            ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
-            ->pages([
-                Pages\Dashboard::class,
-            ])
-            ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
-            ->widgets([
-                Widgets\AccountWidget::class,
-            ])
+            ->discoverResources(
+                in: app_path("Filament/Resources"),
+                for: "App\\Filament\\Resources",
+            )
+            ->discoverPages(
+                in: app_path("Filament/Pages"),
+                for: "App\\Filament\\Pages",
+            )
+            ->pages([Pages\Dashboard::class])
+            ->discoverWidgets(
+                in: app_path("Filament/Widgets"),
+                for: "App\\Filament\\Widgets",
+            )
+            ->widgets([Widgets\AccountWidget::class])
             ->middleware([
                 EncryptCookies::class,
                 AddQueuedCookiesToResponse::class,
@@ -61,14 +66,12 @@ class AdminPanelProvider extends PanelProvider
                 DisableBladeIconComponents::class,
                 DispatchServingFilamentEvent::class,
             ])
-            ->authMiddleware([
-                Authenticate::class,
-            ])
+            ->authMiddleware([Authenticate::class])
             ->plugins([
                 BreezyCore::make()
                     ->myProfile(
-                        navigationGroup: 'Settings',
-                        userMenuLabel: 'My Profile',
+                        navigationGroup: "Settings",
+                        userMenuLabel: "My Profile",
                     )
                     ->enableTwoFactorAuthentication(force: false),
 
@@ -80,21 +83,17 @@ class AdminPanelProvider extends PanelProvider
 
                 FilamentUsersPlugin::make(),
 
-                FilamentMediaManagerPlugin::make()
-                    ->allowUserAccess(),
+                FilamentMediaManagerPlugin::make()->allowUserAccess(),
 
-                FilamentFullCalendarPlugin::make()
-                    ->selectable()
-                    ->editable(),
+                FilamentFullCalendarPlugin::make()->selectable()->editable(),
 
                 FilamentLaravelLogPlugin::make()
-                    ->navigationGroup('Settings')
-                    ->logDirs([
-                        storage_path('logs')
-                    ]),
+                    ->navigationGroup("Settings")
+                    ->logDirs([storage_path("logs")]),
 
-                FilamentSpatieLaravelBackupPlugin::make()
-                    ->usingQueue('default'),
+                FilamentSpatieLaravelBackupPlugin::make()->usingQueue(
+                    "default",
+                ),
 
                 FilamentExceptionsPlugin::make(),
 
