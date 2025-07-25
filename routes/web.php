@@ -95,7 +95,13 @@ Route::view('/terms', 'terms');
 Route::view('/privacy-policy', 'privacy');
 Route::view('/our-story', 'our-story')->name('our-story');
 
-//Route::get('/three', function () {
-//    return view('errors.429');
-//});
 });
+
+Route::middleware('guest')
+    ->name('password.')
+    ->controller(\App\Http\Controllers\ResetPasswordController::class)
+    ->prefix('reset-password')
+    ->group(function () {
+        Route::get('/{token}', 'create')->name('reset');
+        Route::post('/', 'update')->name('update');
+    });

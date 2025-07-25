@@ -14,7 +14,7 @@
     <style @cspNonce>
         [x-cloak] {
             display: none !important;
-    }
+        }
     </style>
     <script src="{{ Vite::asset('resources/js/app.js') }}" type="module" @cspNonce></script>
 </head>
@@ -30,14 +30,10 @@
     class="font-sans antialiased"
 >
 <!-- Global Alert Popup -->
-    <div id="alert-container" class="fixed top-30 right-4 z-50 space-y-2"></div>
+<div id="alert-container" class="fixed top-30 right-4 z-50 space-y-2"></div>
 
 
-<div class="container max-w-screen-2xl mx-auto px-4">
-    <x-navbar></x-navbar>
-</div>
 {{ $slot }}
-<x-footer></x-footer>
 <script id="flash-data" type="application/json" @cspNonce>
     @php
         $flashMessages = [];

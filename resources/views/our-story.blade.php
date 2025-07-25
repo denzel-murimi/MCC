@@ -46,9 +46,9 @@
             <div class="col-span-2">
                 <h2 class="text-3xl font-bold">About Us</h2>
                 <p class="mt-4 text-lg">Mathare Care Center is a non-profit organization dedicated to improving the
-                    lives of children with disabilities in the Mathare slums. Established by individuals who have
+                    lives of children with disabilities in the Mathare slums and its environs. Established by individuals who have
                     personally experienced the challenges of raising children with special needs, the organization aims
-                    to provide comprehensive support through education, therapy, vocational training and community
+                    to provide comprehensive support to children and youth through education, therapy, vocational training and community
                     integration.</p>
                 <p class="mt-4 text-lg">Our primary goal is to enhance the quality of life for children with
                     disabilities and their families by ensuring access to proper healthcare, education and social

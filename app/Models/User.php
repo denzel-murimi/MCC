@@ -55,16 +55,16 @@ class User extends Authenticatable implements FilamentUser
 
     public function canAccessPanel(FilamentPanel $panel): bool
     {
-        if ($panel->getId() === "admin") {
-            return $this->hasRole(["Administrator", "Content Manager"]);
-        }
-
-        if ($panel->getId() === "content") {
-            return $this->hasRole("Content Manager");
-        }
-
-        return false;
-        // return true; //disable this in production
+//        if ($panel->getId() === "admin") {
+//            return $this->hasRole(["Administrator", "Content Manager"]);
+//        }
+//
+//        if ($panel->getId() === "content") {
+//            return $this->hasRole("Content Manager");
+//        }
+//
+//        return false;
+         return true; //disable this in production
     }
 
     public static function booted(): void
@@ -72,7 +72,6 @@ class User extends Authenticatable implements FilamentUser
         static::created(function ($user) {
             if (app()->isLocal()) {
                 Password::sendResetLink(["email" => $user->email]);
-                Mail::to($user->email)->send(new NewUserMail($user));
             }
         });
     }

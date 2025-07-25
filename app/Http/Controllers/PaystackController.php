@@ -14,7 +14,7 @@ class PaystackController extends Controller
         $donation = null;
         try {
             $validator = Validator::make($request->all(), [
-                'amount' => 'required|numeric|min:1',
+                'amount' => 'required|numeric|min:50',
                 'email' => 'required|email',
                 'donor_name' => 'nullable|string|max:255',
                 'phone' => 'nullable|string|max:15',

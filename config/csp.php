@@ -4,13 +4,14 @@
 // use Spatie\Csp\Keyword;
 
 return [
+
     /*
      * Presets will determine which CSP headers will be set. A valid CSP preset is
      * any class that implements `Spatie\Csp\Preset`
      */
-    "presets" => [
-        //        Spatie\Csp\Presets\Basic::class,
-        // \App\Csp\CustomCspPolicy::class,
+    'presets' => [
+//        Spatie\Csp\Presets\Basic::class,
+//        \App\Csp\CustomCspPolicy::class,
     ],
 
     /**
